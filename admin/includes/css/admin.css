@@ -1,0 +1,144 @@
+fieldset.bogo-locale-options {
+	margin: 0px 12px 10px 0;
+	padding: 4px 4px 8px 8px;
+	border: 1px solid #dfdfdf;
+}
+
+#your-profile fieldset.bogo-locale-options {
+	margin: 0;
+	padding: 4px 0 0;
+	border: none;
+}
+
+.widget-content fieldset.bogo-locale-options {
+	margin-right: 0;
+}
+
+fieldset.bogo-locale-options legend {
+	font-style: italic;
+	color: #666666;
+}
+
+fieldset.bogo-locale-options label.bogo-locale-option {
+	display: inline-block;
+	white-space: nowrap;
+	margin: 6px 0.4em 0 0;
+	border: 1px solid #a7a7a7;
+	border-radius: 4px;
+	padding: 1px 4px 1px 2px;
+	background: #f1f1f1;
+}
+
+fieldset.bogo-locale-options label.bogo-locale-option.checked {
+	border: 1px solid #0074a2;
+	background: #d4eefe;
+}
+
+fieldset.bogo-locale-options label.bogo-locale-option input[type="checkbox"] {
+	width: 16px;
+}
+
+/* Language Packs */
+
+#bogo-language-packs td {
+	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1) inset;
+	padding: 10px;
+}
+
+#bogo-language-packs td:first-child {
+	border-left: 0;
+	padding-left: 16px;
+}
+
+#bogo-language-packs tr.active td {
+	background-color: #f7fcfe;
+}
+
+#bogo-language-packs tr.active td:first-child {
+	border-left: 4px solid #00a0d2;
+	padding-left: 12px;
+}
+
+#bogo-language-packs td.status ul {
+	margin: 0;
+}
+
+#bogo-language-packs td.status li.post-count,
+#bogo-language-packs td.status li.page-count {
+	float: left;
+	margin: 6px 16px 0 0;
+}
+
+#bogo-language-packs td.status li.post-count a::before,
+#bogo-language-packs td.status li.page-count a::before {
+	font: normal 20px/1 dashicons;
+	color: #82878c;
+	content: '\f159';
+	display: inline-block;
+	vertical-align: top;
+	padding-right: 4px;
+	text-decoration: none;
+}
+
+#bogo-language-packs td.status li.post-count a::before {
+	content: '\f109';
+}
+
+#bogo-language-packs td.status li.page-count a::before {
+	content: '\f105';
+}
+
+/* Terms Translation */
+
+#bogo-terms-translation .large-text {
+	background: transparent;
+	color: #555;
+	font-size: 13px;
+	border: none;
+	box-shadow: none;
+	padding-left: 0;
+	margin-left: 0;
+}
+
+#bogo-terms-translation .large-text:hover {
+	background: #fff;
+	color: #32373c;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07) inset;
+	padding-left: 5px;
+	margin-left: 1px;
+}
+
+#bogo-terms-translation .large-text:focus {
+	background: #fff;
+	color: #32373c;
+	font-size: 14px;
+	border: 1px solid #5b9dd9;
+	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+	padding-left: 5px;
+	margin-left: 1px;
+}
+
+/* Post */
+
+ul#bogo-translations li {
+	list-style-type: disc;
+	margin-left: 1.4em;
+}
+
+#bogo-translations-to-add {
+	width: 100%;
+}
+
+#bogo-add-translation-actions span.spinner,
+#bogo-add-translation-actions button {
+	float: left;
+}
+
+/* Admin Bar */
+
+#wpadminbar #wp-admin-bar-bogo-user-locale .ab-icon::before {
+	content: "\f326";
+	top: 2px;
+}

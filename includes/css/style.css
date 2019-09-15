@@ -1,0 +1,1012 @@
+ul.bogo-language-switcher li {
+	list-style: none outside none;
+	padding: 0;
+}
+
+#wpadminbar #wp-admin-bar-bogo-user-locale .ab-icon::before {
+	content: "\f326";
+	top: 2px;
+}
+
+/* National Flags */
+
+.bogoflags,
+.bogoflags-before:before {
+	display: inline-block;
+	width: 16px;
+	height: 11px;
+	background-image: none;
+	background-color: transparent;
+	border: none;
+	padding: 0;
+	margin: 0;
+	vertical-align: top;
+}
+
+.bogoflags-ad:before {
+	content: url('../../images/flag-icons/ad.png');
+}
+
+.bogoflags-ae:before {
+	content: url('../../images/flag-icons/ae.png');
+}
+
+.bogoflags-af:before {
+	content: url('../../images/flag-icons/af.png');
+}
+
+.bogoflags-ag:before {
+	content: url('../../images/flag-icons/ag.png');
+}
+
+.bogoflags-ai:before {
+	content: url('../../images/flag-icons/ai.png');
+}
+
+.bogoflags-al:before {
+	content: url('../../images/flag-icons/al.png');
+}
+
+.bogoflags-am:before {
+	content: url('../../images/flag-icons/am.png');
+}
+
+.bogoflags-an:before {
+	content: url('../../images/flag-icons/an.png');
+}
+
+.bogoflags-ao:before {
+	content: url('../../images/flag-icons/ao.png');
+}
+
+.bogoflags-ar:before {
+	content: url('../../images/flag-icons/ar.png');
+}
+
+.bogoflags-as:before {
+	content: url('../../images/flag-icons/as.png');
+}
+
+.bogoflags-at:before {
+	content: url('../../images/flag-icons/at.png');
+}
+
+.bogoflags-au:before {
+	content: url('../../images/flag-icons/au.png');
+}
+
+.bogoflags-aw:before {
+	content: url('../../images/flag-icons/aw.png');
+}
+
+.bogoflags-ax:before {
+	content: url('../../images/flag-icons/ax.png');
+}
+
+.bogoflags-az:before {
+	content: url('../../images/flag-icons/az.png');
+}
+
+.bogoflags-ba:before {
+	content: url('../../images/flag-icons/ba.png');
+}
+
+.bogoflags-bb:before {
+	content: url('../../images/flag-icons/bb.png');
+}
+
+.bogoflags-bd:before {
+	content: url('../../images/flag-icons/bd.png');
+}
+
+.bogoflags-be:before {
+	content: url('../../images/flag-icons/be.png');
+}
+
+.bogoflags-bf:before {
+	content: url('../../images/flag-icons/bf.png');
+}
+
+.bogoflags-bg:before {
+	content: url('../../images/flag-icons/bg.png');
+}
+
+.bogoflags-bh:before {
+	content: url('../../images/flag-icons/bh.png');
+}
+
+.bogoflags-bi:before {
+	content: url('../../images/flag-icons/bi.png');
+}
+
+.bogoflags-bj:before {
+	content: url('../../images/flag-icons/bj.png');
+}
+
+.bogoflags-bm:before {
+	content: url('../../images/flag-icons/bm.png');
+}
+
+.bogoflags-bn:before {
+	content: url('../../images/flag-icons/bn.png');
+}
+
+.bogoflags-bo:before {
+	content: url('../../images/flag-icons/bo.png');
+}
+
+.bogoflags-br:before {
+	content: url('../../images/flag-icons/br.png');
+}
+
+.bogoflags-bs:before {
+	content: url('../../images/flag-icons/bs.png');
+}
+
+.bogoflags-bt:before {
+	content: url('../../images/flag-icons/bt.png');
+}
+
+.bogoflags-bv:before {
+	content: url('../../images/flag-icons/bv.png');
+}
+
+.bogoflags-bw:before {
+	content: url('../../images/flag-icons/bw.png');
+}
+
+.bogoflags-by:before {
+	content: url('../../images/flag-icons/by.png');
+}
+
+.bogoflags-bz:before {
+	content: url('../../images/flag-icons/bz.png');
+}
+
+.bogoflags-ca:before {
+	content: url('../../images/flag-icons/ca.png');
+}
+
+.bogoflags-catalonia:before {
+	content: url('../../images/flag-icons/catalonia.png');
+}
+
+.bogoflags-cc:before {
+	content: url('../../images/flag-icons/cc.png');
+}
+
+.bogoflags-cd:before {
+	content: url('../../images/flag-icons/cd.png');
+}
+
+.bogoflags-cf:before {
+	content: url('../../images/flag-icons/cf.png');
+}
+
+.bogoflags-cg:before {
+	content: url('../../images/flag-icons/cg.png');
+}
+
+.bogoflags-ch:before {
+	content: url('../../images/flag-icons/ch.png');
+}
+
+.bogoflags-ci:before {
+	content: url('../../images/flag-icons/ci.png');
+}
+
+.bogoflags-ck:before {
+	content: url('../../images/flag-icons/ck.png');
+}
+
+.bogoflags-cl:before {
+	content: url('../../images/flag-icons/cl.png');
+}
+
+.bogoflags-cm:before {
+	content: url('../../images/flag-icons/cm.png');
+}
+
+.bogoflags-cn:before {
+	content: url('../../images/flag-icons/cn.png');
+}
+
+.bogoflags-co:before {
+	content: url('../../images/flag-icons/co.png');
+}
+
+.bogoflags-cr:before {
+	content: url('../../images/flag-icons/cr.png');
+}
+
+.bogoflags-cs:before {
+	content: url('../../images/flag-icons/cs.png');
+}
+
+.bogoflags-cu:before {
+	content: url('../../images/flag-icons/cu.png');
+}
+
+.bogoflags-cv:before {
+	content: url('../../images/flag-icons/cv.png');
+}
+
+.bogoflags-cx:before {
+	content: url('../../images/flag-icons/cx.png');
+}
+
+.bogoflags-cy:before {
+	content: url('../../images/flag-icons/cy.png');
+}
+
+.bogoflags-cz:before {
+	content: url('../../images/flag-icons/cz.png');
+}
+
+.bogoflags-de:before {
+	content: url('../../images/flag-icons/de.png');
+}
+
+.bogoflags-dj:before {
+	content: url('../../images/flag-icons/dj.png');
+}
+
+.bogoflags-dk:before {
+	content: url('../../images/flag-icons/dk.png');
+}
+
+.bogoflags-dm:before {
+	content: url('../../images/flag-icons/dm.png');
+}
+
+.bogoflags-do:before {
+	content: url('../../images/flag-icons/do.png');
+}
+
+.bogoflags-dz:before {
+	content: url('../../images/flag-icons/dz.png');
+}
+
+.bogoflags-ec:before {
+	content: url('../../images/flag-icons/ec.png');
+}
+
+.bogoflags-ee:before {
+	content: url('../../images/flag-icons/ee.png');
+}
+
+.bogoflags-eg:before {
+	content: url('../../images/flag-icons/eg.png');
+}
+
+.bogoflags-eh:before {
+	content: url('../../images/flag-icons/eh.png');
+}
+
+.bogoflags-england:before {
+	content: url('../../images/flag-icons/england.png');
+}
+
+.bogoflags-er:before {
+	content: url('../../images/flag-icons/er.png');
+}
+
+.bogoflags-es:before {
+	content: url('../../images/flag-icons/es.png');
+}
+
+.bogoflags-et:before {
+	content: url('../../images/flag-icons/et.png');
+}
+
+.bogoflags-europeanunion:before {
+	content: url('../../images/flag-icons/europeanunion.png');
+}
+
+.bogoflags-fam:before {
+	content: url('../../images/flag-icons/fam.png');
+}
+
+.bogoflags-fi:before {
+	content: url('../../images/flag-icons/fi.png');
+}
+
+.bogoflags-fj:before {
+	content: url('../../images/flag-icons/fj.png');
+}
+
+.bogoflags-fk:before {
+	content: url('../../images/flag-icons/fk.png');
+}
+
+.bogoflags-fm:before {
+	content: url('../../images/flag-icons/fm.png');
+}
+
+.bogoflags-fo:before {
+	content: url('../../images/flag-icons/fo.png');
+}
+
+.bogoflags-fr:before {
+	content: url('../../images/flag-icons/fr.png');
+}
+
+.bogoflags-ga:before {
+	content: url('../../images/flag-icons/ga.png');
+}
+
+.bogoflags-gb:before {
+	content: url('../../images/flag-icons/gb.png');
+}
+
+.bogoflags-gd:before {
+	content: url('../../images/flag-icons/gd.png');
+}
+
+.bogoflags-ge:before {
+	content: url('../../images/flag-icons/ge.png');
+}
+
+.bogoflags-gf:before {
+	content: url('../../images/flag-icons/gf.png');
+}
+
+.bogoflags-gh:before {
+	content: url('../../images/flag-icons/gh.png');
+}
+
+.bogoflags-gi:before {
+	content: url('../../images/flag-icons/gi.png');
+}
+
+.bogoflags-gl:before {
+	content: url('../../images/flag-icons/gl.png');
+}
+
+.bogoflags-gm:before {
+	content: url('../../images/flag-icons/gm.png');
+}
+
+.bogoflags-gn:before {
+	content: url('../../images/flag-icons/gn.png');
+}
+
+.bogoflags-gp:before {
+	content: url('../../images/flag-icons/gp.png');
+}
+
+.bogoflags-gq:before {
+	content: url('../../images/flag-icons/gq.png');
+}
+
+.bogoflags-gr:before {
+	content: url('../../images/flag-icons/gr.png');
+}
+
+.bogoflags-gs:before {
+	content: url('../../images/flag-icons/gs.png');
+}
+
+.bogoflags-gt:before {
+	content: url('../../images/flag-icons/gt.png');
+}
+
+.bogoflags-gu:before {
+	content: url('../../images/flag-icons/gu.png');
+}
+
+.bogoflags-gw:before {
+	content: url('../../images/flag-icons/gw.png');
+}
+
+.bogoflags-gy:before {
+	content: url('../../images/flag-icons/gy.png');
+}
+
+.bogoflags-hk:before {
+	content: url('../../images/flag-icons/hk.png');
+}
+
+.bogoflags-hm:before {
+	content: url('../../images/flag-icons/hm.png');
+}
+
+.bogoflags-hn:before {
+	content: url('../../images/flag-icons/hn.png');
+}
+
+.bogoflags-hr:before {
+	content: url('../../images/flag-icons/hr.png');
+}
+
+.bogoflags-ht:before {
+	content: url('../../images/flag-icons/ht.png');
+}
+
+.bogoflags-hu:before {
+	content: url('../../images/flag-icons/hu.png');
+}
+
+.bogoflags-id:before {
+	content: url('../../images/flag-icons/id.png');
+}
+
+.bogoflags-ie:before {
+	content: url('../../images/flag-icons/ie.png');
+}
+
+.bogoflags-il:before {
+	content: url('../../images/flag-icons/il.png');
+}
+
+.bogoflags-in:before {
+	content: url('../../images/flag-icons/in.png');
+}
+
+.bogoflags-io:before {
+	content: url('../../images/flag-icons/io.png');
+}
+
+.bogoflags-iq:before {
+	content: url('../../images/flag-icons/iq.png');
+}
+
+.bogoflags-ir:before {
+	content: url('../../images/flag-icons/ir.png');
+}
+
+.bogoflags-is:before {
+	content: url('../../images/flag-icons/is.png');
+}
+
+.bogoflags-it:before {
+	content: url('../../images/flag-icons/it.png');
+}
+
+.bogoflags-jm:before {
+	content: url('../../images/flag-icons/jm.png');
+}
+
+.bogoflags-jo:before {
+	content: url('../../images/flag-icons/jo.png');
+}
+
+.bogoflags-jp:before {
+	content: url('../../images/flag-icons/jp.png');
+}
+
+.bogoflags-ke:before {
+	content: url('../../images/flag-icons/ke.png');
+}
+
+.bogoflags-kg:before {
+	content: url('../../images/flag-icons/kg.png');
+}
+
+.bogoflags-kh:before {
+	content: url('../../images/flag-icons/kh.png');
+}
+
+.bogoflags-ki:before {
+	content: url('../../images/flag-icons/ki.png');
+}
+
+.bogoflags-km:before {
+	content: url('../../images/flag-icons/km.png');
+}
+
+.bogoflags-kn:before {
+	content: url('../../images/flag-icons/kn.png');
+}
+
+.bogoflags-kp:before {
+	content: url('../../images/flag-icons/kp.png');
+}
+
+.bogoflags-kr:before {
+	content: url('../../images/flag-icons/kr.png');
+}
+
+.bogoflags-kw:before {
+	content: url('../../images/flag-icons/kw.png');
+}
+
+.bogoflags-ky:before {
+	content: url('../../images/flag-icons/ky.png');
+}
+
+.bogoflags-kz:before {
+	content: url('../../images/flag-icons/kz.png');
+}
+
+.bogoflags-la:before {
+	content: url('../../images/flag-icons/la.png');
+}
+
+.bogoflags-lb:before {
+	content: url('../../images/flag-icons/lb.png');
+}
+
+.bogoflags-lc:before {
+	content: url('../../images/flag-icons/lc.png');
+}
+
+.bogoflags-li:before {
+	content: url('../../images/flag-icons/li.png');
+}
+
+.bogoflags-lk:before {
+	content: url('../../images/flag-icons/lk.png');
+}
+
+.bogoflags-lr:before {
+	content: url('../../images/flag-icons/lr.png');
+}
+
+.bogoflags-ls:before {
+	content: url('../../images/flag-icons/ls.png');
+}
+
+.bogoflags-lt:before {
+	content: url('../../images/flag-icons/lt.png');
+}
+
+.bogoflags-lu:before {
+	content: url('../../images/flag-icons/lu.png');
+}
+
+.bogoflags-lv:before {
+	content: url('../../images/flag-icons/lv.png');
+}
+
+.bogoflags-ly:before {
+	content: url('../../images/flag-icons/ly.png');
+}
+
+.bogoflags-ma:before {
+	content: url('../../images/flag-icons/ma.png');
+}
+
+.bogoflags-mc:before {
+	content: url('../../images/flag-icons/mc.png');
+}
+
+.bogoflags-md:before {
+	content: url('../../images/flag-icons/md.png');
+}
+
+.bogoflags-me:before {
+	content: url('../../images/flag-icons/me.png');
+}
+
+.bogoflags-mg:before {
+	content: url('../../images/flag-icons/mg.png');
+}
+
+.bogoflags-mh:before {
+	content: url('../../images/flag-icons/mh.png');
+}
+
+.bogoflags-mk:before {
+	content: url('../../images/flag-icons/mk.png');
+}
+
+.bogoflags-ml:before {
+	content: url('../../images/flag-icons/ml.png');
+}
+
+.bogoflags-mm:before {
+	content: url('../../images/flag-icons/mm.png');
+}
+
+.bogoflags-mn:before {
+	content: url('../../images/flag-icons/mn.png');
+}
+
+.bogoflags-mo:before {
+	content: url('../../images/flag-icons/mo.png');
+}
+
+.bogoflags-mp:before {
+	content: url('../../images/flag-icons/mp.png');
+}
+
+.bogoflags-mq:before {
+	content: url('../../images/flag-icons/mq.png');
+}
+
+.bogoflags-mr:before {
+	content: url('../../images/flag-icons/mr.png');
+}
+
+.bogoflags-ms:before {
+	content: url('../../images/flag-icons/ms.png');
+}
+
+.bogoflags-mt:before {
+	content: url('../../images/flag-icons/mt.png');
+}
+
+.bogoflags-mu:before {
+	content: url('../../images/flag-icons/mu.png');
+}
+
+.bogoflags-mv:before {
+	content: url('../../images/flag-icons/mv.png');
+}
+
+.bogoflags-mw:before {
+	content: url('../../images/flag-icons/mw.png');
+}
+
+.bogoflags-mx:before {
+	content: url('../../images/flag-icons/mx.png');
+}
+
+.bogoflags-my:before {
+	content: url('../../images/flag-icons/my.png');
+}
+
+.bogoflags-mz:before {
+	content: url('../../images/flag-icons/mz.png');
+}
+
+.bogoflags-na:before {
+	content: url('../../images/flag-icons/na.png');
+}
+
+.bogoflags-nc:before {
+	content: url('../../images/flag-icons/nc.png');
+}
+
+.bogoflags-ne:before {
+	content: url('../../images/flag-icons/ne.png');
+}
+
+.bogoflags-nf:before {
+	content: url('../../images/flag-icons/nf.png');
+}
+
+.bogoflags-ng:before {
+	content: url('../../images/flag-icons/ng.png');
+}
+
+.bogoflags-ni:before {
+	content: url('../../images/flag-icons/ni.png');
+}
+
+.bogoflags-nl:before {
+	content: url('../../images/flag-icons/nl.png');
+}
+
+.bogoflags-no:before {
+	content: url('../../images/flag-icons/no.png');
+}
+
+.bogoflags-np:before {
+	content: url('../../images/flag-icons/np.png');
+}
+
+.bogoflags-nr:before {
+	content: url('../../images/flag-icons/nr.png');
+}
+
+.bogoflags-nu:before {
+	content: url('../../images/flag-icons/nu.png');
+}
+
+.bogoflags-nz:before {
+	content: url('../../images/flag-icons/nz.png');
+}
+
+.bogoflags-om:before {
+	content: url('../../images/flag-icons/om.png');
+}
+
+.bogoflags-pa:before {
+	content: url('../../images/flag-icons/pa.png');
+}
+
+.bogoflags-pe:before {
+	content: url('../../images/flag-icons/pe.png');
+}
+
+.bogoflags-pf:before {
+	content: url('../../images/flag-icons/pf.png');
+}
+
+.bogoflags-pg:before {
+	content: url('../../images/flag-icons/pg.png');
+}
+
+.bogoflags-ph:before {
+	content: url('../../images/flag-icons/ph.png');
+}
+
+.bogoflags-pk:before {
+	content: url('../../images/flag-icons/pk.png');
+}
+
+.bogoflags-pl:before {
+	content: url('../../images/flag-icons/pl.png');
+}
+
+.bogoflags-pm:before {
+	content: url('../../images/flag-icons/pm.png');
+}
+
+.bogoflags-pn:before {
+	content: url('../../images/flag-icons/pn.png');
+}
+
+.bogoflags-pr:before {
+	content: url('../../images/flag-icons/pr.png');
+}
+
+.bogoflags-ps:before {
+	content: url('../../images/flag-icons/ps.png');
+}
+
+.bogoflags-pt:before {
+	content: url('../../images/flag-icons/pt.png');
+}
+
+.bogoflags-pw:before {
+	content: url('../../images/flag-icons/pw.png');
+}
+
+.bogoflags-py:before {
+	content: url('../../images/flag-icons/py.png');
+}
+
+.bogoflags-qa:before {
+	content: url('../../images/flag-icons/qa.png');
+}
+
+.bogoflags-re:before {
+	content: url('../../images/flag-icons/re.png');
+}
+
+.bogoflags-ro:before {
+	content: url('../../images/flag-icons/ro.png');
+}
+
+.bogoflags-rs:before {
+	content: url('../../images/flag-icons/rs.png');
+}
+
+.bogoflags-ru:before {
+	content: url('../../images/flag-icons/ru.png');
+}
+
+.bogoflags-rw:before {
+	content: url('../../images/flag-icons/rw.png');
+}
+
+.bogoflags-sa:before {
+	content: url('../../images/flag-icons/sa.png');
+}
+
+.bogoflags-sb:before {
+	content: url('../../images/flag-icons/sb.png');
+}
+
+.bogoflags-sc:before {
+	content: url('../../images/flag-icons/sc.png');
+}
+
+.bogoflags-scotland:before {
+	content: url('../../images/flag-icons/scotland.png');
+}
+
+.bogoflags-sd:before {
+	content: url('../../images/flag-icons/sd.png');
+}
+
+.bogoflags-se:before {
+	content: url('../../images/flag-icons/se.png');
+}
+
+.bogoflags-sg:before {
+	content: url('../../images/flag-icons/sg.png');
+}
+
+.bogoflags-sh:before {
+	content: url('../../images/flag-icons/sh.png');
+}
+
+.bogoflags-si:before {
+	content: url('../../images/flag-icons/si.png');
+}
+
+.bogoflags-sj:before {
+	content: url('../../images/flag-icons/sj.png');
+}
+
+.bogoflags-sk:before {
+	content: url('../../images/flag-icons/sk.png');
+}
+
+.bogoflags-sl:before {
+	content: url('../../images/flag-icons/sl.png');
+}
+
+.bogoflags-sm:before {
+	content: url('../../images/flag-icons/sm.png');
+}
+
+.bogoflags-sn:before {
+	content: url('../../images/flag-icons/sn.png');
+}
+
+.bogoflags-so:before {
+	content: url('../../images/flag-icons/so.png');
+}
+
+.bogoflags-sr:before {
+	content: url('../../images/flag-icons/sr.png');
+}
+
+.bogoflags-st:before {
+	content: url('../../images/flag-icons/st.png');
+}
+
+.bogoflags-sv:before {
+	content: url('../../images/flag-icons/sv.png');
+}
+
+.bogoflags-sy:before {
+	content: url('../../images/flag-icons/sy.png');
+}
+
+.bogoflags-sz:before {
+	content: url('../../images/flag-icons/sz.png');
+}
+
+.bogoflags-tc:before {
+	content: url('../../images/flag-icons/tc.png');
+}
+
+.bogoflags-td:before {
+	content: url('../../images/flag-icons/td.png');
+}
+
+.bogoflags-tf:before {
+	content: url('../../images/flag-icons/tf.png');
+}
+
+.bogoflags-tg:before {
+	content: url('../../images/flag-icons/tg.png');
+}
+
+.bogoflags-th:before {
+	content: url('../../images/flag-icons/th.png');
+}
+
+.bogoflags-tj:before {
+	content: url('../../images/flag-icons/tj.png');
+}
+
+.bogoflags-tk:before {
+	content: url('../../images/flag-icons/tk.png');
+}
+
+.bogoflags-tl:before {
+	content: url('../../images/flag-icons/tl.png');
+}
+
+.bogoflags-tm:before {
+	content: url('../../images/flag-icons/tm.png');
+}
+
+.bogoflags-tn:before {
+	content: url('../../images/flag-icons/tn.png');
+}
+
+.bogoflags-to:before {
+	content: url('../../images/flag-icons/to.png');
+}
+
+.bogoflags-tr:before {
+	content: url('../../images/flag-icons/tr.png');
+}
+
+.bogoflags-tt:before {
+	content: url('../../images/flag-icons/tt.png');
+}
+
+.bogoflags-tv:before {
+	content: url('../../images/flag-icons/tv.png');
+}
+
+.bogoflags-tw:before {
+	content: url('../../images/flag-icons/tw.png');
+}
+
+.bogoflags-tz:before {
+	content: url('../../images/flag-icons/tz.png');
+}
+
+.bogoflags-ua:before {
+	content: url('../../images/flag-icons/ua.png');
+}
+
+.bogoflags-ug:before {
+	content: url('../../images/flag-icons/ug.png');
+}
+
+.bogoflags-um:before {
+	content: url('../../images/flag-icons/um.png');
+}
+
+.bogoflags-us:before {
+	content: url('../../images/flag-icons/us.png');
+}
+
+.bogoflags-uy:before {
+	content: url('../../images/flag-icons/uy.png');
+}
+
+.bogoflags-uz:before {
+	content: url('../../images/flag-icons/uz.png');
+}
+
+.bogoflags-va:before {
+	content: url('../../images/flag-icons/va.png');
+}
+
+.bogoflags-vc:before {
+	content: url('../../images/flag-icons/vc.png');
+}
+
+.bogoflags-ve:before {
+	content: url('../../images/flag-icons/ve.png');
+}
+
+.bogoflags-vg:before {
+	content: url('../../images/flag-icons/vg.png');
+}
+
+.bogoflags-vi:before {
+	content: url('../../images/flag-icons/vi.png');
+}
+
+.bogoflags-vn:before {
+	content: url('../../images/flag-icons/vn.png');
+}
+
+.bogoflags-vu:before {
+	content: url('../../images/flag-icons/vu.png');
+}
+
+.bogoflags-wales:before {
+	content: url('../../images/flag-icons/wales.png');
+}
+
+.bogoflags-wf:before {
+	content: url('../../images/flag-icons/wf.png');
+}
+
+.bogoflags-ws:before {
+	content: url('../../images/flag-icons/ws.png');
+}
+
+.bogoflags-ye:before {
+	content: url('../../images/flag-icons/ye.png');
+}
+
+.bogoflags-yt:before {
+	content: url('../../images/flag-icons/yt.png');
+}
+
+.bogoflags-za:before {
+	content: url('../../images/flag-icons/za.png');
+}
+
+.bogoflags-zm:before {
+	content: url('../../images/flag-icons/zm.png');
+}
+
+.bogoflags-zw:before {
+	content: url('../../images/flag-icons/zw.png');
+}

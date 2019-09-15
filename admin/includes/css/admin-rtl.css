@@ -1,0 +1,50 @@
+/* Language Packs */
+
+#bogo-language-packs td:first-child {
+	border-right: 0;
+	padding-right: 16px;
+}
+
+#bogo-language-packs tr.active td:first-child {
+	border-right: 4px solid #00a0d2;
+	padding-right: 12px;
+}
+
+#bogo-language-packs td.status li.post-count,
+#bogo-language-packs td.status li.page-count {
+	float: right;
+	margin: 6px 0 0 16px;
+}
+
+#bogo-language-packs td.status li.post-count a::before,
+#bogo-language-packs td.status li.page-count a::before {
+	padding-left: 4px;
+}
+
+/* Terms Translation */
+
+#bogo-terms-translation .large-text {
+	padding-right: 0;
+	margin-right: 0;
+}
+
+#bogo-terms-translation .large-text:hover {
+	padding-right: 5px;
+	margin-right: 1px;
+}
+
+#bogo-terms-translation .large-text:focus {
+	padding-right: 5px;
+	margin-right: 1px;
+}
+
+/* Post */
+
+ul#bogo-translations li {
+	margin-right: 1.4em;
+}
+
+#bogo-add-translation-actions span.spinner,
+#bogo-add-translation-actions button {
+	float: right;
+}
