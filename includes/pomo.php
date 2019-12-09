@@ -85,7 +85,7 @@ class Bogo_POMO {
 				sprintf( 'WordPress %s', get_bloginfo( 'version' ) ),
 		);
 
-		if( class_exists('DateTimeImmutable' )){ // if WP >= 5.3
+		if ( class_exists( 'DateTimeImmutable' ) ) { // if WP >= 5.3
 
 			$revision_date = new DateTimeImmutable();
 			$headers['PO-Revision-Date'] = $revision_date->format('Y-m-d H:i:s') . '+0000';
