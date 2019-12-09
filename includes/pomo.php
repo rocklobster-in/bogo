@@ -75,7 +75,7 @@ class Bogo_POMO {
 		$dir = self::dir();
 
 		$headers = array(
-			'PO-Revision-Date' => '',
+			'PO-Revision-Date' => current_time( 'mysql', 'gmt' ) . '+0000',
 			'MIME-Version' => '1.0',
 			'Content-Type' => 'text/plain; charset=UTF-8',
 			'Content-Transfer-Encoding' => '8bit',
@@ -84,15 +84,6 @@ class Bogo_POMO {
 			'Project-Id-Version' =>
 				sprintf( 'WordPress %s', get_bloginfo( 'version' ) ),
 		);
-
-		if( class_exists('DateTimeImmutable' )){ // if WP >= 5.3
-
-			$revision_date = new DateTimeImmutable();
-			$headers['PO-Revision-Date'] = $revision_date->format('Y-m-d H:i:s') . '+0000';
-
-		} else { // current_time is applicable of on WP < 5.3 versions
-			$headers['PO-Revision-Date'] = current_time( 'mysql', 'gmt' ) . '+0000';
-		}
 
 		require_once ABSPATH . WPINC . '/pomo/po.php';
 		$po = new PO();
