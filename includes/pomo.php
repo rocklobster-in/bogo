@@ -88,7 +88,7 @@ class Bogo_POMO {
 		if ( class_exists( 'DateTimeImmutable' ) ) { // if WP >= 5.3
 
 			$revision_date = new DateTimeImmutable();
-			$headers['PO-Revision-Date'] = $revision_date->format('Y-m-d H:i:s') . '+0000';
+			$headers['PO-Revision-Date'] = $revision_date->format( 'Y-m-d H:i:s' ) . '+0000';
 
 		} else { // current_time is applicable of on WP < 5.3 versions
 			$headers['PO-Revision-Date'] = current_time( 'mysql', 'gmt' ) . '+0000';
