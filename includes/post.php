@@ -1,5 +1,37 @@
 <?php
 
+/* Post Meta */
+
+add_action( 'init',
+
+	function() {
+		$post_types = bogo_localizable_post_types();
+
+		foreach ( $post_types as $post_type ) {
+			register_post_meta( $post_type,
+				'_locale',
+				array(
+					'type' => 'string',
+					'single' => true,
+					'show_in_rest' => true,
+				)
+			);
+
+			register_post_meta( $post_type,
+				'_original_post',
+				array(
+					'type' => 'string',
+					'single' => true,
+					'show_in_rest' => true,
+				)
+			);
+		}
+	},
+
+	10, 0
+);
+
+
 /* Post Template */
 
 add_filter( 'body_class', 'bogo_body_class', 10, 2 );

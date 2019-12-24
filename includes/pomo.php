@@ -74,8 +74,10 @@ class Bogo_POMO {
 
 		$dir = self::dir();
 
+		$revision_date = new DateTimeImmutable();
+
 		$headers = array(
-			'PO-Revision-Date' => current_time( 'mysql', 'gmt' ) . '+0000',
+			'PO-Revision-Date' => $revision_date->format( 'Y-m-d H:i:s' ) . '+0000',
 			'MIME-Version' => '1.0',
 			'Content-Type' => 'text/plain; charset=UTF-8',
 			'Content-Transfer-Encoding' => '8bit',
