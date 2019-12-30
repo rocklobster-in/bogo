@@ -1,7 +1,9 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
-const { Spinner, PanelRow } = wp.components;
+const { Spinner, PanelRow, SelectControl } = wp.components;
 const { useState } = wp.element;
+const { withState } = wp.compose;
+const { apiFetch } = wp;
 
 function LanguagePanel() {
 
@@ -23,22 +25,15 @@ function LanguagePanel() {
     Object.entries( translations ).forEach( ( [ key, value ] ) => {
       if ( value.editLink && value.postTitle ) {
         listItems.push(
-          <li>
+          <li key={ key }>
             <a
-              href={value.editLink}
+              href={ value.editLink }
               target="_blank"
               rel="noopener noreferrer"
             >
               { value.postTitle }
             </a>
-            <span class="screen-reader-text">(opens in a new window)</span>
-            <br /> [{ getLanguage( key ) }]
-          </li>
-        );
-      } else if ( value.postTitle ) {
-        listItems.push(
-          <li>
-            { value.postTitle }
+            <span className="screen-reader-text">(opens in a new window)</span>
             <br /> [{ getLanguage( key ) }]
           </li>
         );
@@ -53,6 +48,49 @@ function LanguagePanel() {
     );
   }
 
+  const AddTranslation = withState( {
+    locale: "",
+  } )( ( { locale, setState } ) => {
+    let options = [
+      { label: "Add Translation", value: "" }
+    ];
+
+    Object.entries( translations ).forEach( ( [ key, value ] ) => {
+      if ( ! value.postId ) {
+        options.push( { label: getLanguage( key ), value: key } );
+      }
+    } );
+
+    const addTranslation = ( locale ) => {
+      setState( { locale } );
+
+      apiFetch( {
+        path: '/bogo/v1/posts/' + bogo.currentPost.postId +
+          '/translations/' + locale,
+        method: 'POST',
+      } ).then( ( response ) => {
+        translations[ locale ] = {
+          postId: response[ locale ].id,
+          postTitle: response[ locale ].title.rendered,
+          editLink: response[ locale ].edit_link,
+        };
+
+        setTranslations( translations );
+      } );
+    }
+
+    return(
+      <PanelRow>
+        <span></span>
+        <SelectControl
+          value={ locale }
+          options={ options }
+          onChange={ ( locale ) => { addTranslation( locale ) } }
+        />
+      </PanelRow>
+    );
+  } );
+
   return(
     <PluginDocumentSettingPanel
       name="bogo-language-panel"
@@ -61,6 +99,7 @@ function LanguagePanel() {
     >
       <PostLanguage />
       <Translations />
+      <AddTranslation />
     </PluginDocumentSettingPanel>
   );
 }
