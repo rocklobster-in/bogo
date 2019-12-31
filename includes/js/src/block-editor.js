@@ -6,6 +6,7 @@ const { withState } = wp.compose;
 const { apiFetch } = wp;
 
 function LanguagePanel() {
+  const currentPost = wp.data.select( 'core/editor' ).getCurrentPost();
 
   const [ translations, setTranslations ]
     = useState( bogo.currentPost.translations );
@@ -20,7 +21,7 @@ function LanguagePanel() {
   }
 
   const Translations = () => {
-    let listItems = [];
+    const listItems = [];
 
     Object.entries( translations ).forEach( ( [ key, value ] ) => {
       if ( value.editLink && value.postTitle ) {
@@ -34,16 +35,29 @@ function LanguagePanel() {
               { value.postTitle }
             </a>
             <span className="screen-reader-text">(opens in a new window)</span>
-            <br /> [{ getLanguage( key ) }]
+            <br />
+            <em>{ getLanguage( key ) }</em>
           </li>
         );
       }
     } );
 
+    const ListItems = ( props ) => {
+      if ( props.listItems.length ) {
+        return(
+          <ul>{ props.listItems }</ul>
+        );
+      } else {
+        return(
+          <em>None</em>
+        );
+      }
+    }
+
     return(
       <PanelRow>
         <span>Translations</span>
-        <ul>{ listItems }</ul>
+        <ListItems listItems={ listItems } />
       </PanelRow>
     );
   }
@@ -51,7 +65,7 @@ function LanguagePanel() {
   const AddTranslation = withState( {
     locale: "",
   } )( ( { locale, setState } ) => {
-    let options = [
+    const options = [
       { label: "Add Translation", value: "" }
     ];
 
@@ -79,6 +93,10 @@ function LanguagePanel() {
 
         setTranslations( translationsAlt );
       } );
+    }
+
+    if ( options.length <= 1 || 'auto-draft' == currentPost.status ) {
+      return( <></> );
     }
 
     return(
