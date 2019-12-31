@@ -72,19 +72,16 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 
 		if ( ! $post ) {
 			$current_post = array(
-				'postId' => 0,
 				'locale' => bogo_get_user_locale(),
 				'translations' => array(),
 			);
 		} elseif ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
 			$current_post = array(
-				'postId' => $post->ID,
 				'locale' => bogo_get_default_locale(),
 				'translations' => array(),
 			);
 		} else {
 			$current_post = array(
-				'postId' => $post->ID,
 				'locale' => bogo_get_user_locale(),
 				'translations' => array(),
 			);

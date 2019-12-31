@@ -6,16 +6,19 @@ const { withState } = wp.compose;
 const { apiFetch } = wp;
 
 function LanguagePanel() {
-  const currentPost = wp.data.select( 'core/editor' ).getCurrentPost();
+  const currentPost = Object.assign( {},
+    wp.data.select( 'core/editor' ).getCurrentPost(),
+    bogo.currentPost
+  );
 
   const [ translations, setTranslations ]
-    = useState( bogo.currentPost.translations );
+    = useState( currentPost.translations );
 
   const PostLanguage = () => {
     return(
       <PanelRow>
         <span>Language</span>
-        <div>{ getLanguage( bogo.currentPost.locale ) }</div>
+        <div>{ getLanguage( currentPost.locale ) }</div>
       </PanelRow>
     );
   }
@@ -79,7 +82,7 @@ function LanguagePanel() {
       setState( { locale } );
 
       apiFetch( {
-        path: '/bogo/v1/posts/' + bogo.currentPost.postId +
+        path: '/bogo/v1/posts/' + currentPost.id +
           '/translations/' + locale,
         method: 'POST',
       } ).then( ( response ) => {
