@@ -69,13 +69,15 @@ function LanguagePanel() {
           '/translations/' + locale,
         method: 'POST',
       } ).then( ( response ) => {
-        translations[ locale ] = {
+        const translationsAlt = Object.assign( {}, translations );
+
+        translationsAlt[ locale ] = {
           postId: response[ locale ].id,
           postTitle: response[ locale ].title.rendered,
           editLink: response[ locale ].edit_link,
         };
 
-        setTranslations( translations );
+        setTranslations( translationsAlt );
       } );
     }
 
