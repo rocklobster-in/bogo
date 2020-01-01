@@ -1,13 +1,14 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
-const { Spinner, PanelRow, SelectControl } = wp.components;
+const { PanelRow, SelectControl } = wp.components;
 const { useState } = wp.element;
 const { withState } = wp.compose;
+const { select, dispatch } = wp.data;
 const { apiFetch } = wp;
 
 function LanguagePanel() {
   const currentPost = Object.assign( {},
-    wp.data.select( 'core/editor' ).getCurrentPost(),
+    select( 'core/editor' ).getCurrentPost(),
     bogo.currentPost
   );
 
@@ -95,6 +96,15 @@ function LanguagePanel() {
         };
 
         setTranslations( translationsAlt );
+
+        dispatch('core/notices').createInfoNotice(
+          'Translation post created.',
+          {
+            isDismissible: true,
+            type: 'snackbar',
+            speak: true,
+          }
+        );
       } );
     }
 
