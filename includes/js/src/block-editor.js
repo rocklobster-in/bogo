@@ -12,6 +12,10 @@ function LanguagePanel() {
 		bogo.currentPost
 	);
 
+	if ( -1 == bogo.localizablePostTypes.indexOf( currentPost.type ) ) {
+		return( <></> );
+	}
+
 	const [ translations, setTranslations ]
 		= useState( currentPost.translations );
 
@@ -38,7 +42,9 @@ function LanguagePanel() {
 						>
 							{ value.postTitle }
 						</a>
-						<span className="screen-reader-text">(opens in a new window)</span>
+						<span className="screen-reader-text">
+							{ bogo.screenReaderText.targetBlank }
+						</span>
 						<br />
 						<em>{ getLanguage( key ) }</em>
 					</li>

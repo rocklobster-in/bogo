@@ -58,6 +58,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		'defaultLocale' => bogo_get_default_locale(),
 		'pagenow' => isset( $_GET['page'] ) ? trim( $_GET['page'] ) : '',
 		'currentPost' => array(),
+		'localizablePostTypes' => bogo_localizable_post_types(),
 	);
 
 	if ( 'post.php' == $hook_suffix && ! empty( $GLOBALS['post'] ) ) {
@@ -73,11 +74,6 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		if ( ! $post ) {
 			$current_post = array(
 				'locale' => bogo_get_user_locale(),
-				'translations' => array(),
-			);
-		} elseif ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
-			$current_post = array(
-				'locale' => bogo_get_default_locale(),
 				'translations' => array(),
 			);
 		} else {
