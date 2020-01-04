@@ -22,7 +22,7 @@ function LanguagePanel() {
 	const PostLanguage = () => {
 		return(
 			<PanelRow>
-				<span>Language</span>
+				<span>{ bogo.l10n.language }</span>
 				<div>{ getLanguage( currentPost.locale ) }</div>
 			</PanelRow>
 		);
@@ -43,7 +43,7 @@ function LanguagePanel() {
 							{ value.postTitle }
 						</a>
 						<span className="screen-reader-text">
-							{ bogo.screenReaderText.targetBlank }
+							{ bogo.l10n.targetBlank }
 						</span>
 						<br />
 						<em>{ getLanguage( key ) }</em>
@@ -59,14 +59,14 @@ function LanguagePanel() {
 				);
 			} else {
 				return(
-					<em>None</em>
+					<em>{ bogo.l10n.none }</em>
 				);
 			}
 		}
 
 		return(
 			<PanelRow>
-				<span>Translations</span>
+				<span>{ bogo.l10n.translations }</span>
 				<ListItems listItems={ listItems } />
 			</PanelRow>
 		);
@@ -76,7 +76,7 @@ function LanguagePanel() {
 		locale: "",
 	} )( ( { locale, setState } ) => {
 		const options = [
-			{ label: "Add Translation", value: "" }
+			{ label: bogo.l10n.addTranslation, value: "" }
 		];
 
 		Object.entries( translations ).forEach( ( [ key, value ] ) => {
@@ -104,7 +104,7 @@ function LanguagePanel() {
 				setTranslations( translationsAlt );
 
 				dispatch('core/notices').createInfoNotice(
-					'Translation post created.',
+					bogo.l10n.noticePostCreation,
 					{
 						isDismissible: true,
 						type: 'snackbar',
@@ -133,7 +133,7 @@ function LanguagePanel() {
 	return(
 		<PluginDocumentSettingPanel
 			name="bogo-language-panel"
-			title="Language"
+			title={ bogo.l10n.language }
 			className="bogo-language-panel"
 		>
 			<PostLanguage />

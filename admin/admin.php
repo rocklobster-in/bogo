@@ -38,6 +38,15 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		array( 'jquery' ), BOGO_VERSION, true );
 
 	$local_args = array(
+		'l10n' => array(
+			/* translators: accessibility text */
+			'targetBlank' => __( '(opens in a new window)', 'bogo' ),
+			'language' => __( 'Language', 'bogo' ),
+			'none' => __( 'None', 'bogo' ),
+			'translations' => __( 'Translations', 'bogo' ),
+			'addTranslation' => __( 'Add Translation', 'bogo' ),
+			'noticePostCreation' => __( "Translation post created.", 'bogo' ),
+		),
 		'saveAlert' => __(
 			"The changes you made will be lost if you navigate away from this page.",
 			'bogo' ),
