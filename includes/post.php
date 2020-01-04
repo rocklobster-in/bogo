@@ -385,3 +385,141 @@ function bogo_get_pages( $pages, $args ) {
 
 	return $new_pages;
 }
+
+add_action( 'save_post', 'bogo_save_post', 10, 2 );
+
+function bogo_save_post( $post_id, $post ) {
+	if ( did_action( 'import_start' ) && ! did_action( 'import_end' ) ) {
+		// Importing
+		return;
+	}
+
+	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
+		return;
+	}
+
+	$current_locales = get_post_meta( $post_id, '_locale' );
+	$locale = null;
+
+	if ( ! empty( $current_locales ) ) {
+		foreach ( $current_locales as $current_locale ) {
+			if ( bogo_is_available_locale( $current_locale ) ) {
+				$locale = $current_locale;
+				break;
+			}
+		}
+
+		if ( empty( $locale ) || 1 < count( $current_locales ) ) {
+			delete_post_meta( $post_id, '_locale' );
+			$current_locales = array();
+		}
+	}
+
+	if ( empty( $current_locales ) ) {
+		if ( bogo_is_available_locale( $locale ) ) {
+			// $locale = $locale;
+		} elseif ( ! empty( $_REQUEST['locale'] )
+		&& bogo_is_available_locale( $_REQUEST['locale'] ) ) {
+			$locale = $_REQUEST['locale'];
+		} elseif ( 'auto-draft' == get_post_status( $post_id ) ) {
+			$locale = bogo_get_user_locale();
+		} else {
+			$locale = bogo_get_default_locale();
+		}
+
+		add_post_meta( $post_id, '_locale', $locale, true );
+	}
+
+	$current_original_posts = get_post_meta( $post_id, '_original_post' );
+
+	if ( ! empty( $current_original_posts ) ) {
+		if ( 1 < count( $current_original_posts ) ) {
+			delete_post_meta( $post_id, '_original_post' );
+		} else {
+			return;
+		}
+	}
+
+	if ( ! empty( $_REQUEST['original_post'] ) ) {
+		$original = get_post_meta( $_REQUEST['original_post'],
+			'_original_post', true );
+
+		if ( empty( $original ) ) {
+			$original = (int) $_REQUEST['original_post'];
+		}
+
+		add_post_meta( $post_id, '_original_post', $original, true );
+		return;
+	}
+
+	$original = $post_id;
+
+	while ( 1 ) {
+		$q = new WP_Query();
+
+		$posts = $q->query( array(
+			'bogo_suppress_locale_query' => true,
+			'posts_per_page' => 1,
+			'post_status' => 'any',
+			'post_type' => $post->post_type,
+			'meta_key' => '_original_post',
+			'meta_value' => $original ) );
+
+		if ( empty( $posts ) ) {
+			add_post_meta( $post_id, '_original_post', $original, true );
+			return;
+		}
+
+		$original += 1;
+	}
+}
+
+add_filter( 'wp_unique_post_slug', 'bogo_unique_post_slug', 10, 6 );
+
+function bogo_unique_post_slug( $slug, $post_id, $status, $type, $parent, $original ) {
+	global $wp_rewrite;
+
+	if ( ! bogo_is_localizable_post_type( $type ) ) {
+		return $slug;
+	}
+
+	$feeds = is_array( $wp_rewrite->feeds ) ? $wp_rewrite->feeds : array();
+
+	if ( in_array( $original, $feeds ) ) {
+		return $slug;
+	}
+
+	$locale = bogo_get_post_locale( $post_id );
+
+	if ( empty( $locale ) ) {
+		return $slug;
+	}
+
+	$args = array(
+		'posts_per_page' => 1,
+		'post__not_in' => array( $post_id ),
+		'post_type' => $type,
+		'name' => $original,
+		'lang' => $locale,
+	);
+
+	$hierarchical = in_array( $type,
+		get_post_types( array( 'hierarchical' => true ) ) );
+
+	if ( $hierarchical ) {
+		if ( preg_match( "@^($wp_rewrite->pagination_base)?\d+$@", $original ) ) {
+			return $slug;
+		}
+
+		$args['post_parent'] = $parent;
+	}
+
+	$q = new WP_Query();
+	$posts = $q->query( $args );
+
+	if ( empty( $posts ) ) {
+		$slug = $original;
+	}
+
+	return $slug;
+}

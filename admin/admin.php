@@ -38,6 +38,15 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		array( 'jquery' ), BOGO_VERSION, true );
 
 	$local_args = array(
+		'l10n' => array(
+			/* translators: accessibility text */
+			'targetBlank' => __( '(opens in a new window)', 'bogo' ),
+			'language' => __( 'Language', 'bogo' ),
+			'none' => __( 'None', 'bogo' ),
+			'translations' => __( 'Translations', 'bogo' ),
+			'addTranslation' => __( 'Add Translation', 'bogo' ),
+			'noticePostCreation' => __( "Translation post created.", 'bogo' ),
+		),
 		'saveAlert' => __(
 			"The changes you made will be lost if you navigate away from this page.",
 			'bogo' ),
@@ -57,6 +66,8 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		) ),
 		'defaultLocale' => bogo_get_default_locale(),
 		'pagenow' => isset( $_GET['page'] ) ? trim( $_GET['page'] ) : '',
+		'currentPost' => array(),
+		'localizablePostTypes' => bogo_localizable_post_types(),
 	);
 
 	if ( 'post.php' == $hook_suffix && ! empty( $GLOBALS['post'] ) ) {
@@ -64,6 +75,41 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		$local_args = array_merge( $local_args, array(
 			'post_id' => $post->ID,
 		) );
+	}
+
+	if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
+		$current_post = array(
+			'locale' => bogo_get_user_locale(),
+			'translations' => array(),
+		);
+
+		if ( $post = get_post() ) {
+			if ( $locale = get_post_meta( $post->ID, '_locale', true ) ) {
+				$current_post['locale'] = $locale;
+			}
+
+			$available_locales = bogo_available_locales( array(
+				'exclude' => array( $current_post['locale'] ),
+				'exclude_enus_if_inactive' => true,
+				'current_user_can_access' => true,
+			) );
+
+			foreach ( $available_locales as $locale ) {
+				$current_post['translations'][$locale] = array();
+
+				$translation = bogo_get_post_translation( $post->ID, $locale );
+
+				if ( $translation ) {
+					$current_post['translations'][$locale] = array(
+						'postId' => $translation->ID,
+						'postTitle' => get_the_title( $translation ),
+						'editLink' => get_edit_post_link( $translation, 'raw' ),
+					);
+				}
+			}
+		}
+
+		$local_args['currentPost'] = $current_post;
 	}
 
 	wp_localize_script( 'bogo-admin', 'bogo', $local_args );
