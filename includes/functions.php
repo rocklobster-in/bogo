@@ -283,6 +283,7 @@ function bogo_available_languages( $args = '' ) {
 		'orderby' => 'key',
 		'order' => 'ASC',
 		'current_user_can_access' => false,
+		'short_name' => true,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -294,6 +295,27 @@ function bogo_available_languages( $args = '' ) {
 	foreach ( $available_locales as $locale ) {
 		$lang = bogo_get_language( $locale );
 		$langs[$locale] = empty( $lang ) ? "[$locale]" : $lang;
+	}
+
+	if ( $args['short_name'] ) {
+		$langs_tmp = $langs;
+
+		foreach( $langs as $locale => $lang ) {
+			if ( preg_match( '/^([^()]+)/', $lang, $matches ) ) {
+				$short_name = trim( $matches[1] );
+
+				$in_same_lang = preg_grep(
+					sprintf( '/^%s/', preg_quote( $short_name, '/' ) ),
+					$langs
+				);
+
+				if ( count( $in_same_lang ) < 2 ) {
+					$langs_tmp[$locale] = $short_name;
+				}
+			}
+		}
+
+		$langs = $langs_tmp;
 	}
 
 	if ( 'value' == $args['orderby'] ) {
