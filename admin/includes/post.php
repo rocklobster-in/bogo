@@ -191,7 +191,11 @@ function bogo_add_l10n_meta_boxes( $post_type, $post ) {
 	}
 
 	add_meta_box( 'bogol10ndiv', __( 'Language', 'bogo' ),
-		'bogo_l10n_meta_box', null, 'side', 'high' );
+		'bogo_l10n_meta_box', null, 'side', 'high',
+		array(
+			'__back_compat_meta_box' => true,
+		)
+	);
 }
 
 function bogo_l10n_meta_box( $post ) {

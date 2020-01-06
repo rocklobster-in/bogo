@@ -109,6 +109,12 @@ function LanguagePanel() {
 						isDismissible: true,
 						type: 'snackbar',
 						speak: true,
+						actions: [
+							{
+								url: translationsAlt[ locale ].editLink,
+								label: 'Edit Post',
+							}
+						]
 					}
 				);
 			} );
