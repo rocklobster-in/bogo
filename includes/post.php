@@ -45,7 +45,8 @@ array_map(
 );
 
 function bogo_rest_post_query( $args, $request ) {
-	if ( ! empty( $request['parent_exclude'] ) ) {
+	if ( empty( $args['lang'] )
+	and ! empty( $request['parent_exclude'] ) ) {
 		$post_ids = (array) $request['parent_exclude'];
 		$args['lang'] = bogo_get_post_locale( $post_ids[0] );
 	}
