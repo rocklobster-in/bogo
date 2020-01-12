@@ -112,7 +112,7 @@ function LanguagePanel() {
 						actions: [
 							{
 								url: translationsAlt[ locale ].editLink,
-								label: 'Edit Post',
+								label: bogo.l10n.editPost,
 							}
 						]
 					}

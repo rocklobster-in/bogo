@@ -46,6 +46,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 			'translations' => __( 'Translations', 'bogo' ),
 			'addTranslation' => __( 'Add Translation', 'bogo' ),
 			'noticePostCreation' => __( "Translation post created.", 'bogo' ),
+			'editPost' => __( 'Edit Post', 'bogo' ),
 		),
 		'saveAlert' => __(
 			"The changes you made will be lost if you navigate away from this page.",
