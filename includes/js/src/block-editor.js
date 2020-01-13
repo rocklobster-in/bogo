@@ -1,6 +1,6 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
-const { PanelRow, SelectControl } = wp.components;
+const { PanelRow, SelectControl, Button } = wp.components;
 const { useState } = wp.element;
 const { withState } = wp.compose;
 const { select, dispatch } = wp.data;
@@ -72,22 +72,8 @@ function LanguagePanel() {
 		);
 	}
 
-	const AddTranslation = withState( {
-		locale: "",
-	} )( ( { locale, setState } ) => {
-		const options = [
-			{ label: bogo.l10n.addTranslation, value: "" }
-		];
-
-		Object.entries( translations ).forEach( ( [ key, value ] ) => {
-			if ( ! value.postId ) {
-				options.push( { label: getLanguage( key ), value: key } );
-			}
-		} );
-
+	const AddTranslation = () => {
 		const addTranslation = ( locale ) => {
-			setState( { locale } );
-
 			apiFetch( {
 				path: '/bogo/v1/posts/' + currentPost.id +
 					'/translations/' + locale,
@@ -103,7 +89,7 @@ function LanguagePanel() {
 
 				setTranslations( translationsAlt );
 
-				dispatch('core/notices').createInfoNotice(
+				dispatch( 'core/notices' ).createInfoNotice(
 					bogo.l10n.noticePostCreation,
 					{
 						isDismissible: true,
@@ -120,21 +106,33 @@ function LanguagePanel() {
 			} );
 		}
 
-		if ( options.length <= 1 || 'auto-draft' == currentPost.status ) {
+		const listItems = [];
+
+		Object.entries( translations ).forEach( ( [ key, value ] ) => {
+			if ( ! value.postId ) {
+				listItems.push(
+					<li key={ key }>
+						<Button
+							isDefault
+							onClick={ () => { addTranslation( key ) } }
+						>
+							Add { getLanguage( key ) } Translation
+						</Button>
+					</li>
+				);
+			}
+		} );
+
+		if ( listItems.length < 1 || 'auto-draft' == currentPost.status ) {
 			return( <></> );
 		}
 
 		return(
 			<PanelRow>
-				<span></span>
-				<SelectControl
-					value={ locale }
-					options={ options }
-					onChange={ ( locale ) => { addTranslation( locale ) } }
-				/>
+				<ul>{ listItems }</ul>
 			</PanelRow>
 		);
-	} );
+	}
 
 	return(
 		<PluginDocumentSettingPanel
