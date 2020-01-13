@@ -37,6 +37,21 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		plugins_url( 'admin/includes/js/admin.js', BOGO_PLUGIN_BASENAME ),
 		array( 'jquery' ), BOGO_VERSION, true );
 
+	$available_languages = bogo_available_languages( array(
+		'exclude_enus_if_inactive' => true,
+		'orderby' => 'value',
+	) );
+
+	$add_translation_l10n = array();
+
+	foreach ( $available_languages as $locale => $lang ) {
+		$add_translation_l10n[$locale] = sprintf(
+			/* translators: %s: language name */
+			__( 'Add %s Translation', 'bogo' ),
+			$lang
+		);
+	}
+
 	$local_args = array(
 		'l10n' => array(
 			/* translators: accessibility text */
@@ -44,7 +59,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 			'language' => __( 'Language', 'bogo' ),
 			'none' => __( 'None', 'bogo' ),
 			'translations' => __( 'Translations', 'bogo' ),
-			'addTranslation' => __( 'Add Translation', 'bogo' ),
+			'addTranslation' => $add_translation_l10n,
 			'noticePostCreation' => __( "Translation post created.", 'bogo' ),
 			'editPost' => __( 'Edit Post', 'bogo' ),
 		),
@@ -61,10 +76,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 			/* translators: accessibility text */
 			'targetBlank' => __( '(opens in a new window)', 'bogo' ),
 		),
-		'availableLanguages' => bogo_available_languages( array(
-			'exclude_enus_if_inactive' => true,
-			'orderby' => 'value',
-		) ),
+		'availableLanguages' => $available_languages,
 		'defaultLocale' => bogo_get_default_locale(),
 		'pagenow' => isset( $_GET['page'] ) ? trim( $_GET['page'] ) : '',
 		'currentPost' => array(),
