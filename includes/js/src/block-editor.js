@@ -116,7 +116,7 @@ function LanguagePanel() {
 							isDefault
 							onClick={ () => { addTranslation( key ) } }
 						>
-							Add { getLanguage( key ) } Translation
+							{ bogo.l10n.addTranslation[ key ] }
 						</Button>
 					</li>
 				);
