@@ -1,16 +1,17 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
-const { PanelRow, SelectControl, Button } = wp.components;
+const { PanelRow, Button } = wp.components;
 const { useState } = wp.element;
-const { withState } = wp.compose;
-const { select, dispatch } = wp.data;
+const { dispatch, useSelect } = wp.data;
 const { apiFetch } = wp;
 
 function LanguagePanel() {
-	const currentPost = Object.assign( {},
-		select( 'core/editor' ).getCurrentPost(),
-		bogo.currentPost
-	);
+	const currentPost = useSelect( ( select ) => {
+		return Object.assign( {},
+			select( 'core/editor' ).getCurrentPost(),
+			bogo.currentPost
+		);
+	} );
 
 	if ( -1 == bogo.localizablePostTypes.indexOf( currentPost.type ) ) {
 		return( <></> );
