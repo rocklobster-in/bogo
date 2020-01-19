@@ -50,14 +50,6 @@ add_action( 'init', 'bogo_init' );
 function bogo_init() {
 	bogo_languages();
 	Bogo_POMO::import( get_locale() );
-
-	if ( ! ( is_admin() || is_robots() || is_feed() || is_trackback() ) ) {
-		$locale = get_locale();
-
-		if ( ! isset( $_COOKIE['lang'] ) || $_COOKIE['lang'] != $locale ) {
-			setcookie( 'lang', $locale, 0, '/' );
-		}
-	}
 }
 
 add_filter( 'locale', 'bogo_locale' );
