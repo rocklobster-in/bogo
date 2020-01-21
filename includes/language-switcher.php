@@ -85,7 +85,8 @@ function bogo_language_switcher_links( $args = '' ) {
 	$translations = array();
 	$is_singular = false;
 
-	if ( is_singular() || ! empty( $wp_query->is_posts_page ) ) {
+	if ( is_singular()
+	or ! empty( $wp_query->is_posts_page ) ) {
 		$translations = bogo_get_post_translations( get_queried_object_id() );
 		$is_singular = true;
 	}
@@ -103,8 +104,8 @@ function bogo_language_switcher_links( $args = '' ) {
 
 		if ( $is_singular ) {
 			if ( $locale != $code
-			&& ! empty( $translations[$code] )
-			&& 'publish' == get_post_status( $translations[$code] ) ) {
+			and ! empty( $translations[$code] )
+			and 'publish' == get_post_status( $translations[$code] ) ) {
 				$link['href'] = get_permalink( $translations[$code] );
 			}
 		} else {

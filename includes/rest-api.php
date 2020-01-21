@@ -62,7 +62,8 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 	$user_can_edit = current_user_can(
 		$post_type_object->cap->edit_post, $post->ID );
 
-	if ( ! $user_can_edit && 'publish' != get_post_status( $post ) ) {
+	if ( ! $user_can_edit
+	and 'publish' != get_post_status( $post ) ) {
 		return new WP_Error( 'bogo_post_not_found',
 			__( "The requested post was not found.", 'bogo' ),
 			array( 'status' => 404 ) );
@@ -73,7 +74,7 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 
 	foreach ( $translations as $locale => $translation ) {
 		if ( ! current_user_can( 'edit_post', $translation->ID )
-		&& 'publish' != get_post_status( $translation ) ) {
+		and 'publish' != get_post_status( $translation ) ) {
 			continue;
 		}
 
@@ -143,8 +144,8 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 	$post = get_post( $post_id );
 
 	if ( ! $post
-	|| ! current_user_can( 'edit_post', $post->ID )
-	&& 'publish' != get_post_status( $post ) ) {
+	or ! current_user_can( 'edit_post', $post->ID )
+	and 'publish' != get_post_status( $post ) ) {
 		return new WP_Error( 'bogo_post_not_found',
 			__( "The requested post was not found.", 'bogo' ),
 			array( 'status' => 404 ) );
@@ -158,8 +159,8 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 			array( 'status' => 400 ) );
 	}
 
-	if ( ( $post_type_object = get_post_type_object( $post->post_type ) )
-	&& ! current_user_can( $post_type_object->cap->edit_posts ) ) {
+	if ( $post_type_object = get_post_type_object( $post->post_type )
+	and ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 		return new WP_Error( 'bogo_post_type_forbidden',
 			__( "You are not allowed to edit posts in this post type.", 'bogo' ),
 			array( 'status' => 403 ) );

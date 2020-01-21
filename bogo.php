@@ -74,15 +74,16 @@ function bogo_locale( $locale ) {
 	$default_locale = bogo_get_default_locale();
 
 	if ( ! empty( $wp_query->query_vars ) ) {
-		if ( ( $lang = get_query_var( 'lang' ) )
-		&& $closest = bogo_get_closest_locale( $lang ) ) {
+		if ( $lang = get_query_var( 'lang' )
+		and $closest = bogo_get_closest_locale( $lang ) ) {
 			return $bogo_locale = $closest;
 		} else {
 			return $bogo_locale = $default_locale;
 		}
 	}
 
-	if ( isset( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
+	if ( isset( $wp_rewrite )
+	and $wp_rewrite->using_permalinks() ) {
 		$url = is_ssl() ? 'https://' : 'http://';
 		$url .= $_SERVER['HTTP_HOST'];
 		$url .= $_SERVER['REQUEST_URI'];
@@ -96,14 +97,14 @@ function bogo_locale( $locale ) {
 		$pattern = '#^' . preg_quote( $home ) . '(' . $available_locales . ')(/|$)#';
 
 		if ( preg_match( $pattern, $url, $matches )
-		&& $closest = bogo_get_closest_locale( $matches[1] ) ) {
+		and $closest = bogo_get_closest_locale( $matches[1] ) ) {
 			return $bogo_locale = $closest;
 		}
 	}
 
 	$lang = bogo_get_lang_from_url();
 
-	if ( $lang && $closest = bogo_get_closest_locale( $lang ) ) {
+	if ( $lang and $closest = bogo_get_closest_locale( $lang ) ) {
 		return $bogo_locale = $closest;
 	}
 

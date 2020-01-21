@@ -60,7 +60,8 @@ class Bogo_POMO {
 
 		$translated = self::$mo->translate( $singular, $context );
 
-		if ( $translated == $singular && '' !== $default ) {
+		if ( $translated == $singular
+		and '' !== $default ) {
 			return $default;
 		} else {
 			return $translated;

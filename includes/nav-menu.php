@@ -27,7 +27,8 @@ function bogo_setup_nav_menu_item( $menu_item ) {
 
 	$menu_item->bogo_locales = array();
 
-	if ( isset( $menu_item->post_type ) && 'nav_menu_item' == $menu_item->post_type ) {
+	if ( isset( $menu_item->post_type )
+	and 'nav_menu_item' == $menu_item->post_type ) {
 		$menu_item->bogo_locales = get_post_meta( $menu_item->ID, '_locale' );
 	}
 

@@ -83,7 +83,8 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		'localizablePostTypes' => bogo_localizable_post_types(),
 	);
 
-	if ( 'post.php' == $hook_suffix && ! empty( $GLOBALS['post'] ) ) {
+	if ( 'post.php' == $hook_suffix
+	and ! empty( $GLOBALS['post'] ) ) {
 		$post = $GLOBALS['post'];
 		$local_args = array_merge( $local_args, array(
 			'post_id' => $post->ID,
@@ -242,7 +243,8 @@ function bogo_load_tools_page() {
 			wp_die( __( "You are not allowed to manage translations.", 'bogo' ) );
 		}
 
-		if ( 'en_US' == $locale || ! bogo_is_available_locale( $locale ) ) {
+		if ( 'en_US' == $locale
+		or ! bogo_is_available_locale( $locale ) ) {
 			$locale = '';
 		}
 
@@ -271,7 +273,8 @@ function bogo_load_tools_page() {
 			? ! bogo_is_enus_deactivated()
 			: bogo_is_available_locale( $locale );
 
-		if ( ! bogo_is_default_locale( $locale ) && $is_active ) {
+		if ( ! bogo_is_default_locale( $locale )
+		and $is_active ) {
 			$redirect_to = add_query_arg(
 				array( 'locale' => $locale ),
 				menu_page_url( 'bogo-texts', false ) );
@@ -352,7 +355,7 @@ function bogo_load_texts_page() {
 
 		foreach ( $_POST as $p_key => $p_val ) {
 			if ( in_array( $p_key, array( 'action', 'locale', 'submit', 'paged' ) )
-			|| substr( $p_key, 0, 1 ) == '_' ) {
+			or substr( $p_key, 0, 1 ) == '_' ) {
 				continue;
 			}
 
@@ -446,7 +449,7 @@ function bogo_texts_page() {
 }
 
 function bogo_admin_notice( $reason = '' ) {
-	if ( empty( $reason ) && isset( $_GET['message'] ) ) {
+	if ( empty( $reason ) and isset( $_GET['message'] ) ) {
 		$reason = $_GET['message'];
 	}
 

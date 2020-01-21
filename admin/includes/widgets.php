@@ -36,7 +36,8 @@ function bogo_in_widget_form( $widget, $return, $instance ) {
 add_filter( 'widget_update_callback', 'bogo_widget_update_callback', 10, 4 );
 
 function bogo_widget_update_callback( $instance, $new_instance, $old_instance, $widget ) {
-	if ( isset( $new_instance['bogo_locales'] ) && is_array( $new_instance['bogo_locales'] ) ) {
+	if ( isset( $new_instance['bogo_locales'] )
+	and is_array( $new_instance['bogo_locales'] ) ) {
 		$instance['bogo_locales'] = $new_instance['bogo_locales'];
 	} else {
 		$instance['bogo_locales'] = array();

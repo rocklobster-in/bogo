@@ -101,12 +101,12 @@ function bogo_update_nav_menu_item( $menu_id, $menu_item_id ) {
 
 	foreach ( (array) bogo_available_locales() as $locale ) {
 		if ( in_array( $locale, $current_locales )
-		&& ! in_array( $locale, $requested_locales ) ) {
+		and ! in_array( $locale, $requested_locales ) ) {
 			delete_post_meta( $menu_item_id, '_locale', $locale );
 		}
 
 		if ( ! in_array( $locale, $current_locales )
-		&& in_array( $locale, $requested_locales ) ) {
+		and in_array( $locale, $requested_locales ) ) {
 			add_post_meta( $menu_item_id, '_locale', $locale );
 		}
 	}

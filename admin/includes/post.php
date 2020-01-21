@@ -100,7 +100,7 @@ function bogo_post_row_actions( $actions, $post ) {
 	$post_type_object = get_post_type_object( $post->post_type );
 
 	if ( ! current_user_can( $post_type_object->cap->edit_post, $post->ID )
-	|| 'trash' == $post->post_status ) {
+	or 'trash' == $post->post_status ) {
 		return $actions;
 	}
 
@@ -112,7 +112,8 @@ function bogo_post_row_actions( $actions, $post ) {
 	}
 
 	if ( $translation = bogo_get_post_translation( $post, $user_locale ) ) {
-		if ( empty( $translation->ID ) || $translation->ID == $post->ID ) {
+		if ( empty( $translation->ID )
+		or $translation->ID === $post->ID ) {
 			return $actions;
 		}
 
@@ -145,7 +146,7 @@ add_action( 'admin_init', 'bogo_add_translation', 10, 0 );
 
 function bogo_add_translation() {
 	if ( empty( $_REQUEST['action'] )
-	|| 'bogo-add-translation' != $_REQUEST['action'] ) {
+	or 'bogo-add-translation' != $_REQUEST['action'] ) {
 		return;
 	}
 
@@ -159,14 +160,15 @@ function bogo_add_translation() {
 		return;
 	}
 
-	if ( ! $original_post || ! $original_post = get_post( $original_post ) ) {
+	if ( ! $original_post
+	or ! $original_post = get_post( $original_post ) ) {
 		return;
 	}
 
 	$post_type_object = get_post_type_object( $original_post->post_type );
 
 	if ( $post_type_object
-	&& current_user_can( $post_type_object->cap->edit_posts ) ) {
+	and current_user_can( $post_type_object->cap->edit_posts ) ) {
 		$new_post_id = bogo_duplicate_post( $original_post, $locale );
 
 		if ( $new_post_id ) {
@@ -245,7 +247,8 @@ function bogo_l10n_meta_box( $post ) {
 
 <?php
 	do {
-		if ( ! $translations && ( $initial || empty( $available_locales ) ) ) {
+		if ( ! $translations
+		and ( $initial or empty( $available_locales ) ) ) {
 			break;
 		}
 
@@ -280,10 +283,10 @@ function bogo_l10n_meta_box( $post ) {
 
 		echo '</ul>';
 		echo '</div>';
-	} while (0);
+	} while ( 0 );
 
 	do {
-		if ( $initial || empty( $available_locales ) ) {
+		if ( $initial or empty( $available_locales ) ) {
 			break;
 		}
 
@@ -309,5 +312,5 @@ function bogo_l10n_meta_box( $post ) {
 		echo '</p>';
 		echo '<div class="clear"></div>';
 		echo '</div>';
-	} while (0);
+	} while ( 0 );
 }

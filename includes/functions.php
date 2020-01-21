@@ -4,7 +4,7 @@ function bogo_languages() {
 	static $languages = array();
 	static $textdomain_loaded = false;
 
-	if ( $languages && $textdomain_loaded ) {
+	if ( $languages and $textdomain_loaded ) {
 		return apply_filters( 'bogo_languages', $languages );
 	}
 
@@ -199,7 +199,7 @@ function bogo_get_default_locale() {
 
 	if ( is_multisite() ) {
 		if ( wp_installing()
-		|| ( false === $ms_locale = get_option( 'WPLANG' ) ) ) {
+		or false === $ms_locale = get_option( 'WPLANG' ) ) {
 			$ms_locale = get_site_option( 'WPLANG' );
 		}
 
@@ -255,7 +255,7 @@ function bogo_available_locales( $args = '' ) {
 	$available_locales = $installed_locales;
 
 	if ( $args['current_user_can_access']
-	&& ! current_user_can( 'bogo_access_all_locales' ) ) {
+	and ! current_user_can( 'bogo_access_all_locales' ) ) {
 		$user_accessible_locales = bogo_get_user_accessible_locales(
 			get_current_user_id() );
 
@@ -269,7 +269,7 @@ function bogo_available_locales( $args = '' ) {
 	}
 
 	if ( $args['exclude_enus_if_inactive']
-	&& bogo_is_enus_deactivated() ) {
+	and bogo_is_enus_deactivated() ) {
 		$available_locales = array_diff( $available_locales,
 			array( 'en_US' ) );
 	}
@@ -411,7 +411,7 @@ function bogo_get_closest_locale( $var ) {
 
 	$locales = bogo_available_locales();
 
-	if ( $variant_code && $region_code ) {
+	if ( $variant_code and $region_code ) {
 		$locale = $language_code
 			. '_' . strtoupper( $region_code )
 			. '_' . $variant_code;
@@ -582,7 +582,7 @@ function bogo_get_lang_from_url( $url = '' ) {
 		parse_str( $query, $query_vars );
 
 		if ( isset( $query_vars['lang'] )
-		&& in_array( $query_vars['lang'], $available_languages ) ) {
+		and in_array( $query_vars['lang'], $available_languages ) ) {
 			return $query_vars['lang'];
 		}
 	}
@@ -629,7 +629,7 @@ function bogo_delete_prop( $prop ) {
 function bogo_plugin_url( $path = '' ) {
 	$url = plugins_url( $path, BOGO_PLUGIN );
 
-	if ( is_ssl() && 'http:' == substr( $url, 0, 5 ) ) {
+	if ( is_ssl() and 'http:' == substr( $url, 0, 5 ) ) {
 		$url = 'https:' . substr( $url, 5 );
 	}
 

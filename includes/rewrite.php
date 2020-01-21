@@ -48,7 +48,9 @@ function bogo_post_rewrite_rules( $post_rewrite ) {
 	if ( ! $got_url_rewrite ) {
 		$permastruct = preg_replace(
 			'#^/index\.php#', '/index.php/%lang%', $permastruct );
-	} elseif ( is_multisite() && ! is_subdomain_install() && is_main_site() ) {
+	} elseif ( is_multisite()
+	and ! is_subdomain_install()
+	and is_main_site() ) {
 		$permastruct = preg_replace(
 			'#^/blog#', '/%lang%/blog', $permastruct );
 	} else {
@@ -444,15 +446,20 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 			$rewrite = array_merge( $rewrite, array( $pagematch => $pagequery ) );
 		}
 
-		if ( EP_PAGES & $ep_mask || EP_PERMALINK & $ep_mask ) {
+		if ( EP_PAGES & $ep_mask
+		or EP_PERMALINK & $ep_mask ) {
 			$rewrite = array_merge( $rewrite, array( $commentmatch => $commentquery ) );
-		} elseif ( EP_ROOT & $ep_mask && get_option( 'page_on_front' ) ) {
-			$rewrite = array_merge( $rewrite, array( $rootcommentmatch => $rootcommentquery ) );
+		} elseif ( EP_ROOT & $ep_mask
+		and get_option( 'page_on_front' ) ) {
+			$rewrite = array_merge( $rewrite,
+				array( $rootcommentmatch => $rootcommentquery )
+			);
 		}
 
 		if ( $endpoints ) {
 			foreach ( (array) $ep_query_append as $regex => $ep ) {
-				if ( $ep[0] & $ep_mask || $ep[0] & $ep_mask_specific ) {
+				if ( $ep[0] & $ep_mask
+				or $ep[0] & $ep_mask_specific ) {
 					$rewrite[$match . $regex] = $index . '?' . $query
 						. $ep[1] . $wp_rewrite->preg_index( $num_toks + 2 );
 				}
@@ -464,14 +471,14 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 			$page = false;
 
 			if ( strpos( $struct, '%postname%' ) !== false
-			|| strpos( $struct, '%post_id%' ) !== false
-			|| strpos( $struct, '%pagename%' ) !== false
-			|| ( strpos( $struct, '%year%' ) !== false
-				&& strpos( $struct, '%monthnum%' ) !== false
-				&& strpos( $struct, '%day%' ) !== false
-				&& strpos( $struct, '%hour%' ) !== false
-				&& strpos( $struct, '%minute%' ) !== false
-				&& strpos( $struct, '%second%' ) !== false ) ) {
+			or strpos( $struct, '%post_id%' ) !== false
+			or strpos( $struct, '%pagename%' ) !== false
+			or ( strpos( $struct, '%year%' ) !== false
+				and strpos( $struct, '%monthnum%' ) !== false
+				and strpos( $struct, '%day%' ) !== false
+				and strpos( $struct, '%hour%' ) !== false
+				and strpos( $struct, '%minute%' ) !== false
+				and strpos( $struct, '%second%' ) !== false ) ) {
 				$post = true;
 
 				if ( strpos( $struct, '%pagename%' ) !== false ) {

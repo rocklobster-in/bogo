@@ -42,7 +42,7 @@ function bogo_set_locale_options( $profileuser ) {
 		return;
 	}
 
-	if ( defined( 'IS_PROFILE_PAGE' ) && IS_PROFILE_PAGE ) {
+	if ( defined( 'IS_PROFILE_PAGE' ) and IS_PROFILE_PAGE ) {
 		bogo_select_own_locale( $profileuser );
 	} elseif ( ! user_can( $profileuser, 'bogo_access_all_locales' ) ) {
 		bogo_set_accessible_locales( $profileuser );

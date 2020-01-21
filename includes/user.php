@@ -48,7 +48,7 @@ add_action( 'admin_init', 'bogo_switch_user_locale', 10, 0 );
 
 function bogo_switch_user_locale() {
 	if ( empty( $_REQUEST['action'] )
-	|| 'bogo-switch-locale' != $_REQUEST['action'] ) {
+	or 'bogo-switch-locale' != $_REQUEST['action'] ) {
 		return;
 	}
 
@@ -57,7 +57,7 @@ function bogo_switch_user_locale() {
 	$locale = isset( $_REQUEST['locale'] ) ? $_REQUEST['locale'] : '';
 
 	if ( ! bogo_is_available_locale( $locale )
-	|| $locale == bogo_get_user_locale() ) {
+	or $locale == bogo_get_user_locale() ) {
 		return;
 	}
 

@@ -39,7 +39,7 @@ function bogo_page_link( $permalink, $id, $sample ) {
 
 		$translation = bogo_get_post_translation( $front_page_id, $locale );
 
-		if ( $translation && $translation->ID == $id ) {
+		if ( $translation and $translation->ID === $id ) {
 			$home = set_url_scheme( get_option( 'home' ) );
 			$home = trailingslashit( $home );
 			return bogo_url( $home, $locale );
@@ -139,7 +139,8 @@ function bogo_term_link( $link, $term, $taxonomy ) {
 add_filter( 'home_url', 'bogo_home_url', 10, 1 );
 
 function bogo_home_url( $url ) {
-	if ( is_admin() || ! did_action( 'template_redirect' ) ) {
+	if ( is_admin()
+	or ! did_action( 'template_redirect' ) ) {
 		return $url;
 	}
 
@@ -154,7 +155,8 @@ function bogo_m17n_headers() {
 	if ( is_singular() ) {
 		$post_id = get_queried_object_id();
 
-		if ( $post_id && $translations = bogo_get_post_translations( $post_id ) ) {
+		if ( $post_id
+		and $translations = bogo_get_post_translations( $post_id ) ) {
 			$locale = get_locale();
 			$translations[$locale] = get_post( $post_id );
 
@@ -184,7 +186,7 @@ function bogo_m17n_headers() {
 		$hreflang = isset( $language['hreflang'] ) ? $language['hreflang'] : '';
 		$href = isset( $language['href'] ) ? $language['href'] : '';
 
-		if ( $hreflang && $href ) {
+		if ( $hreflang and $href ) {
 			$link = sprintf( '<link rel="alternate" hreflang="%1$s" href="%2$s" />',
 				esc_attr( $hreflang ), esc_url( $href ) );
 
@@ -201,7 +203,8 @@ function bogo_adjacent_post_join( $join, $in_same_term, $excluded_terms ) {
 
 	$post = get_post();
 
-	if ( $post && bogo_is_localizable_post_type( get_post_type( $post ) ) ) {
+	if ( $post
+	and bogo_is_localizable_post_type( get_post_type( $post ) ) ) {
 		$join .= " LEFT JOIN $wpdb->postmeta AS postmeta_bogo ON (p.ID = postmeta_bogo.post_id AND postmeta_bogo.meta_key = '_locale')";
 	}
 
@@ -216,7 +219,8 @@ function bogo_adjacent_post_where( $where, $in_same_term, $excluded_terms ) {
 
 	$post = get_post();
 
-	if ( $post && bogo_is_localizable_post_type( get_post_type( $post ) ) ) {
+	if ( $post
+	and bogo_is_localizable_post_type( get_post_type( $post ) ) ) {
 		$locale = bogo_get_post_locale( $post->ID );
 
 		$where .= " AND (1=0";

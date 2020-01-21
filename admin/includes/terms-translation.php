@@ -131,7 +131,8 @@ function bogo_terms_translation( $locale_to_edit ) {
 	static $items = array();
 	static $locale = null;
 
-	if ( ! empty( $items ) && $locale === $locale_to_edit ) {
+	if ( ! empty( $items )
+	and $locale === $locale_to_edit ) {
 		return $items;
 	}
 
