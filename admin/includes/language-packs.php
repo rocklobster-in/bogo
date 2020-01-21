@@ -69,8 +69,8 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 				}
 			}
 
-			if ( 'active' == $status && ! $is_active
-			|| 'inactive' == $status && $is_active ) {
+			if ( 'active' == $status and ! $is_active
+			or 'inactive' == $status and $is_active ) {
 				continue;
 			}
 
@@ -245,7 +245,8 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 
 		$actions = array();
 
-		if ( 'en_US' == $item->locale || $this->can_install_language_pack() ) {
+		if ( 'en_US' == $item->locale
+		or $this->can_install_language_pack() ) {
 			if ( bogo_is_default_locale( $item->locale ) ) {
 				// nothing
 			} elseif ( $item->active ) {
@@ -260,7 +261,8 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( $item->active && ! bogo_is_default_locale( $item->locale ) ) {
+		if ( $item->active
+		and ! bogo_is_default_locale( $item->locale ) ) {
 			$actions['translate'] = $this->action_link( $item, 'translate' );
 		}
 
@@ -374,12 +376,13 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 
 function bogo_delete_language_pack( $locale ) {
 	if ( 'en_US' == $locale
-	|| ! bogo_is_available_locale( $locale )
-	|| bogo_is_default_locale( $locale ) ) {
+	or ! bogo_is_available_locale( $locale )
+	or bogo_is_default_locale( $locale ) ) {
 		return false;
 	}
 
-	if ( ! is_dir( WP_LANG_DIR ) || ! $files = scandir( WP_LANG_DIR ) ) {
+	if ( ! is_dir( WP_LANG_DIR )
+	or ! $files = scandir( WP_LANG_DIR ) ) {
 		return false;
 	}
 
@@ -395,7 +398,8 @@ function bogo_delete_language_pack( $locale ) {
 	);
 
 	foreach ( $files as $file ) {
-		if ( '.' === $file[0] || is_dir( $file ) ) {
+		if ( '.' === $file[0]
+		or is_dir( $file ) ) {
 			continue;
 		}
 

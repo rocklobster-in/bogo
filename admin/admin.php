@@ -7,7 +7,7 @@ require_once BOGO_PLUGIN_DIR . '/admin/includes/widgets.php';
 require_once BOGO_PLUGIN_DIR . '/admin/includes/language-packs.php';
 require_once BOGO_PLUGIN_DIR . '/admin/includes/terms-translation.php';
 
-add_action( 'admin_init', 'bogo_upgrade' );
+add_action( 'admin_init', 'bogo_upgrade', 10, 0 );
 
 function bogo_upgrade() {
 	$old_ver = bogo_get_prop( 'version' );
@@ -20,22 +20,25 @@ function bogo_upgrade() {
 	}
 }
 
-add_action( 'admin_enqueue_scripts', 'bogo_admin_enqueue_scripts' );
+add_action( 'admin_enqueue_scripts', 'bogo_admin_enqueue_scripts', 10, 1 );
 
 function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	wp_enqueue_style( 'bogo-admin',
 		plugins_url( 'admin/includes/css/admin.css', BOGO_PLUGIN_BASENAME ),
-		array(), BOGO_VERSION, 'all' );
+		array(), BOGO_VERSION, 'all'
+	);
 
 	if ( is_rtl() ) {
 		wp_enqueue_style( 'bogo-admin-rtl',
 			plugins_url( 'admin/includes/css/admin-rtl.css', BOGO_PLUGIN_BASENAME ),
-			array(), BOGO_VERSION, 'all' );
+			array(), BOGO_VERSION, 'all'
+		);
 	}
 
 	wp_enqueue_script( 'bogo-admin',
 		plugins_url( 'admin/includes/js/admin.js', BOGO_PLUGIN_BASENAME ),
-		array( 'jquery' ), BOGO_VERSION, true );
+		array( 'jquery' ), BOGO_VERSION, true
+	);
 
 	$available_languages = bogo_available_languages( array(
 		'exclude_enus_if_inactive' => true,
@@ -83,7 +86,8 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		'localizablePostTypes' => bogo_localizable_post_types(),
 	);
 
-	if ( 'post.php' == $hook_suffix && ! empty( $GLOBALS['post'] ) ) {
+	if ( 'post.php' == $hook_suffix
+	and ! empty( $GLOBALS['post'] ) ) {
 		$post = $GLOBALS['post'];
 		$local_args = array_merge( $local_args, array(
 			'post_id' => $post->ID,
@@ -128,19 +132,21 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	wp_localize_script( 'bogo-admin', 'bogo', $local_args );
 }
 
-add_action( 'admin_menu', 'bogo_admin_menu' );
+add_action( 'admin_menu', 'bogo_admin_menu', 10, 0 );
 
 function bogo_admin_menu() {
 	add_menu_page( __( 'Languages', 'bogo' ), __( 'Languages', 'bogo' ),
 		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page',
-		'dashicons-translation', 73 ); // between Users (70) and Tools (75)
+		'dashicons-translation', 73 // between Users (70) and Tools (75)
+	);
 
 	$tools = add_submenu_page( 'bogo',
 		__( 'Language Packs', 'bogo' ),
 		__( 'Language Packs', 'bogo' ),
-		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page' );
+		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page'
+	);
 
-	add_action( 'load-' . $tools, 'bogo_load_tools_page' );
+	add_action( 'load-' . $tools, 'bogo_load_tools_page', 10, 0 );
 
 	$available_locales = bogo_available_locales( array(
 		'exclude_enus_if_inactive' => true,
@@ -151,9 +157,10 @@ function bogo_admin_menu() {
 		$texts = add_submenu_page( 'bogo',
 			__( 'Terms Translation', 'bogo' ),
 			__( 'Terms Translation', 'bogo' ),
-			'bogo_edit_terms_translation', 'bogo-texts', 'bogo_texts_page' );
+			'bogo_edit_terms_translation', 'bogo-texts', 'bogo_texts_page'
+		);
 
-		add_action( 'load-' . $texts, 'bogo_load_texts_page' );
+		add_action( 'load-' . $texts, 'bogo_load_texts_page', 10, 0 );
 	}
 }
 
@@ -189,16 +196,19 @@ function bogo_load_tools_page() {
 
 			$redirect_to = add_query_arg(
 				array( 'message' => 'enus_activated' ),
-				menu_page_url( 'bogo', false ) );
+				menu_page_url( 'bogo', false )
+			);
 		} else {
 			if ( wp_download_language_pack( $locale ) ) {
 				$redirect_to = add_query_arg(
 					array( 'locale' => $locale, 'message' => 'install_success' ),
-					menu_page_url( 'bogo', false ) );
+					menu_page_url( 'bogo', false )
+				);
 			} else {
 				$redirect_to = add_query_arg(
 					array( 'locale' => $locale, 'message' => 'install_failed' ),
-					menu_page_url( 'bogo', false ) );
+					menu_page_url( 'bogo', false )
+				);
 			}
 		}
 
@@ -218,16 +228,19 @@ function bogo_load_tools_page() {
 
 			$redirect_to = add_query_arg(
 				array( 'message' => 'enus_deactivated' ),
-				menu_page_url( 'bogo', false ) );
+				menu_page_url( 'bogo', false )
+			);
 		} else {
 			if ( bogo_delete_language_pack( $locale ) ) {
 				$redirect_to = add_query_arg(
 					array( 'locale' => $locale, 'message' => 'delete_success' ),
-					menu_page_url( 'bogo', false ) );
+					menu_page_url( 'bogo', false )
+				);
 			} else {
 				$redirect_to = add_query_arg(
 					array( 'locale' => $locale, 'message' => 'delete_failed' ),
-					menu_page_url( 'bogo', false ) );
+					menu_page_url( 'bogo', false )
+				);
 			}
 		}
 
@@ -242,18 +255,21 @@ function bogo_load_tools_page() {
 			wp_die( __( "You are not allowed to manage translations.", 'bogo' ) );
 		}
 
-		if ( 'en_US' == $locale || ! bogo_is_available_locale( $locale ) ) {
+		if ( 'en_US' == $locale
+		or ! bogo_is_available_locale( $locale ) ) {
 			$locale = '';
 		}
 
 		if ( update_option( 'WPLANG', $locale ) ) {
 			$redirect_to = add_query_arg(
 				array( 'locale' => $locale, 'message' => 'promote_success' ),
-				menu_page_url( 'bogo', false ) );
+				menu_page_url( 'bogo', false )
+			);
 		} else {
 			$redirect_to = add_query_arg(
 				array( 'locale' => $locale, 'message' => 'promote_failed' ),
-				menu_page_url( 'bogo', false ) );
+				menu_page_url( 'bogo', false )
+			);
 		}
 
 		wp_safe_redirect( $redirect_to );
@@ -271,7 +287,8 @@ function bogo_load_tools_page() {
 			? ! bogo_is_enus_deactivated()
 			: bogo_is_available_locale( $locale );
 
-		if ( ! bogo_is_default_locale( $locale ) && $is_active ) {
+		if ( ! bogo_is_default_locale( $locale )
+		and $is_active ) {
 			$redirect_to = add_query_arg(
 				array( 'locale' => $locale ),
 				menu_page_url( 'bogo-texts', false ) );
@@ -284,7 +301,9 @@ function bogo_load_tools_page() {
 	$current_screen = get_current_screen();
 
 	add_filter( 'manage_' . $current_screen->id . '_columns',
-		array( 'Bogo_Language_Packs_List_Table', 'define_columns' ) );
+		array( 'Bogo_Language_Packs_List_Table', 'define_columns' ),
+		10, 1
+	);
 }
 
 function bogo_tools_page() {
@@ -350,7 +369,7 @@ function bogo_load_texts_page() {
 
 		foreach ( $_POST as $p_key => $p_val ) {
 			if ( in_array( $p_key, array( 'action', 'locale', 'submit', 'paged' ) )
-			|| substr( $p_key, 0, 1 ) == '_' ) {
+			or substr( $p_key, 0, 1 ) == '_' ) {
 				continue;
 			}
 
@@ -383,7 +402,9 @@ function bogo_load_texts_page() {
 		$current_screen = get_current_screen();
 
 		add_filter( 'manage_' . $current_screen->id . '_columns',
-			array( 'Bogo_Terms_Translation_List_Table', 'define_columns' ) );
+			array( 'Bogo_Terms_Translation_List_Table', 'define_columns' ),
+			10, 1
+		);
 
 		add_screen_option( 'per_page', array(
 			'label' => __( 'Items', 'bogo' ),
@@ -442,7 +463,7 @@ function bogo_texts_page() {
 }
 
 function bogo_admin_notice( $reason = '' ) {
-	if ( empty( $reason ) && isset( $_GET['message'] ) ) {
+	if ( empty( $reason ) and isset( $_GET['message'] ) ) {
 		$reason = $_GET['message'];
 	}
 
@@ -473,10 +494,12 @@ function bogo_admin_notice( $reason = '' ) {
 	if ( '_failed' == substr( $reason, -7 ) ) {
 		echo sprintf(
 			'<div class="error notice notice-error is-dismissible"><p>%s</p></div>',
-			esc_html( $message ) );
+			esc_html( $message )
+		);
 	} else {
 		echo sprintf(
 			'<div class="updated notice notice-success is-dismissible"><p>%s</p></div>',
-			esc_html( $message ) );
+			esc_html( $message )
+		);
 	}
 }

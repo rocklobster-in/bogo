@@ -18,7 +18,7 @@ function bogo_get_nav_menu_items( $items, $menu, $args ) {
 	return $items;
 }
 
-add_filter( 'wp_setup_nav_menu_item', 'bogo_setup_nav_menu_item' );
+add_filter( 'wp_setup_nav_menu_item', 'bogo_setup_nav_menu_item', 10, 1 );
 
 function bogo_setup_nav_menu_item( $menu_item ) {
 	if ( isset( $menu_item->bogo_locales ) ) {
@@ -27,7 +27,8 @@ function bogo_setup_nav_menu_item( $menu_item ) {
 
 	$menu_item->bogo_locales = array();
 
-	if ( isset( $menu_item->post_type ) && 'nav_menu_item' == $menu_item->post_type ) {
+	if ( isset( $menu_item->post_type )
+	and 'nav_menu_item' == $menu_item->post_type ) {
 		$menu_item->bogo_locales = get_post_meta( $menu_item->ID, '_locale' );
 	}
 

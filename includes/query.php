@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'parse_query', 'bogo_parse_query' );
+add_action( 'parse_query', 'bogo_parse_query', 10, 1 );
 
 function bogo_parse_query( $query ) {
 	$qv = &$query->query_vars;
@@ -9,12 +9,14 @@ function bogo_parse_query( $query ) {
 		return;
 	}
 
-	if ( $query->is_preview() && ( $qv['page_id'] || $qv['p'] ) ) {
+	if ( $query->is_preview()
+	and ( $qv['page_id'] or $qv['p'] ) ) {
 		$qv['bogo_suppress_locale_query'] = true;
 		return;
 	}
 
-	if ( isset( $qv['post_type'] ) && 'any' != $qv['post_type'] ) {
+	if ( isset( $qv['post_type'] )
+	and 'any' != $qv['post_type'] ) {
 		$localizable = array_filter(
 			(array) $qv['post_type'],
 			'bogo_is_localizable_post_type'
@@ -42,7 +44,8 @@ function bogo_parse_query( $query ) {
 		}
 	}
 
-	if ( empty( $locale ) || ! bogo_is_available_locale( $locale ) ) {
+	if ( empty( $locale )
+	or ! bogo_is_available_locale( $locale ) ) {
 		$qv['bogo_suppress_locale_query'] = true;
 		return;
 	}
@@ -54,11 +57,13 @@ function bogo_parse_query( $query ) {
 	}
 
 	if ( $query->is_home
-	&& 'page' == get_option( 'show_on_front' )
-	&& get_option( 'page_on_front' ) ) {
+	and 'page' == get_option( 'show_on_front' )
+	and get_option( 'page_on_front' ) ) {
 		$query_keys = array_keys( wp_parse_args( $query->query ) );
-		$query_keys = array_diff( $query_keys,
-			array( 'preview', 'page', 'paged', 'cpage', 'lang' ) );
+		$query_keys = array_diff(
+			$query_keys,
+			array( 'preview', 'page', 'paged', 'cpage', 'lang' )
+		);
 
 		if ( empty( $query_keys ) ) {
 			$query->is_page = true;
@@ -83,8 +88,8 @@ function bogo_parse_query( $query ) {
 		}
 
 		if ( 'page' == get_option( 'show_on_front' )
-		&& isset( $query->queried_object_id )
-		&& $query->queried_object_id == get_option( 'page_for_posts' ) ) {
+		and isset( $query->queried_object_id )
+		and $query->queried_object_id == get_option( 'page_for_posts' ) ) {
 			$query->is_page = false;
 			$query->is_home = true;
 			$query->is_posts_page = true;
@@ -92,11 +97,12 @@ function bogo_parse_query( $query ) {
 	}
 
 	if ( isset( $qv['post_type'] )
-	&& 'any' != $qv['post_type']
-	&& ! is_array( $qv['post_type'] )
-	&& '' != $qv['name'] ) {
+	and 'any' != $qv['post_type']
+	and ! is_array( $qv['post_type'] )
+	and '' != $qv['name'] ) {
 		$query->queried_object = bogo_get_page_by_path(
-			$qv['name'], $locale, $qv['post_type'] );
+			$qv['name'], $locale, $qv['post_type']
+		);
 
 		if ( ! empty( $query->queried_object ) ) {
 			$query->queried_object_id = (int) $query->queried_object->ID;
@@ -107,7 +113,7 @@ function bogo_parse_query( $query ) {
 	}
 
 	if ( $query->is_posts_page
-	&& ( ! isset( $qv['withcomments'] ) || ! $qv['withcomments'] ) ) {
+	and ( ! isset( $qv['withcomments'] ) or ! $qv['withcomments'] ) ) {
 		$query->is_comment_feed = false;
 	}
 
@@ -178,7 +184,7 @@ function bogo_posts_where( $where, $query ) {
 	return $where;
 }
 
-add_filter( 'option_sticky_posts', 'bogo_option_sticky_posts' );
+add_filter( 'option_sticky_posts', 'bogo_option_sticky_posts', 10, 1 );
 
 function bogo_option_sticky_posts( $posts ) {
 	if ( is_admin() ) {
@@ -196,20 +202,21 @@ function bogo_option_sticky_posts( $posts ) {
 	return $posts;
 }
 
-add_filter( 'option_page_on_front', 'bogo_get_local_post' );
-add_filter( 'option_page_for_posts', 'bogo_get_local_post' );
+add_filter( 'option_page_on_front', 'bogo_get_local_post', 10, 1 );
+add_filter( 'option_page_for_posts', 'bogo_get_local_post', 10, 1 );
 
 function bogo_get_local_post( $post_id ) {
 	global $wpdb;
 
-	if ( is_admin() || empty( $post_id ) ) {
+	if ( is_admin()
+	or empty( $post_id ) ) {
 		return $post_id;
 	}
 
 	$post_type = get_post_type( $post_id );
 
 	if ( ! post_type_exists( $post_type )
-	|| ! bogo_is_localizable_post_type( $post_type ) ) {
+	or ! bogo_is_localizable_post_type( $post_type ) ) {
 		return $post_id;
 	}
 

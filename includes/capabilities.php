@@ -19,7 +19,7 @@ function bogo_map_meta_cap( $caps, $cap, $user_id, $args ) {
 	}
 
 	if ( 'bogo_access_locale' == $cap
-	&& ! user_can( $user_id, 'bogo_access_all_locales' ) ) {
+	and ! user_can( $user_id, 'bogo_access_all_locales' ) ) {
 		$accessible_locales = bogo_get_user_accessible_locales( $user_id );
 
 		if ( ! empty( $accessible_locales ) ) {

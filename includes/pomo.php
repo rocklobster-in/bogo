@@ -30,7 +30,7 @@ function bogo_get_term_filter( $term, $taxonomy ) {
 	return $term;
 }
 
-add_action( 'load-edit-tags.php', 'bogo_remove_get_term_filter' );
+add_action( 'load-edit-tags.php', 'bogo_remove_get_term_filter', 10, 0 );
 
 function bogo_remove_get_term_filter() {
 	remove_filter( 'get_term', 'bogo_get_term_filter' );
@@ -40,7 +40,8 @@ function bogo_translate_term( WP_Term $term ) {
 	$term->name = bogo_translate(
 		sprintf( '%s:%d', $term->taxonomy, $term->term_id ),
 		$term->taxonomy,
-		$term->name );
+		$term->name
+	);
 
 	return $term;
 }
@@ -60,7 +61,8 @@ class Bogo_POMO {
 
 		$translated = self::$mo->translate( $singular, $context );
 
-		if ( $translated == $singular && '' !== $default ) {
+		if ( $translated == $singular
+		and '' !== $default ) {
 			return $default;
 		} else {
 			return $translated;

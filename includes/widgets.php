@@ -2,7 +2,7 @@
 
 /* Language Switcher Widget */
 
-add_action( 'widgets_init', 'bogo_widgets_init' );
+add_action( 'widgets_init', 'bogo_widgets_init', 10, 0 );
 
 function bogo_widgets_init() {
 	register_widget( 'Bogo_Widget_Language_Switcher' );
@@ -19,7 +19,8 @@ class Bogo_Widget_Language_Switcher extends WP_Widget {
 
 		WP_Widget::__construct( 'bogo_language_switcher',
 			__( 'Language Switcher', 'bogo' ),
-			$widget_ops, $control_ops );
+			$widget_ops, $control_ops
+		);
 	}
 
 	function widget( $args, $instance ) {
@@ -27,7 +28,8 @@ class Bogo_Widget_Language_Switcher extends WP_Widget {
 			empty( $instance['title'] )
 				? __( 'Language Switcher', 'bogo' )
 				: $instance['title'],
-			$instance, $this->id_base );
+			$instance, $this->id_base
+		);
 
 		echo $args['before_widget'];
 
@@ -49,7 +51,12 @@ class Bogo_Widget_Language_Switcher extends WP_Widget {
 
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
-		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '' ) );
+
+		$new_instance = wp_parse_args(
+			(array) $new_instance,
+			array( 'title' => '' )
+		);
+
 		$instance['title'] = strip_tags( $new_instance['title'] );
 
 		return $instance;

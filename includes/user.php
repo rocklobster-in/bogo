@@ -2,7 +2,7 @@
 
 /* Admin Bar */
 
-add_action( 'admin_bar_menu', 'bogo_admin_bar_menu' );
+add_action( 'admin_bar_menu', 'bogo_admin_bar_menu', 10, 1 );
 
 function bogo_admin_bar_menu( $wp_admin_bar ) {
 	$current_locale = bogo_get_user_locale();
@@ -31,7 +31,8 @@ function bogo_admin_bar_menu( $wp_admin_bar ) {
 
 		$url = add_query_arg(
 			array( 'redirect_to' => urlencode( $_SERVER['REQUEST_URI'] ) ),
-			$url );
+			$url
+		);
 
 		$url = wp_nonce_url( $url, 'bogo-switch-locale' );
 
@@ -44,11 +45,11 @@ function bogo_admin_bar_menu( $wp_admin_bar ) {
 	}
 }
 
-add_action( 'admin_init', 'bogo_switch_user_locale' );
+add_action( 'admin_init', 'bogo_switch_user_locale', 10, 0 );
 
 function bogo_switch_user_locale() {
 	if ( empty( $_REQUEST['action'] )
-	|| 'bogo-switch-locale' != $_REQUEST['action'] ) {
+	or 'bogo-switch-locale' != $_REQUEST['action'] ) {
 		return;
 	}
 
@@ -57,7 +58,7 @@ function bogo_switch_user_locale() {
 	$locale = isset( $_REQUEST['locale'] ) ? $_REQUEST['locale'] : '';
 
 	if ( ! bogo_is_available_locale( $locale )
-	|| $locale == bogo_get_user_locale() ) {
+	or $locale == bogo_get_user_locale() ) {
 		return;
 	}
 
