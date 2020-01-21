@@ -42,7 +42,10 @@ if ( is_admin() ) {
 add_action( 'plugins_loaded', 'bogo_plugins_loaded', 10, 0 );
 
 function bogo_plugins_loaded() {
-	load_plugin_textdomain( 'bogo', 'wp-content/plugins/bogo/languages', 'bogo/languages' );
+	load_plugin_textdomain( 'bogo',
+		'wp-content/plugins/bogo/languages',
+		'bogo/languages'
+	);
 }
 
 add_action( 'init', 'bogo_init', 10, 0 );
@@ -94,7 +97,11 @@ function bogo_locale( $locale ) {
 		$available_locales = bogo_available_locales();
 		$available_locales = array_map( 'bogo_lang_slug', $available_locales );
 		$available_locales = implode( '|', $available_locales );
-		$pattern = '#^' . preg_quote( $home ) . '(' . $available_locales . ')(/|$)#';
+
+		$pattern = '#^'
+			. preg_quote( $home )
+			. '(' . $available_locales . ')'
+			. '(/|$)#';
 
 		if ( preg_match( $pattern, $url, $matches )
 		and $closest = bogo_get_closest_locale( $matches[1] ) ) {
@@ -104,7 +111,8 @@ function bogo_locale( $locale ) {
 
 	$lang = bogo_get_lang_from_url();
 
-	if ( $lang and $closest = bogo_get_closest_locale( $lang ) ) {
+	if ( $lang
+	and $closest = bogo_get_closest_locale( $lang ) ) {
 		return $bogo_locale = $closest;
 	}
 
@@ -124,12 +132,14 @@ add_action( 'wp_enqueue_scripts', 'bogo_enqueue_scripts', 10, 0 );
 function bogo_enqueue_scripts() {
 	wp_enqueue_style( 'bogo',
 		plugins_url( 'includes/css/style.css', BOGO_PLUGIN_BASENAME ),
-		array(), BOGO_VERSION, 'all' );
+		array(), BOGO_VERSION, 'all'
+	);
 
 	if ( is_rtl() ) {
 		wp_enqueue_style( 'bogo-rtl',
 			plugins_url( 'includes/css/style-rtl.css', BOGO_PLUGIN_BASENAME ),
-			array(), BOGO_VERSION, 'all' );
+			array(), BOGO_VERSION, 'all'
+		);
 	}
 }
 

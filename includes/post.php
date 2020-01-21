@@ -95,10 +95,13 @@ function bogo_get_post_locale( $post_id ) {
 
 function bogo_localizable_post_types() {
 	$localizable = apply_filters( 'bogo_localizable_post_types',
-		array( 'post', 'page' ) );
+		array( 'post', 'page' )
+	);
 
-	$localizable = array_diff( $localizable,
-		array( 'attachment', 'revision', 'nav_menu_item' ) );
+	$localizable = array_diff(
+		$localizable,
+		array( 'attachment', 'revision', 'nav_menu_item' )
+	);
 
 	return $localizable;
 }
@@ -314,7 +317,8 @@ function bogo_duplicate_post( $original_post, $locale ) {
 
 	if ( ! empty( $original_post->post_parent ) ) {
 		$parent_translation = bogo_get_post_translation(
-			$original_post->post_parent, $locale );
+			$original_post->post_parent, $locale
+		);
 
 		if ( $parent_translation ) {
 			$postarr['post_parent'] = $parent_translation->ID;
@@ -324,7 +328,8 @@ function bogo_duplicate_post( $original_post, $locale ) {
 	if ( $taxonomies = get_object_taxonomies( $original_post ) ) {
 		foreach ( $taxonomies as $taxonomy ) {
 			$terms = wp_get_post_terms( $original_post->ID,
-				$taxonomy, array( 'fields' => 'ids' ) );
+				$taxonomy, array( 'fields' => 'ids' )
+			);
 
 			if ( $terms and ! is_wp_error( $terms ) ) {
 				$postarr['tax_input'][$taxonomy] = $terms;
@@ -371,7 +376,8 @@ function bogo_duplicate_post( $original_post, $locale ) {
 		update_post_meta( $new_post_id, '_locale', $locale );
 
 		$meta_original_post = get_post_meta( $original_post->ID,
-			'_original_post', true );
+			'_original_post', true
+		);
 
 		if ( $meta_original_post ) {
 			update_post_meta( $new_post_id, '_original_post', $meta_original_post );
@@ -469,7 +475,8 @@ function bogo_save_post( $post_id, $post ) {
 
 	if ( ! empty( $_REQUEST['original_post'] ) ) {
 		$original = get_post_meta( $_REQUEST['original_post'],
-			'_original_post', true );
+			'_original_post', true
+		);
 
 		if ( empty( $original ) ) {
 			$original = (int) $_REQUEST['original_post'];
@@ -490,7 +497,8 @@ function bogo_save_post( $post_id, $post ) {
 			'post_status' => 'any',
 			'post_type' => $post->post_type,
 			'meta_key' => '_original_post',
-			'meta_value' => $original ) );
+			'meta_value' => $original,
+		) );
 
 		if ( empty( $posts ) ) {
 			add_post_meta( $post_id, '_original_post', $original, true );
@@ -531,7 +539,8 @@ function bogo_unique_post_slug( $slug, $post_id, $status, $type, $parent, $origi
 	);
 
 	$hierarchical = in_array( $type,
-		get_post_types( array( 'hierarchical' => true ) ) );
+		get_post_types( array( 'hierarchical' => true ) )
+	);
 
 	if ( $hierarchical ) {
 		if ( preg_match( "@^($wp_rewrite->pagination_base)?\d+$@", $original ) ) {

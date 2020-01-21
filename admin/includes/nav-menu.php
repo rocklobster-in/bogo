@@ -12,7 +12,8 @@ class Bogo_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 		$parallel_output = preg_replace(
 			'/<div class="menu-item-settings wp-clearfix" id="menu-item-settings-([0-9]+)">/',
 			'<div class="menu-item-settings wp-clearfix has-bogo-settings" id="menu-item-settings-${1}">' . $this->language_settings( $item ),
-			$parallel_output, 1 );
+			$parallel_output, 1
+		);
 
 		$output .= $parallel_output;
 	}

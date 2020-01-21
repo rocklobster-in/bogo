@@ -31,7 +31,8 @@ function bogo_admin_bar_menu( $wp_admin_bar ) {
 
 		$url = add_query_arg(
 			array( 'redirect_to' => urlencode( $_SERVER['REQUEST_URI'] ) ),
-			$url );
+			$url
+		);
 
 		$url = wp_nonce_url( $url, 'bogo-switch-locale' );
 

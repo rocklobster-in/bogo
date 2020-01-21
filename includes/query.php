@@ -60,8 +60,10 @@ function bogo_parse_query( $query ) {
 	and 'page' == get_option( 'show_on_front' )
 	and get_option( 'page_on_front' ) ) {
 		$query_keys = array_keys( wp_parse_args( $query->query ) );
-		$query_keys = array_diff( $query_keys,
-			array( 'preview', 'page', 'paged', 'cpage', 'lang' ) );
+		$query_keys = array_diff(
+			$query_keys,
+			array( 'preview', 'page', 'paged', 'cpage', 'lang' )
+		);
 
 		if ( empty( $query_keys ) ) {
 			$query->is_page = true;
@@ -99,7 +101,8 @@ function bogo_parse_query( $query ) {
 	and ! is_array( $qv['post_type'] )
 	and '' != $qv['name'] ) {
 		$query->queried_object = bogo_get_page_by_path(
-			$qv['name'], $locale, $qv['post_type'] );
+			$qv['name'], $locale, $qv['post_type']
+		);
 
 		if ( ! empty( $query->queried_object ) ) {
 			$query->queried_object_id = (int) $query->queried_object->ID;

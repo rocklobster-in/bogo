@@ -27,7 +27,8 @@ function bogo_root_rewrite_rules( $root_rewrite ) {
 	$permastruct = trailingslashit( $wp_rewrite->root ) . '%lang%/';
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_ROOT ) );
+		'ep_mask' => EP_ROOT,
+	) );
 
 	return array_merge( $extra, $root_rewrite );
 }
@@ -41,21 +42,27 @@ function bogo_post_rewrite_rules( $post_rewrite ) {
 
 	// from wp-admin/includes/misc.php
 	$got_rewrite = apply_filters( 'got_rewrite',
-		apache_mod_loaded( 'mod_rewrite', true ) );
+		apache_mod_loaded( 'mod_rewrite', true )
+	);
+
 	$got_url_rewrite = apply_filters( 'got_url_rewrite',
-		$got_rewrite || $GLOBALS['is_nginx'] || iis7_supports_permalinks() );
+		$got_rewrite || $GLOBALS['is_nginx'] || iis7_supports_permalinks()
+	);
 
 	if ( ! $got_url_rewrite ) {
 		$permastruct = preg_replace(
-			'#^/index\.php#', '/index.php/%lang%', $permastruct );
+			'#^/index\.php#', '/index.php/%lang%', $permastruct
+		);
 	} elseif ( is_multisite()
 	and ! is_subdomain_install()
 	and is_main_site() ) {
 		$permastruct = preg_replace(
-			'#^/blog#', '/%lang%/blog', $permastruct );
+			'#^/blog#', '/%lang%/blog', $permastruct
+		);
 	} else {
 		$permastruct = preg_replace(
-			'#^/#', '/%lang%/', $permastruct );
+			'#^/#', '/%lang%/', $permastruct
+		);
 	}
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
@@ -76,10 +83,12 @@ function bogo_date_rewrite_rules( $date_rewrite ) {
 	$permastruct = preg_replace(
 		'#^' . $wp_rewrite->front . '#',
 		'/%lang%' . $wp_rewrite->front,
-		$permastruct );
+		$permastruct
+	);
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_DATE ) );
+		'ep_mask' => EP_DATE,
+	) );
 
 	return array_merge( $extra, $date_rewrite );
 }
@@ -89,7 +98,8 @@ add_filter( 'comments_rewrite_rules', 'bogo_comments_rewrite_rules', 10, 1 );
 function bogo_comments_rewrite_rules( $comments_rewrite ) {
 	global $wp_rewrite;
 
-	$permastruct = trailingslashit( $wp_rewrite->root ) . '%lang%/' . $wp_rewrite->comments_base;
+	$permastruct = trailingslashit( $wp_rewrite->root )
+		. '%lang%/' . $wp_rewrite->comments_base;
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
 		'ep_mask' => EP_COMMENTS,
@@ -109,7 +119,8 @@ function bogo_search_rewrite_rules( $search_rewrite ) {
 		. $wp_rewrite->search_base . '/%search%';
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_SEARCH ) );
+		'ep_mask' => EP_SEARCH,
+	) );
 
 	return array_merge( $extra, $search_rewrite );
 }
@@ -124,10 +135,12 @@ function bogo_author_rewrite_rules( $author_rewrite ) {
 	$permastruct = preg_replace(
 		'#^' . $wp_rewrite->front . '#',
 		'/%lang%' . $wp_rewrite->front,
-		$permastruct );
+		$permastruct
+	);
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_AUTHORS ) );
+		'ep_mask' => EP_AUTHORS,
+	) );
 
 	return array_merge( $extra, $author_rewrite );
 }
@@ -151,7 +164,9 @@ function bogo_page_rewrite_rules( $page_rewrite ) {
 add_filter( 'category_rewrite_rules', 'bogo_category_rewrite_rules', 10, 1 );
 
 function bogo_category_rewrite_rules( $category_rewrite ) {
-	return bogo_taxonomy_rewrite_rules( $category_rewrite, 'category', EP_CATEGORIES );
+	return bogo_taxonomy_rewrite_rules( $category_rewrite,
+		'category', EP_CATEGORIES
+	);
 }
 
 add_filter( 'post_tag_rewrite_rules', 'bogo_post_tag_rewrite_rules', 10, 1 );
@@ -177,10 +192,12 @@ function bogo_taxonomy_rewrite_rules( $taxonomy_rewrite, $taxonomy, $ep_mask = E
 	$permastruct = preg_replace(
 		'#^' . $wp_rewrite->front . '#',
 		'/%lang%' . $wp_rewrite->front,
-		$permastruct );
+		$permastruct
+	);
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => $ep_mask ) );
+		'ep_mask' => $ep_mask,
+	) );
 
 	return array_merge( $extra, $taxonomy_rewrite );
 }
@@ -208,7 +225,8 @@ function bogo_rewrite_rules_array( $rules ) {
 
 	$post_types = array_diff(
 		(array) bogo_localizable_post_types(),
-		get_post_types( array( '_builtin' => true ) ) );
+		get_post_types( array( '_builtin' => true ) )
+	);
 
 	if ( empty( $post_types ) ) {
 		return $rules;
@@ -229,17 +247,20 @@ function bogo_rewrite_rules_array( $rules ) {
 			$permastruct = preg_replace(
 				'#^' . $wp_rewrite->front . '#',
 				'/%lang%' . $wp_rewrite->front,
-				$permastruct );
+				$permastruct
+			);
 		} else {
 			$permastruct = preg_replace(
 				'#^' . $wp_rewrite->root . '#',
 				'/%lang%/' . $wp_rewrite->root,
-				$permastruct );
+				$permastruct
+			);
 		}
 
 		$rules = array_merge(
 			bogo_generate_rewrite_rules( $permastruct, $post_type_obj->rewrite ),
-			$rules );
+			$rules
+		);
 
 		if ( $post_type_obj->has_archive ) {
 			if ( $post_type_obj->has_archive === true ) {
@@ -276,7 +297,8 @@ function bogo_rewrite_rules_array( $rules ) {
 
 			if ( $post_type_obj->rewrite['pages'] ) {
 				$extra_rules = array(
-					"{$lang_regex}/{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$" => 'index.php?lang=$matches[1]&post_type=' . $post_type . '&paged=$matches[2]' );
+					"{$lang_regex}/{$archive_slug}/{$wp_rewrite->pagination_base}/([0-9]{1,})/?$" => 'index.php?lang=$matches[1]&post_type=' . $post_type . '&paged=$matches[2]',
+				);
 
 				$rules = $extra_rules + $rules;
 			}
@@ -297,17 +319,20 @@ function bogo_rewrite_rules_array( $rules ) {
 				$permastruct = preg_replace(
 					'#^' . $wp_rewrite->front . '#',
 					'/%lang%' . $wp_rewrite->front,
-					$permastruct );
+					$permastruct
+				);
 			} else {
 				$permastruct = preg_replace(
 					'#^' . $wp_rewrite->root . '#',
 					'/%lang%/' . $wp_rewrite->root,
-					$permastruct );
+					$permastruct
+				);
 			}
 
 			$rules = array_merge(
 				bogo_generate_rewrite_rules( $permastruct, $tax_obj->rewrite ),
-				$rules );
+				$rules
+			);
 		}
 	}
 

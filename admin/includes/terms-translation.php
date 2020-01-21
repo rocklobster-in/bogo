@@ -95,7 +95,8 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 			echo '<select name="locale" id="select-locale">';
 			echo sprintf(
 				'<option value="">%1$s</option>',
-				esc_html( __( '-- Select Language to Edit --', 'bogo' ) ) );
+				esc_html( __( '-- Select Language to Edit --', 'bogo' ) )
+			);
 
 			$available_locales = bogo_available_locales( array(
 				'exclude_enus_if_inactive' => true,

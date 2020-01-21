@@ -40,7 +40,8 @@ function bogo_translate_term( WP_Term $term ) {
 	$term->name = bogo_translate(
 		sprintf( '%s:%d', $term->taxonomy, $term->term_id ),
 		$term->taxonomy,
-		$term->name );
+		$term->name
+	);
 
 	return $term;
 }

@@ -44,7 +44,8 @@ function bogo_language_switcher( $args = '' ) {
 				$link['lang'],
 				esc_url( $link['href'] ),
 				esc_attr( $title ),
-				esc_html( $label ) );
+				esc_html( $label )
+			);
 		}
 
 		if ( apply_filters( 'bogo_use_flags', true ) ) {
@@ -52,7 +53,8 @@ function bogo_language_switcher( $args = '' ) {
 			$flag = preg_replace( '/(?:.*?)([a-z]+)\.png$/', '$1', $flag, 1 );
 			$flag = sprintf(
 				'<span class="bogoflags bogoflags-%s"></span>',
-				$flag ? $flag : 'zz' );
+				$flag ? $flag : 'zz'
+			);
 
 			$li = sprintf( '<li class="%1$s">%3$s %2$s</li>', $class, $li, $flag );
 		} else {
@@ -80,7 +82,8 @@ function bogo_language_switcher_links( $args = '' ) {
 
 	$locale = get_locale();
 	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true ) );
+		'exclude_enus_if_inactive' => true,
+	) );
 
 	$translations = array();
 	$is_singular = false;

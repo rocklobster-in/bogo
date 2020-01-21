@@ -25,17 +25,20 @@ add_action( 'admin_enqueue_scripts', 'bogo_admin_enqueue_scripts', 10, 1 );
 function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	wp_enqueue_style( 'bogo-admin',
 		plugins_url( 'admin/includes/css/admin.css', BOGO_PLUGIN_BASENAME ),
-		array(), BOGO_VERSION, 'all' );
+		array(), BOGO_VERSION, 'all'
+	);
 
 	if ( is_rtl() ) {
 		wp_enqueue_style( 'bogo-admin-rtl',
 			plugins_url( 'admin/includes/css/admin-rtl.css', BOGO_PLUGIN_BASENAME ),
-			array(), BOGO_VERSION, 'all' );
+			array(), BOGO_VERSION, 'all'
+		);
 	}
 
 	wp_enqueue_script( 'bogo-admin',
 		plugins_url( 'admin/includes/js/admin.js', BOGO_PLUGIN_BASENAME ),
-		array( 'jquery' ), BOGO_VERSION, true );
+		array( 'jquery' ), BOGO_VERSION, true
+	);
 
 	$available_languages = bogo_available_languages( array(
 		'exclude_enus_if_inactive' => true,
@@ -134,12 +137,14 @@ add_action( 'admin_menu', 'bogo_admin_menu', 10, 0 );
 function bogo_admin_menu() {
 	add_menu_page( __( 'Languages', 'bogo' ), __( 'Languages', 'bogo' ),
 		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page',
-		'dashicons-translation', 73 ); // between Users (70) and Tools (75)
+		'dashicons-translation', 73 // between Users (70) and Tools (75)
+	);
 
 	$tools = add_submenu_page( 'bogo',
 		__( 'Language Packs', 'bogo' ),
 		__( 'Language Packs', 'bogo' ),
-		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page' );
+		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page'
+	);
 
 	add_action( 'load-' . $tools, 'bogo_load_tools_page', 10, 0 );
 
@@ -152,7 +157,8 @@ function bogo_admin_menu() {
 		$texts = add_submenu_page( 'bogo',
 			__( 'Terms Translation', 'bogo' ),
 			__( 'Terms Translation', 'bogo' ),
-			'bogo_edit_terms_translation', 'bogo-texts', 'bogo_texts_page' );
+			'bogo_edit_terms_translation', 'bogo-texts', 'bogo_texts_page'
+		);
 
 		add_action( 'load-' . $texts, 'bogo_load_texts_page', 10, 0 );
 	}
@@ -190,16 +196,19 @@ function bogo_load_tools_page() {
 
 			$redirect_to = add_query_arg(
 				array( 'message' => 'enus_activated' ),
-				menu_page_url( 'bogo', false ) );
+				menu_page_url( 'bogo', false )
+			);
 		} else {
 			if ( wp_download_language_pack( $locale ) ) {
 				$redirect_to = add_query_arg(
 					array( 'locale' => $locale, 'message' => 'install_success' ),
-					menu_page_url( 'bogo', false ) );
+					menu_page_url( 'bogo', false )
+				);
 			} else {
 				$redirect_to = add_query_arg(
 					array( 'locale' => $locale, 'message' => 'install_failed' ),
-					menu_page_url( 'bogo', false ) );
+					menu_page_url( 'bogo', false )
+				);
 			}
 		}
 
@@ -219,16 +228,19 @@ function bogo_load_tools_page() {
 
 			$redirect_to = add_query_arg(
 				array( 'message' => 'enus_deactivated' ),
-				menu_page_url( 'bogo', false ) );
+				menu_page_url( 'bogo', false )
+			);
 		} else {
 			if ( bogo_delete_language_pack( $locale ) ) {
 				$redirect_to = add_query_arg(
 					array( 'locale' => $locale, 'message' => 'delete_success' ),
-					menu_page_url( 'bogo', false ) );
+					menu_page_url( 'bogo', false )
+				);
 			} else {
 				$redirect_to = add_query_arg(
 					array( 'locale' => $locale, 'message' => 'delete_failed' ),
-					menu_page_url( 'bogo', false ) );
+					menu_page_url( 'bogo', false )
+				);
 			}
 		}
 
@@ -251,11 +263,13 @@ function bogo_load_tools_page() {
 		if ( update_option( 'WPLANG', $locale ) ) {
 			$redirect_to = add_query_arg(
 				array( 'locale' => $locale, 'message' => 'promote_success' ),
-				menu_page_url( 'bogo', false ) );
+				menu_page_url( 'bogo', false )
+			);
 		} else {
 			$redirect_to = add_query_arg(
 				array( 'locale' => $locale, 'message' => 'promote_failed' ),
-				menu_page_url( 'bogo', false ) );
+				menu_page_url( 'bogo', false )
+			);
 		}
 
 		wp_safe_redirect( $redirect_to );
@@ -480,10 +494,12 @@ function bogo_admin_notice( $reason = '' ) {
 	if ( '_failed' == substr( $reason, -7 ) ) {
 		echo sprintf(
 			'<div class="error notice notice-error is-dismissible"><p>%s</p></div>',
-			esc_html( $message ) );
+			esc_html( $message )
+		);
 	} else {
 		echo sprintf(
 			'<div class="updated notice notice-success is-dismissible"><p>%s</p></div>',
-			esc_html( $message ) );
+			esc_html( $message )
+		);
 	}
 }

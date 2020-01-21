@@ -257,21 +257,28 @@ function bogo_available_locales( $args = '' ) {
 	if ( $args['current_user_can_access']
 	and ! current_user_can( 'bogo_access_all_locales' ) ) {
 		$user_accessible_locales = bogo_get_user_accessible_locales(
-			get_current_user_id() );
+			get_current_user_id()
+		);
 
-		$available_locales = array_intersect( $available_locales,
-			(array) $user_accessible_locales );
+		$available_locales = array_intersect(
+			$available_locales,
+			(array) $user_accessible_locales
+		);
 	}
 
 	if ( ! empty( $args['exclude'] ) ) {
-		$available_locales = array_diff( $available_locales,
-			(array) $args['exclude'] );
+		$available_locales = array_diff(
+			$available_locales,
+			(array) $args['exclude']
+		);
 	}
 
 	if ( $args['exclude_enus_if_inactive']
 	and bogo_is_enus_deactivated() ) {
-		$available_locales = array_diff( $available_locales,
-			array( 'en_US' ) );
+		$available_locales = array_diff(
+			$available_locales,
+			array( 'en_US' )
+		);
 	}
 
 	return array_unique( array_filter( $available_locales ) );
@@ -540,14 +547,17 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 		return $url;
 	}
 
-	$available_languages = array_map( 'bogo_lang_slug', bogo_available_locales() );
+	$available_languages = array_map( 'bogo_lang_slug',
+		bogo_available_locales()
+	);
 
 	$tail_slashed = ( '/' == substr( $url, -1 ) );
 
 	$url = preg_replace(
 		'#^' . preg_quote( $home ) . '((' . implode( '|', $available_languages ) . ')/)?#',
 		$home . ( $lang_slug ? trailingslashit( $lang_slug ) : '' ),
-		trailingslashit( $url ) );
+		trailingslashit( $url )
+	);
 
 	if ( ! $tail_slashed ) {
 		$url = untrailingslashit( $url );
@@ -570,9 +580,14 @@ function bogo_get_lang_from_url( $url = '' ) {
 	$home = set_url_scheme( get_option( 'home' ) );
 	$home = trailingslashit( $home );
 
-	$available_languages = array_map( 'bogo_lang_slug', bogo_available_locales() );
+	$available_languages = array_map( 'bogo_lang_slug',
+		bogo_available_locales()
+	);
 
-	$regex = '#^' . preg_quote( $home ) . '(' . implode( '|', $available_languages ) . ')/#';
+	$regex = '#^'
+		. preg_quote( $home )
+		. '(' . implode( '|', $available_languages ) . ')'
+		. '/#';
 
 	if ( preg_match( $regex, trailingslashit( $url ), $matches ) ) {
 		return $matches[1];

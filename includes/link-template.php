@@ -15,7 +15,8 @@ function bogo_post_link( $permalink, $post, $leavename ) {
 		( $sample || ! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) ) );
 
 	$permalink = bogo_get_url_with_lang( $permalink, $locale,
-		array( 'using_permalinks' => $using_permalinks ) );
+		array( 'using_permalinks' => $using_permalinks )
+	);
 
 	return $permalink;
 }
@@ -52,7 +53,8 @@ function bogo_page_link( $permalink, $id, $sample ) {
 		( $sample || ! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) ) );
 
 	$permalink = bogo_get_url_with_lang( $permalink, $locale,
-		array( 'using_permalinks' => $using_permalinks ) );
+		array( 'using_permalinks' => $using_permalinks )
+	);
 
 	return $permalink;
 }
@@ -71,7 +73,8 @@ function bogo_post_type_link( $permalink, $post, $leavename, $sample ) {
 		( $sample || ! in_array( $post->post_status, array( 'draft', 'pending', 'auto-draft' ) ) );
 
 	$permalink = bogo_get_url_with_lang( $permalink, $locale,
-		array( 'using_permalinks' => $using_permalinks ) );
+		array( 'using_permalinks' => $using_permalinks )
+	);
 
 	return $permalink;
 }
@@ -124,7 +127,10 @@ function bogo_post_type_archive_link( $link, $post_type ) {
 	return bogo_url( $link );
 }
 
-add_filter( 'post_type_archive_feed_link', 'bogo_post_type_archive_feed_link', 10, 2 );
+add_filter( 'post_type_archive_feed_link',
+	'bogo_post_type_archive_feed_link',
+	10, 2
+);
 
 function bogo_post_type_archive_feed_link( $link, $feed ) {
 	return bogo_url( $link );
@@ -187,8 +193,11 @@ function bogo_m17n_headers() {
 		$href = isset( $language['href'] ) ? $language['href'] : '';
 
 		if ( $hreflang and $href ) {
-			$link = sprintf( '<link rel="alternate" hreflang="%1$s" href="%2$s" />',
-				esc_attr( $hreflang ), esc_url( $href ) );
+			$link = sprintf(
+				'<link rel="alternate" hreflang="%1$s" href="%2$s" />',
+				esc_attr( $hreflang ),
+				esc_url( $href )
+			);
 
 			echo $link . "\n";
 		}

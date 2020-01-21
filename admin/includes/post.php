@@ -19,16 +19,20 @@ function bogo_posts_columns( $posts_columns, $post_type ) {
 		$posts_columns = array_merge(
 			array_slice( $posts_columns, 0, 3 ),
 			array( 'locale' => __( 'Locale', 'bogo' ) ),
-			array_slice( $posts_columns, 3 ) );
+			array_slice( $posts_columns, 3 )
+		);
 	}
 
 	return $posts_columns;
 }
 
 add_action( 'manage_pages_custom_column',
-	'bogo_manage_posts_custom_column', 10, 2 );
+	'bogo_manage_posts_custom_column', 10, 2
+);
+
 add_action( 'manage_posts_custom_column',
-	'bogo_manage_posts_custom_column', 10, 2 );
+	'bogo_manage_posts_custom_column', 10, 2
+);
 
 function bogo_manage_posts_custom_column( $column_name, $post_id ) {
 	if ( 'locale' != $column_name ) {
@@ -54,10 +58,14 @@ function bogo_manage_posts_custom_column( $column_name, $post_id ) {
 	}
 
 	echo sprintf( '<a href="%1$s">%2$s</a>',
-		esc_url( add_query_arg(
-			array( 'post_type' => $post_type, 'lang' => $locale ),
-			'edit.php' ) ),
-		esc_html( $language ) );
+		esc_url(
+			add_query_arg( array(
+				'post_type' => $post_type,
+				'lang' => $locale,
+			), 'edit.php' )
+		),
+		esc_html( $language )
+	);
 }
 
 add_action( 'restrict_manage_posts', 'bogo_restrict_manage_posts', 10, 0 );
@@ -124,7 +132,8 @@ function bogo_post_row_actions( $actions, $post ) {
 		$edit_link = admin_url( 'post-new.php?post_type=' . $post->post_type
 			. '&action=bogo-add-translation'
 			. '&locale=' . $user_locale
-			. '&original_post=' . $post->ID );
+			. '&original_post=' . $post->ID
+		);
 		$edit_link = wp_nonce_url( $edit_link, 'bogo-add-translation' );
 	}
 
@@ -137,7 +146,8 @@ function bogo_post_row_actions( $actions, $post ) {
 	$actions['translate'] = sprintf(
 		'<a href="%1$s">%2$s</a>',
 		$edit_link,
-		esc_html( sprintf( $text, $language ) ) );
+		esc_html( sprintf( $text, $language ) )
+	);
 
 	return $actions;
 }

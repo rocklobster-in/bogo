@@ -54,6 +54,7 @@ function bogo_set_accessible_locales( $profileuser ) {
 		'exclude_enus_if_inactive' => true,
 		'orderby' => 'value',
 	) );
+
 	$accessible_locales = bogo_get_user_accessible_locales( $profileuser->ID );
 
 	if ( empty( $accessible_locales ) ) {
