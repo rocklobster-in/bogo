@@ -146,7 +146,7 @@ function bogo_home_url( $url ) {
 	return bogo_url( $url );
 }
 
-add_action( 'wp_head', 'bogo_m17n_headers' );
+add_action( 'wp_head', 'bogo_m17n_headers', 10, 0 );
 
 function bogo_m17n_headers() {
 	$languages = array();

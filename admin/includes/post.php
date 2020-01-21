@@ -60,7 +60,7 @@ function bogo_manage_posts_custom_column( $column_name, $post_id ) {
 		esc_html( $language ) );
 }
 
-add_action( 'restrict_manage_posts', 'bogo_restrict_manage_posts' );
+add_action( 'restrict_manage_posts', 'bogo_restrict_manage_posts', 10, 0 );
 
 function bogo_restrict_manage_posts() {
 	global $post_type;
@@ -141,7 +141,7 @@ function bogo_post_row_actions( $actions, $post ) {
 	return $actions;
 }
 
-add_action( 'admin_init', 'bogo_add_translation' );
+add_action( 'admin_init', 'bogo_add_translation', 10, 0 );
 
 function bogo_add_translation() {
 	if ( empty( $_REQUEST['action'] )

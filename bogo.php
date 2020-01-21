@@ -39,13 +39,13 @@ if ( is_admin() ) {
 	require_once BOGO_PLUGIN_DIR . '/admin/admin.php';
 }
 
-add_action( 'plugins_loaded', 'bogo_plugins_loaded' );
+add_action( 'plugins_loaded', 'bogo_plugins_loaded', 10, 0 );
 
 function bogo_plugins_loaded() {
 	load_plugin_textdomain( 'bogo', 'wp-content/plugins/bogo/languages', 'bogo/languages' );
 }
 
-add_action( 'init', 'bogo_init' );
+add_action( 'init', 'bogo_init', 10, 0 );
 
 function bogo_init() {
 	bogo_languages();
@@ -118,7 +118,7 @@ function bogo_query_vars( $query_vars ) {
 	return $query_vars;
 }
 
-add_action( 'wp_enqueue_scripts', 'bogo_enqueue_scripts' );
+add_action( 'wp_enqueue_scripts', 'bogo_enqueue_scripts', 10, 0 );
 
 function bogo_enqueue_scripts() {
 	wp_enqueue_style( 'bogo',
@@ -132,7 +132,7 @@ function bogo_enqueue_scripts() {
 	}
 }
 
-add_action( 'deactivate_' . BOGO_PLUGIN_BASENAME, 'bogo_deactivate' );
+add_action( 'deactivate_' . BOGO_PLUGIN_BASENAME, 'bogo_deactivate', 10, 0 );
 
 function bogo_deactivate() {
 	bogo_delete_prop( 'lang_rewrite_regex' );

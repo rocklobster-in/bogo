@@ -30,7 +30,7 @@ function bogo_get_term_filter( $term, $taxonomy ) {
 	return $term;
 }
 
-add_action( 'load-edit-tags.php', 'bogo_remove_get_term_filter' );
+add_action( 'load-edit-tags.php', 'bogo_remove_get_term_filter', 10, 0 );
 
 function bogo_remove_get_term_filter() {
 	remove_filter( 'get_term', 'bogo_get_term_filter' );

@@ -1,7 +1,7 @@
 <?php
 
-add_action( 'personal_options_update', 'bogo_update_user_option' );
-add_action( 'edit_user_profile_update', 'bogo_update_user_option' );
+add_action( 'personal_options_update', 'bogo_update_user_option', 10, 1 );
+add_action( 'edit_user_profile_update', 'bogo_update_user_option', 10, 1 );
 
 function bogo_update_user_option( $user_id ) {
 	global $wpdb;
@@ -35,7 +35,7 @@ function bogo_update_user_option( $user_id ) {
 	}
 }
 
-add_action( 'personal_options', 'bogo_set_locale_options' );
+add_action( 'personal_options', 'bogo_set_locale_options', 10, 1 );
 
 function bogo_set_locale_options( $profileuser ) {
 	if ( is_network_admin() ) {

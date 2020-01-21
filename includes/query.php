@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'parse_query', 'bogo_parse_query' );
+add_action( 'parse_query', 'bogo_parse_query', 10, 1 );
 
 function bogo_parse_query( $query ) {
 	$qv = &$query->query_vars;

@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'rest_api_init', 'bogo_rest_api_init' );
+add_action( 'rest_api_init', 'bogo_rest_api_init', 10, 0 );
 
 function bogo_rest_api_init() {
 	register_rest_route( 'bogo/v1',

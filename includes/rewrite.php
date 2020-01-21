@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'init', 'bogo_add_rewrite_tags' );
+add_action( 'init', 'bogo_add_rewrite_tags', 10, 0 );
 
 function bogo_add_rewrite_tags() {
 	$regex = bogo_get_lang_regex();

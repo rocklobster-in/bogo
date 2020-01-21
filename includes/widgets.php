@@ -2,7 +2,7 @@
 
 /* Language Switcher Widget */
 
-add_action( 'widgets_init', 'bogo_widgets_init' );
+add_action( 'widgets_init', 'bogo_widgets_init', 10, 0 );
 
 function bogo_widgets_init() {
 	register_widget( 'Bogo_Widget_Language_Switcher' );

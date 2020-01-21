@@ -7,7 +7,7 @@ require_once BOGO_PLUGIN_DIR . '/admin/includes/widgets.php';
 require_once BOGO_PLUGIN_DIR . '/admin/includes/language-packs.php';
 require_once BOGO_PLUGIN_DIR . '/admin/includes/terms-translation.php';
 
-add_action( 'admin_init', 'bogo_upgrade' );
+add_action( 'admin_init', 'bogo_upgrade', 10, 0 );
 
 function bogo_upgrade() {
 	$old_ver = bogo_get_prop( 'version' );
@@ -20,7 +20,7 @@ function bogo_upgrade() {
 	}
 }
 
-add_action( 'admin_enqueue_scripts', 'bogo_admin_enqueue_scripts' );
+add_action( 'admin_enqueue_scripts', 'bogo_admin_enqueue_scripts', 10, 1 );
 
 function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	wp_enqueue_style( 'bogo-admin',
@@ -128,7 +128,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	wp_localize_script( 'bogo-admin', 'bogo', $local_args );
 }
 
-add_action( 'admin_menu', 'bogo_admin_menu' );
+add_action( 'admin_menu', 'bogo_admin_menu', 10, 0 );
 
 function bogo_admin_menu() {
 	add_menu_page( __( 'Languages', 'bogo' ), __( 'Languages', 'bogo' ),
@@ -140,7 +140,7 @@ function bogo_admin_menu() {
 		__( 'Language Packs', 'bogo' ),
 		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page' );
 
-	add_action( 'load-' . $tools, 'bogo_load_tools_page' );
+	add_action( 'load-' . $tools, 'bogo_load_tools_page', 10, 0 );
 
 	$available_locales = bogo_available_locales( array(
 		'exclude_enus_if_inactive' => true,
@@ -153,7 +153,7 @@ function bogo_admin_menu() {
 			__( 'Terms Translation', 'bogo' ),
 			'bogo_edit_terms_translation', 'bogo-texts', 'bogo_texts_page' );
 
-		add_action( 'load-' . $texts, 'bogo_load_texts_page' );
+		add_action( 'load-' . $texts, 'bogo_load_texts_page', 10, 0 );
 	}
 }
 
