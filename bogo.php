@@ -52,7 +52,7 @@ function bogo_init() {
 	Bogo_POMO::import( get_locale() );
 }
 
-add_filter( 'locale', 'bogo_locale' );
+add_filter( 'locale', 'bogo_locale', 10, 1 );
 
 function bogo_locale( $locale ) {
 	global $wp_rewrite, $wp_query;
@@ -110,7 +110,7 @@ function bogo_locale( $locale ) {
 	return $bogo_locale = $default_locale;
 }
 
-add_filter( 'query_vars', 'bogo_query_vars' );
+add_filter( 'query_vars', 'bogo_query_vars', 10, 1 );
 
 function bogo_query_vars( $query_vars ) {
 	$query_vars[] = 'lang';

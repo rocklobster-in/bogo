@@ -178,7 +178,7 @@ function bogo_posts_where( $where, $query ) {
 	return $where;
 }
 
-add_filter( 'option_sticky_posts', 'bogo_option_sticky_posts' );
+add_filter( 'option_sticky_posts', 'bogo_option_sticky_posts', 10, 1 );
 
 function bogo_option_sticky_posts( $posts ) {
 	if ( is_admin() ) {
@@ -196,8 +196,8 @@ function bogo_option_sticky_posts( $posts ) {
 	return $posts;
 }
 
-add_filter( 'option_page_on_front', 'bogo_get_local_post' );
-add_filter( 'option_page_for_posts', 'bogo_get_local_post' );
+add_filter( 'option_page_on_front', 'bogo_get_local_post', 10, 1 );
+add_filter( 'option_page_for_posts', 'bogo_get_local_post', 10, 1 );
 
 function bogo_get_local_post( $post_id ) {
 	global $wpdb;

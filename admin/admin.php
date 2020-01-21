@@ -284,7 +284,9 @@ function bogo_load_tools_page() {
 	$current_screen = get_current_screen();
 
 	add_filter( 'manage_' . $current_screen->id . '_columns',
-		array( 'Bogo_Language_Packs_List_Table', 'define_columns' ) );
+		array( 'Bogo_Language_Packs_List_Table', 'define_columns' ),
+		10, 1
+	);
 }
 
 function bogo_tools_page() {
@@ -383,7 +385,9 @@ function bogo_load_texts_page() {
 		$current_screen = get_current_screen();
 
 		add_filter( 'manage_' . $current_screen->id . '_columns',
-			array( 'Bogo_Terms_Translation_List_Table', 'define_columns' ) );
+			array( 'Bogo_Terms_Translation_List_Table', 'define_columns' ),
+			10, 1
+		);
 
 		add_screen_option( 'per_page', array(
 			'label' => __( 'Items', 'bogo' ),

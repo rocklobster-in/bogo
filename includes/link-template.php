@@ -136,7 +136,7 @@ function bogo_term_link( $link, $term, $taxonomy ) {
 	return bogo_url( $link );
 }
 
-add_filter( 'home_url', 'bogo_home_url' );
+add_filter( 'home_url', 'bogo_home_url', 10, 1 );
 
 function bogo_home_url( $url ) {
 	if ( is_admin() || ! did_action( 'template_redirect' ) ) {

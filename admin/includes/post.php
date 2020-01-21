@@ -2,7 +2,7 @@
 
 /* Posts List Table */
 
-add_filter( 'manage_pages_columns', 'bogo_pages_columns' );
+add_filter( 'manage_pages_columns', 'bogo_pages_columns', 10, 1 );
 
 function bogo_pages_columns( $posts_columns ) {
 	return bogo_posts_columns( $posts_columns, 'page' );
