@@ -1,6 +1,6 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
-const { PanelRow, Button } = wp.components;
+const { PanelRow, Button, ExternalLink } = wp.components;
 const { useState } = wp.element;
 const { dispatch, useSelect } = wp.data;
 const { apiFetch } = wp;
@@ -36,16 +36,9 @@ function LanguagePanel() {
 			if ( value.editLink && value.postTitle ) {
 				listItems.push(
 					<li key={ key }>
-						<a
-							href={ value.editLink }
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<ExternalLink href={ value.editLink }>
 							{ value.postTitle }
-						</a>
-						<span className="screen-reader-text">
-							{ bogo.l10n.targetBlank }
-						</span>
+						</ExternalLink>
 						<br />
 						<em>{ getLanguage( key ) }</em>
 					</li>
