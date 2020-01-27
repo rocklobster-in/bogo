@@ -214,21 +214,9 @@ function bogo_l10n_meta_box( $post ) {
 	$initial = ( 'auto-draft' == $post->post_status );
 
 	if ( $initial ) {
-		$post_locale = isset( $_REQUEST['locale'] ) ? $_REQUEST['locale'] : '';
-
-		if ( ! bogo_is_available_locale( $post_locale ) ) {
-			$post_locale = bogo_get_user_locale();
-		}
-
-		$original_post = empty( $_REQUEST['original_post'] )
-			? '' : $_REQUEST['original_post'];
+		$post_locale = bogo_get_user_locale();
 	} else {
 		$post_locale = bogo_get_post_locale( $post->ID );
-		$original_post = get_post_meta( $post->ID, '_original_post', true );
-
-		if ( empty( $original_post ) ) {
-			$original_post = $post->ID;
-		}
 	}
 
 	$translations = bogo_get_post_translations( $post->ID );
@@ -241,10 +229,6 @@ function bogo_l10n_meta_box( $post ) {
 	) );
 
 ?>
-<div class="hidden">
-<input type="hidden" name="locale" value="<?php echo esc_attr( $post_locale ); ?>" />
-<input type="hidden" name="original_post" value="<?php echo esc_attr( $original_post ); ?>" />
-</div>
 
 <div class="descriptions">
 <?php
