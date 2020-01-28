@@ -138,22 +138,11 @@ function bogo_get_post_translations( $post_id = 0 ) {
 		return false;
 	}
 
-	if ( 'auto-draft' == $post->post_status ) {
-		if ( ! empty( $_REQUEST['original_post'] ) ) {
-			$original = get_post_meta( $_REQUEST['original_post'], '_original_post', true );
+	$original_post = get_post_meta( $post->ID, '_original_post', true );
 
-			if ( empty( $original ) ) {
-				$original = (int) $_REQUEST['original_post'];
-			}
-		} else {
-			return false;
-		}
-	} else {
-		$original = get_post_meta( $post->ID, '_original_post', true );
-	}
-
-	if ( empty( $original ) ) {
-		$original = $post->ID;
+	// For back-compat
+	if ( empty( $original_post ) ) {
+		$original_post = $post->ID;
 	}
 
 	$args = array(
@@ -162,22 +151,20 @@ function bogo_get_post_translations( $post_id = 0 ) {
 		'post_status' => 'any',
 		'post_type' => $post->post_type,
 		'meta_key' => '_original_post',
-		'meta_value' => $original,
+		'meta_value' => $original_post,
 	);
 
 	$q = new WP_Query();
 	$posts = $q->query( $args );
 
-	$translations = array();
-
-	$original_post_status = get_post_status( $original );
-
-	if ( $original != $post->ID
-	and $original_post_status
-	and 'trash' != $original_post_status ) {
-		$locale = bogo_get_post_locale( $original );
-		$translations[$locale] = get_post( $original );
+	// For back-compat
+	if ( is_int( $original_post )
+	and $p = get_post( $original_post )
+	and 'trash' !== get_post_status( $p ) ) {
+		array_unshift( $posts, $p );
 	}
+
+	$translations = array();
 
 	foreach ( $posts as $p ) {
 		if ( $p->ID === $post->ID ) {
@@ -341,8 +328,9 @@ function bogo_duplicate_post( $original_post, $locale ) {
 		$postarr['meta_input'] = $post_metas;
 	}
 
-	$postarr = apply_filters( 'bogo_duplicate_post',
-		$postarr, $original_post, $locale );
+	$postarr = apply_filters( 'bogo_duplicate_post', $postarr,
+		$original_post, $locale
+	);
 
 	if ( $taxonomies = $postarr['tax_input'] ) {
 		$postarr['tax_input'] = array();
