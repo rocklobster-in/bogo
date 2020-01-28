@@ -368,9 +368,23 @@ function bogo_duplicate_post( $original_post, $locale ) {
 		);
 
 		if ( $meta_original_post ) {
-			update_post_meta( $new_post_id, '_original_post', $meta_original_post );
+			update_post_meta( $new_post_id,
+				'_original_post', $meta_original_post
+			);
 		} else {
-			update_post_meta( $new_post_id, '_original_post', $original_post->ID );
+			$original_post_guid = get_the_guid( $original_post );
+
+			if ( empty( $original_post_guid ) ) {
+				$original_post_guid = $original_post->ID;
+			}
+
+			update_post_meta( $original_post->ID,
+				'_original_post', $original_post_guid
+			);
+
+			update_post_meta( $new_post_id,
+				'_original_post', $original_post_guid
+			);
 		}
 	}
 
@@ -451,49 +465,16 @@ function bogo_save_post( $post_id, $post ) {
 		add_post_meta( $post_id, '_locale', $locale, true );
 	}
 
-	$current_original_posts = get_post_meta( $post_id, '_original_post' );
+	$original_post = get_post_meta( $post_id, '_original_post', true );
 
-	if ( ! empty( $current_original_posts ) ) {
-		if ( 1 < count( $current_original_posts ) ) {
-			delete_post_meta( $post_id, '_original_post' );
-		} else {
-			return;
-		}
-	}
+	if ( empty( $original_post ) ) {
+		$post_guid = get_the_guid( $post_id );
 
-	if ( ! empty( $_REQUEST['original_post'] ) ) {
-		$original = get_post_meta( $_REQUEST['original_post'],
-			'_original_post', true
-		);
-
-		if ( empty( $original ) ) {
-			$original = (int) $_REQUEST['original_post'];
+		if ( empty( $post_guid ) ) {
+			$post_guid = $post_id;
 		}
 
-		add_post_meta( $post_id, '_original_post', $original, true );
-		return;
-	}
-
-	$original = $post_id;
-
-	while ( 1 ) {
-		$q = new WP_Query();
-
-		$posts = $q->query( array(
-			'bogo_suppress_locale_query' => true,
-			'posts_per_page' => 1,
-			'post_status' => 'any',
-			'post_type' => $post->post_type,
-			'meta_key' => '_original_post',
-			'meta_value' => $original,
-		) );
-
-		if ( empty( $posts ) ) {
-			add_post_meta( $post_id, '_original_post', $original, true );
-			return;
-		}
-
-		$original += 1;
+		update_post_meta( $post_id, '_original_post', $post_guid );
 	}
 }
 
