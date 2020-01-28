@@ -226,10 +226,11 @@ function bogo_get_local_post( $post_id ) {
 		return $post_id;
 	}
 
-	$original = get_post_meta( $post_id, '_original_post', true );
+	$original_post = get_post_meta( $post_id, '_original_post', true );
 
-	if ( empty( $original ) ) {
-		$original = $post_id;
+	// For back-compat
+	if ( empty( $original_post ) ) {
+		$original_post = $post_id;
 	}
 
 	$q = "SELECT ID FROM $wpdb->posts AS posts";
@@ -240,11 +241,22 @@ function bogo_get_local_post( $post_id ) {
 	$q .= " WHERE 1=1";
 	$q .= " AND post_status = 'publish'";
 	$q .= $wpdb->prepare( " AND post_type = %s", $post_type );
-	$q .= $wpdb->prepare( " AND (ID = %d OR pm1.meta_value = %d)",
-		$original, $original );
+
+	if ( is_int( $original_post ) ) { // For back-compat
+		$q .= $wpdb->prepare( " AND (ID = %d OR pm1.meta_value = %d)",
+			$original_post, $original_post
+		);
+	} else {
+		$q .= $wpdb->prepare( " AND pm1.meta_value = %s", $original_post );
+	}
+
 	$q .= " AND (1=0";
 	$q .= $wpdb->prepare( " OR pm2.meta_value LIKE %s", $locale );
-	$q .= bogo_is_default_locale( $locale ) ? " OR pm2.meta_id IS NULL" : "";
+
+	if ( bogo_is_default_locale( $locale ) ) {
+		$q .= " OR pm2.meta_id IS NULL";
+	}
+
 	$q .= ")";
 
 	$translation = absint( $wpdb->get_var( $q ) );
