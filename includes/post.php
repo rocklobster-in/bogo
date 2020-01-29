@@ -138,6 +138,12 @@ function bogo_get_post_translations( $post_id = 0 ) {
 		return false;
 	}
 
+	static $translations = array();
+
+	if ( isset( $translations[$post->ID] ) ) {
+		return $translations[$post->ID];
+	}
+
 	$original_post = get_post_meta( $post->ID, '_original_post', true );
 
 	// For back-compat
@@ -164,7 +170,7 @@ function bogo_get_post_translations( $post_id = 0 ) {
 		array_unshift( $posts, $p );
 	}
 
-	$translations = array();
+	$translations[$post->ID] = array();
 
 	foreach ( $posts as $p ) {
 		if ( $p->ID === $post->ID ) {
@@ -177,12 +183,14 @@ function bogo_get_post_translations( $post_id = 0 ) {
 			continue;
 		}
 
-		if ( ! isset( $translations[$locale] ) ) {
-			$translations[$locale] = $p;
+		if ( ! isset( $translations[$post->ID][$locale] ) ) {
+			$translations[$post->ID][$locale] = $p;
 		}
 	}
 
-	return array_filter( $translations );
+	$translations[$post->ID] = array_filter( $translations[$post->ID] );
+
+	return $translations[$post->ID];
 }
 
 function bogo_get_post_translation( $post_id, $locale ) {
