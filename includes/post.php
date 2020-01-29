@@ -486,53 +486,154 @@ function bogo_save_post( $post_id, $post ) {
 	}
 }
 
-add_filter( 'wp_unique_post_slug', 'bogo_unique_post_slug', 10, 6 );
+add_filter( 'pre_wp_unique_post_slug', 'bogo_unique_post_slug', 10, 6 );
 
-function bogo_unique_post_slug( $slug, $post_id, $status, $type, $parent, $original ) {
-	global $wp_rewrite;
+function bogo_unique_post_slug( $override_slug, $slug, $post_id, $post_status, $post_type, $post_parent ) {
 
-	if ( ! bogo_is_localizable_post_type( $type ) ) {
-		return $slug;
-	}
-
-	$feeds = is_array( $wp_rewrite->feeds ) ? $wp_rewrite->feeds : array();
-
-	if ( in_array( $original, $feeds ) ) {
-		return $slug;
+	if ( ! bogo_is_localizable_post_type( $post_type ) ) {
+		return $override_slug;
 	}
 
 	$locale = bogo_get_post_locale( $post_id );
 
-	if ( empty( $locale ) ) {
-		return $slug;
+	if ( ! bogo_is_available_locale( $locale ) ) {
+		return $override_slug;
 	}
 
-	$args = array(
-		'posts_per_page' => 1,
-		'post__not_in' => array( $post_id ),
-		'post_type' => $type,
-		'name' => $original,
-		'lang' => $locale,
-	);
-
-	$hierarchical = in_array( $type,
-		get_post_types( array( 'hierarchical' => true ) )
-	);
-
-	if ( $hierarchical ) {
-		if ( preg_match( "@^($wp_rewrite->pagination_base)?\d+$@", $original ) ) {
-			return $slug;
-		}
-
-		$args['post_parent'] = $parent;
-	}
+	$override_slug = $slug;
 
 	$q = new WP_Query();
-	$posts = $q->query( $args );
 
-	if ( empty( $posts ) ) {
-		$slug = $original;
+	global $wp_rewrite;
+
+	$feeds = is_array( $wp_rewrite->feeds ) ? $wp_rewrite->feeds : array();
+
+	if ( is_post_type_hierarchical( $post_type ) ) {
+		$q_args = array(
+			'name' => $slug,
+			'lang' => $locale,
+			'post_type' => array( $post_type, 'attachment' ),
+			'post_parent' => $post_parent,
+			'post__not_in' => array( $post_id ),
+			'posts_per_page' => 1,
+		);
+
+		$is_bad_slug = in_array( $slug, $feeds )
+			|| 'embed' === $slug
+			|| preg_match( "@^($wp_rewrite->pagination_base)?\d+$@", $slug )
+			|| apply_filters(
+				'wp_unique_post_slug_is_bad_hierarchical_slug', false,
+				$slug, $post_type, $post_parent
+			);
+
+		if ( ! $is_bad_slug ) {
+			$q_results = $q->query( $q_args );
+			$is_bad_slug = ! empty( $q_results );
+		}
+
+		if ( $is_bad_slug ) {
+			$suffix = 1;
+
+			while ( $is_bad_slug ) {
+				$suffix += 1;
+				$alt_slug = sprintf( '%s-%s',
+					bogo_truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ),
+					$suffix
+				);
+
+				$q_results = $q->query( array_merge(
+					$q_args,
+					array( 'name' => $alt_slug )
+				) );
+
+				$is_bad_slug = ! empty( $q_results );
+			}
+
+			$override_slug = $alt_slug;
+		}
+
+	} else {
+		$q_args = array(
+			'name' => $slug,
+			'lang' => $locale,
+			'post_type' => $post_type,
+			'post__not_in' => array( $post_id ),
+			'posts_per_page' => 1,
+		);
+
+		$is_bad_slug = in_array( $slug, $feeds )
+			|| 'embed' === $slug
+			|| apply_filters(
+				'wp_unique_post_slug_is_bad_flat_slug', false,
+				$slug, $post_type
+			);
+
+		if ( ! $is_bad_slug ) {
+			$post = get_post( $post_id );
+
+			if ( 'post' === $post_type
+			and ( ! $post or $post->post_name !== $slug )
+			and preg_match( '/^[0-9]+$/', $slug ) ) {
+				$slug_num = intval( $slug );
+
+				if ( $slug_num ) {
+					$permastructs = array_values( array_filter(
+						explode( '/', get_option( 'permalink_structure' ) )
+					) );
+					$postname_index = array_search( '%postname%', $permastructs );
+
+					$is_bad_slug = false
+						|| 0 === $postname_index
+						|| ( $postname_index
+							&& '%year%' === $permastructs[$postname_index - 1]
+							&& 13 > $slug_num )
+						|| ( $postname_index
+							&& '%monthnum%' === $permastructs[$postname_index - 1]
+							&& 32 > $slug_num );
+				}
+			}
+		}
+
+		if ( ! $is_bad_slug ) {
+			$q_results = $q->query( $q_args );
+			$is_bad_slug = ! empty( $q_results );
+		}
+
+		if ( $is_bad_slug ) {
+			$suffix = 1;
+
+			while ( $is_bad_slug ) {
+				$suffix += 1;
+				$alt_slug = sprintf( '%s-%s',
+					bogo_truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ),
+					$suffix
+				);
+
+				$q_results = $q->query( array_merge(
+					$q_args,
+					array( 'name' => $alt_slug )
+				) );
+
+				$is_bad_slug = ! empty( $q_results );
+			}
+
+			$override_slug = $alt_slug;
+		}
 	}
 
-	return $slug;
+	return $override_slug;
+}
+
+function bogo_truncate_post_slug( $slug, $length = 200 ) {
+	if ( strlen( $slug ) > $length ) {
+		$decoded_slug = urldecode( $slug );
+
+		if ( $decoded_slug === $slug ) {
+			$slug = substr( $slug, 0, $length );
+		} else {
+			$slug = utf8_uri_encode( $decoded_slug, $length );
+		}
+	}
+
+	return rtrim( $slug, '-' );
 }
