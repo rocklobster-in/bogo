@@ -106,15 +106,14 @@ function bogo_language_switcher_links( $args = '' ) {
 		);
 
 		if ( $is_singular ) {
-			if ( $locale != $code
-			and ! empty( $translations[$code] )
+			if ( $locale === $code ) {
+				$link['href'] = get_permalink( get_queried_object_id() );
+			} elseif ( ! empty( $translations[$code] )
 			and 'publish' == get_post_status( $translations[$code] ) ) {
 				$link['href'] = get_permalink( $translations[$code] );
 			}
 		} else {
-			if ( $locale != $code ) {
-				$link['href'] = bogo_url( null, $code );
-			}
+			$link['href'] = bogo_url( null, $code );
 		}
 
 		$links[] = $link;
