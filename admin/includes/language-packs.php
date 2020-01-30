@@ -99,6 +99,7 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 		$count_all = $this->count_active + $this->count_inactive;
 
 		$all = sprintf(
+			/* translators: %s: number of language packs */
 			_nx(
 				'All <span class="count">(%s)</span>',
 				'All <span class="count">(%s)</span>',
@@ -115,6 +116,7 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 
 		// Active
 		$active = sprintf(
+			/* translators: %s: number of language packs */
 			_nx(
 				'Active <span class="count">(%s)</span>',
 				'Active <span class="count">(%s)</span>',
@@ -131,6 +133,7 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 
 		// Inactive
 		$inactive = sprintf(
+			/* translators: %s: number of language packs */
 			_nx(
 				'Inactive <span class="count">(%s)</span>',
 				'Inactive <span class="count">(%s)</span>',
@@ -188,6 +191,7 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 
 		if ( $count_posts ) {
 			$count_posts = sprintf(
+				/* translators: %s: number of posts */
 				_n( '%s Post', '%s Posts', $count_posts, 'bogo' ),
 				number_format_i18n( $count_posts )
 			);
@@ -195,6 +199,7 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 
 		if ( $count_pages ) {
 			$count_pages = sprintf(
+				/* translators: %s: number of pages */
 				_n( '%s Page', '%s Pages', $count_pages, 'bogo' ),
 				number_format_i18n( $count_pages )
 			);
