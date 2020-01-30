@@ -322,6 +322,7 @@ function bogo_tools_page() {
 		echo sprintf(
 			'<span class="subtitle">%s</span>',
 			sprintf(
+				/* translators: %s: search query */
 				__( 'Search results for &#8220;%s&#8221;', 'bogo' ),
 				esc_html( $_REQUEST['s'] )
 			)
@@ -429,6 +430,7 @@ function bogo_texts_page() {
 		echo sprintf(
 			'<span class="subtitle">%s</span>',
 			sprintf(
+				/* translators: %s: search query */
 				__( 'Search results for &#8220;%s&#8221;', 'bogo' ),
 				esc_html( $_REQUEST['s'] )
 			)
