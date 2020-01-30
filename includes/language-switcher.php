@@ -19,7 +19,7 @@ function bogo_language_switcher( $args = '' ) {
 		$class[] = bogo_language_tag( $link['locale'] );
 		$class[] = bogo_lang_slug( $link['locale'] );
 
-		if ( get_locale() == $link['locale'] ) {
+		if ( get_locale() === $link['locale'] ) {
 			$class[] = 'current';
 		}
 
@@ -39,11 +39,23 @@ function bogo_language_switcher( $args = '' ) {
 		if ( empty( $link['href'] ) ) {
 			$li = esc_html( $label );
 		} else {
+			$atts = array(
+				'rel' => 'alternate',
+				'hreflang' => $link['lang'],
+				'href' => esc_url( $link['href'] ),
+				'title' => $title,
+			);
+
+			if ( get_locale() === $link['locale'] ) {
+				$atts += array(
+					'class' => 'current',
+					'aria-current' => 'page',
+				);
+			}
+
 			$li = sprintf(
-				'<a rel="alternate" hreflang="%1$s" href="%2$s" title="%3$s">%4$s</a>',
-				$link['lang'],
-				esc_url( $link['href'] ),
-				esc_attr( $title ),
+				'<a %1$s>%2$s</a>',
+				bogo_format_atts( $atts ),
 				esc_html( $label )
 			);
 		}
