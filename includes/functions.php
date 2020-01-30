@@ -358,7 +358,9 @@ function bogo_is_available_locale( $locale ) {
 	static $available_locales = array();
 
 	if ( empty( $available_locales ) ) {
-		$available_locales = bogo_available_locales();
+		$available_locales = bogo_available_locales( array(
+			'exclude_enus_if_inactive' => true,
+		) );
 	}
 
 	return in_array( $locale, $available_locales );
