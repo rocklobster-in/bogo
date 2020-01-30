@@ -48,6 +48,11 @@ function bogo_language_switcher( $args = '' ) {
 			);
 		}
 
+		$li = sprintf(
+			'<span class="bogo-language-name">%s</span>',
+			$li
+		);
+
 		if ( apply_filters( 'bogo_use_flags', true ) ) {
 			$flag = bogo_get_flag( $link['locale'] );
 			$flag = preg_replace( '/(?:.*?)([a-z]+)\.png$/', '$1', $flag, 1 );
