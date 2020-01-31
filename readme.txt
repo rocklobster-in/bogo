@@ -48,6 +48,15 @@ Here are some technical details for those interested. Bogo plugin assigns [one l
 
 	`<?php echo do_shortcode( '[bogo]' ); ?>`
 
+= Privacy Notices =
+
+With the default configuration, this plugin, in itself, does not:
+
+* track users by stealth;
+* write any user personal data to the database;
+* send any data to external servers;
+* use cookies.
+
 == Installation ==
 
 1. Upload the entire `bogo` folder to the `/wp-content/plugins/` directory.
