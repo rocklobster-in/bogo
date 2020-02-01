@@ -43,7 +43,7 @@ add_action( 'plugins_loaded', 'bogo_plugins_loaded', 10, 0 );
 
 function bogo_plugins_loaded() {
 	load_plugin_textdomain( 'bogo',
-		'wp-content/plugins/bogo/languages',
+		false,
 		'bogo/languages'
 	);
 }
