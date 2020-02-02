@@ -18,33 +18,27 @@ Bogo is a straight-forward multilingual plugin for WordPress.
 
 The core of WordPress itself has the built-in localization capability so you can use the dashboard and theme in one language other than English. Bogo expands this capability to let you easily build a multilingual blog on a single WordPress install.
 
-Here are some technical details for those interested. Bogo plugin assigns [one language per post](https://codex.wordpress.org/Multilingual_WordPress#Different_types_of_multilingual_plugins). It plays nice with WordPress – Bogo does not create any additional custom table on your database, unlike some other plugins in this category. This design makes Bogo a solid, reliable and conflict-free multilingual plugin.
+Here are some technical details for those interested. Bogo plugin assigns [one language per post](https://wordpress.org/support/article/multilingual-wordpress/#different-types-of-multilingual-plugins). It plays nice with WordPress – Bogo does not create any additional custom table on your database, unlike some other plugins in this category. This design makes Bogo a solid, reliable and conflict-free multilingual plugin.
 
 = Getting started with Bogo =
 
-1. Install language files
+1. Install language packs
 
-	First, make sure you have installed language files for all languages used in your site. If you have a localized version of WordPress installed, you should already have these files for that language.
+	First, install language packs for languages you use on the site. You can view and install language packs in the **Language Packs** screen (**Languages > Language Packs**).
 
-	If you don't have language files yet, you can install them via Bogo's admin page (Languages > Installed Languages).
+2. Select your language for admin screen
 
-2. Select your language for admin screen (dashboard)
+	Bogo lets each logged-in user select a language for their admin screen UI. Select a language from the menu on the [**Toolbar**](https://wordpress.org/support/article/administration-screens/#toolbar-keeping-it-all-together), or from the menu in the **Profile** screen (**Users > Your Profile**) if the **Toolbar** is invisible.
 
-	Bogo allows each user to select a language for his/her own WordPress admin screen. Logged-in users can switch languages from the drop-down menu on the Admin Bar.
+3. Translate your posts and pages
 
-	If the Admin Bar is hidden, you can also switch language on your Profile page.
+	To create a translation post, go to the editor screen for the original post and find the **Language** box. Bogo does only make a copy of the post; translating the copied post is your task.
 
-3. Translate posts and pages
+4. Add language switcher widgets
 
-	You can translate posts and pages into the languages you have installed.
+	It would be useful for site visitors if you have a language switcher on your site. Bogo provides the **Language Switcher** widget in the **Widgets** screen (**Appearance > Widgets**).
 
-	WordPress saves the contents of each post or page as usual, but Bogo adds '_locale' post_meta data. The '_locale' holds the language code of the post.
-
-4. Add a language switcher to your site
-
-	You will want to place a language switcher on your site that allows visitors to switch languages they see on the site. The easiest method is using the Language Switcher widget included in Bogo.
-
-	Bogo also provides a shortcode "[bogo]" to allow you to place a language switcher inside a post or page content by simply inserting [bogo]. To embed a language switcher directly into your theme's template file, use this shortcode as follows:
+	You can also use the `[bogo]` shortcode to put a language switcher inside a post content. If you want to use this shortcode in your theme's template files, embed the following code into the template:
 
 	`<?php echo do_shortcode( '[bogo]' ); ?>`
 
@@ -60,13 +54,13 @@ With the default configuration, this plugin, in itself, does not:
 == Installation ==
 
 1. Upload the entire `bogo` folder to the `/wp-content/plugins/` directory.
-1. Activate the plugin through the 'Plugins' menu in WordPress.
+1. Activate the plugin through the **Plugins** screen (**Plugins > Installed Plugins**).
 
 == Screenshots ==
 
-1. You can switch your admin language in the Admin Bar.
-1. The Language Post Box manages language and translations of the Post/Page.
-1. In the Language Packs screen, you can install and manage language packs.
+1. You can select your language in the **Toolbar**.
+1. The **Language** box manages the post's translations.
+1. The **Language Packs** screen lets you view and install language packs.
 
 == Changelog ==
 
