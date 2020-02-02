@@ -20,7 +20,7 @@ The core of WordPress itself has the built-in localization capability so you can
 
 Here are some technical details for those interested. Bogo plugin assigns [one language per post](https://codex.wordpress.org/Multilingual_WordPress#Different_types_of_multilingual_plugins). It plays nice with WordPress – Bogo does not create any additional custom table on your database, unlike some other plugins in this category. This design makes Bogo a solid, reliable and conflict-free multilingual plugin.
 
-= Getting Started with Bogo =
+= Getting started with Bogo =
 
 1. Install language files
 
@@ -48,7 +48,7 @@ Here are some technical details for those interested. Bogo plugin assigns [one l
 
 	`<?php echo do_shortcode( '[bogo]' ); ?>`
 
-= Privacy Notices =
+= Privacy notices =
 
 With the default configuration, this plugin, in itself, does not:
 
