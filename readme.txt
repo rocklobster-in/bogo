@@ -1,5 +1,5 @@
 === Bogo ===
-Contributors: takayukister
+Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 4.9
 Tested up to: 4.9
