@@ -64,6 +64,13 @@ With the default configuration, this plugin, in itself, does not:
 
 == Changelog ==
 
+= 3.3 =
+
+* Supports Block Editor.
+* Adds the `short_name` option to `bogo_available_languages()`.
+* Uses the post guid for the value of the `_original_post` post meta.
+* Improves HTML markup of the language switcher.
+
 = 3.2.1 =
 
 * Recalculates values in some WP query parameters in bogo_parse_query().
@@ -75,24 +82,3 @@ With the default configuration, this plugin, in itself, does not:
 * Adds a filter hook: bogo_terms_translation.
 * Introduces the Bogo_Terms_Translation_List_Table class.
 * Introduces the Bogo_Language_Packs_List_Table class.
-
-= 3.1.4 =
-
-* Ease restrictions on locale code to accept special cases like "pt_PT_ao90".
-* Add screenreader accessibility text "(opens in a new window)" to target=blank links.
-
-= 3.1.3 =
-
-* Avoid warnings in cases there is empty $row_actions for some reason.
-
-= 3.1.2 =
-
-* Fixed: Warnings were shown in Menus admin page when there were no menu registered.
-
-= 3.1.1 =
-
-* Fixed: Suppress locale query on preview.
-
-= 3.1 =
-
-* Renovated markup and style around nation flags.
