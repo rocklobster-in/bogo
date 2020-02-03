@@ -6,7 +6,7 @@ Tested up to: 4.9
 Stable tag: 3.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Donate link: https://pledgie.com/campaigns/17860
+Donate link: https://contactform7.com/donate/
 
 A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.
 
