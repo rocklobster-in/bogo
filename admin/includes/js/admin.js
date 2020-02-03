@@ -21,13 +21,13 @@
 
 	$( function() {
 		$( '#bogo-add-translation' ).click( function() {
-			if ( ! bogo.post_id ) {
+			if ( ! bogo.currentPost.postId ) {
 				return;
 			}
 
 			var locale = $( '#bogo-translations-to-add' ).val();
 			var rest_url = bogo.apiSettings.getRoute(
-				'/posts/' + bogo.post_id + '/translations/' + locale );
+				'/posts/' + bogo.currentPost.postId + '/translations/' + locale );
 			$( '#bogo-add-translation' ).next( '.spinner' )
 				.css( 'visibility', 'visible' );
 
@@ -51,7 +51,7 @@
 				} ).html( function() {
 					var output = post.title.rendered;
 					output += ' <span class="screen-reader-text">'
-						+ bogo.screenReaderText.targetBlank + '</span>';
+						+ bogo.l10n.targetBlank + '</span>';
 					return output;
 				} );
 
@@ -82,8 +82,8 @@
 				} );
 
 				if ( changed ) {
-					event.returnValue = bogo.saveAlert;
-					return bogo.saveAlert;
+					event.returnValue = bogo.l10n.saveAlert;
+					return bogo.l10n.saveAlert;
 				}
 			} );
 

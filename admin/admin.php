@@ -65,19 +65,13 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 			'addTranslation' => $add_translation_l10n,
 			'noticePostCreation' => __( "Translation post created.", 'bogo' ),
 			'editPost' => __( 'Edit Post', 'bogo' ),
+			'saveAlert' => __( "The changes you made will be lost if you navigate away from this page.", 'bogo' ),
 		),
-		'saveAlert' => __(
-			"The changes you made will be lost if you navigate away from this page.",
-			'bogo' ),
 		'apiSettings' => array(
 			'root' => esc_url_raw( rest_url( 'bogo/v1' ) ),
 			'namespace' => 'bogo/v1',
 			'nonce' => ( wp_installing() && ! is_multisite() )
 				? '' : wp_create_nonce( 'wp_rest' ),
-		),
-		'screenReaderText' => array(
-			/* translators: accessibility text */
-			'targetBlank' => __( '(opens in a new window)', 'bogo' ),
 		),
 		'availableLanguages' => $available_languages,
 		'defaultLocale' => bogo_get_default_locale(),
@@ -86,14 +80,6 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		'localizablePostTypes' => bogo_localizable_post_types(),
 	);
 
-	if ( 'post.php' == $hook_suffix
-	and ! empty( $GLOBALS['post'] ) ) {
-		$post = $GLOBALS['post'];
-		$local_args = array_merge( $local_args, array(
-			'post_id' => $post->ID,
-		) );
-	}
-
 	if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
 		$current_post = array(
 			'locale' => bogo_get_user_locale(),
@@ -101,6 +87,8 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		);
 
 		if ( $post = get_post() ) {
+			$current_post['postId'] = $post->ID;
+
 			if ( $locale = get_post_meta( $post->ID, '_locale', true ) ) {
 				$current_post['locale'] = $locale;
 			}
