@@ -220,10 +220,7 @@ function bogo_l10n_meta_box( $post ) {
 	}
 
 	$translations = bogo_get_post_translations( $post->ID );
-	$available_locales = bogo_available_locales( array(
-		'exclude' => array_merge(
-			array( $post_locale ),
-			array_keys( (array) $translations ) ),
+	$available_languages = bogo_available_languages( array(
 		'exclude_enus_if_inactive' => true,
 		'current_user_can_access' => true,
 	) );
@@ -232,79 +229,86 @@ function bogo_l10n_meta_box( $post ) {
 
 <div class="descriptions">
 <?php
-	$lang = bogo_get_language( $post_locale );
-	$lang = empty( $lang ) ? $post_locale : $lang;
+	if ( isset( $available_languages[$post_locale] ) ) {
+		$lang = $available_languages[$post_locale];
+	} else {
+		$lang = $post_locale;
+	}
+
+	unset( $available_languages[$post_locale] );
 ?>
-<p><strong><?php echo esc_html( __( 'Language', 'bogo' ) ); ?>:</strong>
-	<?php echo esc_html( $lang ); ?></p>
+<p>
+	<strong><?php echo esc_html( __( 'Language', 'bogo' ) ); ?>:</strong>
+	<?php echo esc_html( $lang ); ?>
+</p>
 </div>
 
 <?php
-	do {
-		if ( ! $translations
-		and ( $initial or empty( $available_locales ) ) ) {
-			break;
+	echo '<div class="descriptions">';
+	echo sprintf( '<p><strong>%s:</strong></p>',
+		esc_html( __( 'Translations', 'bogo' ) )
+	);
+
+	echo '<ul id="bogo-translations">';
+
+	foreach ( $translations as $locale => $translation ) {
+		$edit_link = get_edit_post_link( $translation->ID );
+		echo '<li>';
+
+		if ( $edit_link ) {
+			echo sprintf(
+				'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span></a>',
+				esc_url( $edit_link ),
+				get_the_title( $translation->ID ),
+				/* translators: accessibility text */
+				esc_html( __( '(opens in a new window)', 'bogo' ) )
+			);
+		} else {
+			echo get_the_title( $translation->ID );
 		}
 
-		echo '<div class="descriptions">';
-		echo sprintf( '<p><strong>%s:</strong></p>',
-			esc_html( __( 'Translations', 'bogo' ) ) );
-		echo '<ul id="bogo-translations">';
-
-		if ( $translations ) {
-			foreach ( $translations as $locale => $translation ) {
-				$edit_link = get_edit_post_link( $translation->ID );
-				echo '<li>';
-
-				if ( $edit_link ) {
-					echo sprintf(
-						'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span></a>',
-						esc_url( $edit_link ),
-						get_the_title( $translation->ID ),
-						/* translators: accessibility text */
-						esc_html( __( '(opens in a new window)', 'bogo' ) )
-					);
-				} else {
-					echo get_the_title( $translation->ID );
-				}
-
-				$lang = bogo_get_language( $locale );
-				$lang = empty( $lang ) ? $locale : $lang;
-				echo ' [' . $lang . ']';
-				echo '</li>';
-			}
+		if ( isset( $available_languages[$locale] ) ) {
+			$lang = $available_languages[$locale];
+		} else {
+			$lang = $locale;
 		}
 
-		echo '</ul>';
-		echo '</div>';
-	} while ( 0 );
+		echo ' [' . $lang . ']';
+		echo '</li>';
+	}
 
-	do {
-		if ( $initial or empty( $available_locales ) ) {
-			break;
+	echo '</ul>';
+	echo '</div>';
+
+	if ( $initial or empty( $available_languages ) ) {
+		return;
+	}
+
+	echo '<div id="bogo-add-translation-actions" class="descriptions">';
+	echo sprintf( '<p><strong>%s:</strong></p>',
+		esc_html( __( 'Add Translation', 'bogo' ) )
+	);
+	echo '<select id="bogo-translations-to-add">';
+
+	foreach ( $available_languages as $locale => $lang ) {
+		if ( isset( $translations[$locale] ) ) {
+			continue;
 		}
 
-		echo '<div id="bogo-add-translation-actions" class="descriptions">';
-		echo sprintf( '<p><strong>%s:</strong></p>',
-			esc_html( __( 'Add Translation', 'bogo' ) ) );
-		echo '<select id="bogo-translations-to-add">';
+		echo sprintf( '<option value="%1$s">%2$s</option>',
+			esc_attr( $locale ), esc_html( $lang )
+		);
+	}
 
-		foreach ( $available_locales as $locale ) {
-			$lang = bogo_get_language( $locale );
-			$lang = empty( $lang ) ? $locale : $lang;
-			echo sprintf( '<option value="%1$s">%2$s</option>',
-				esc_attr( $locale ), esc_html( $lang ) );
-		}
-
-		echo '</select>';
-		echo '<p>';
-		echo sprintf(
-			'<button type="button" class="button" id="%1$s">%2$s</button>',
-			'bogo-add-translation',
-			esc_html( __( 'Add Translation', 'bogo' ) ) );
-		echo '<span class="spinner"></span>';
-		echo '</p>';
-		echo '<div class="clear"></div>';
-		echo '</div>';
-	} while ( 0 );
+	echo '</select>';
+	echo '<p>';
+	echo sprintf(
+		'<button type="button" class="button" id="%1$s">%2$s</button>',
+		'bogo-add-translation',
+		esc_html( __( 'Add Translation', 'bogo' ) )
+	);
+	echo '<span class="spinner"></span>';
+	echo '</p>';
+	echo '<div class="clear"></div>';
+	echo '</div>';
 }

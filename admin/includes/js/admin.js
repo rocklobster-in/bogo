@@ -56,7 +56,7 @@
 				} );
 
 				$added = $( '<li></li>' ).append( $added ).append(
-					' [' + post.lang.name + ']' );
+					' [' + bogo.availableLanguages[ locale ] + ']' );
 				$( '#bogo-translations' ).append( $added );
 
 				$( '#bogo-translations-to-add option[value="' + locale + '"]' ).detach();
