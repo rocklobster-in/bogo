@@ -295,6 +295,7 @@ function bogo_available_languages( $args = '' ) {
 		'exclude' => array(),
 		'orderby' => 'key',
 		'order' => 'ASC',
+		'exclude_enus_if_inactive' => false,
 		'current_user_can_access' => false,
 		'short_name' => true,
 	);
