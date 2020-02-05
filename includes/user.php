@@ -1,14 +1,21 @@
 <?php
 
-/* Admin Bar */
+/* Toolbar (Admin Bar) */
 
 add_action( 'admin_bar_menu', 'bogo_admin_bar_menu', 10, 1 );
 
 function bogo_admin_bar_menu( $wp_admin_bar ) {
 	$current_locale = bogo_get_user_locale();
-	$current_language = bogo_get_language( $current_locale );
 
-	if ( ! $current_language ) {
+	$available_languages = bogo_available_languages( array(
+		'exclude_enus_if_inactive' => true,
+		'current_user_can_access' => true,
+	) );
+
+	if ( isset( $available_languages[$current_locale] ) ) {
+		$current_language = $available_languages[$current_locale];
+		unset( $available_languages[$current_locale] );
+	} else {
 		$current_language = $current_locale;
 	}
 
@@ -20,18 +27,14 @@ function bogo_admin_bar_menu( $wp_admin_bar ) {
 			esc_html( $current_language ) ),
 	) );
 
-	$available_languages = bogo_available_languages( array(
-		'exclude' => array( $current_locale ),
-		'exclude_enus_if_inactive' => true,
-		'current_user_can_access' => true,
-	) );
-
 	foreach ( $available_languages as $locale => $lang ) {
-		$url = admin_url( 'profile.php?action=bogo-switch-locale&locale=' . $locale );
-
 		$url = add_query_arg(
-			array( 'redirect_to' => urlencode( $_SERVER['REQUEST_URI'] ) ),
-			$url
+			array(
+				'action' => 'bogo-switch-locale',
+				'locale' => $locale,
+				'redirect_to' => urlencode( $_SERVER['REQUEST_URI'] ),
+			),
+			admin_url( 'profile.php' )
 		);
 
 		$url = wp_nonce_url( $url, 'bogo-switch-locale' );
