@@ -14,7 +14,7 @@ function bogo_enqueue_block_editor_assets() {
 			'wp-data',
 			'wp-edit-post',
 			'wp-element',
-			'wp-plugins'
+			'wp-plugins',
 		),
 		BOGO_VERSION
 	);
