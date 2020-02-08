@@ -386,9 +386,19 @@ function bogo_duplicate_post( $original_post, $locale ) {
 				$original_post_guid = $original_post->ID;
 			}
 
+			$translations = bogo_get_post_translations( $original_post );
+
 			update_post_meta( $original_post->ID,
 				'_original_post', $original_post_guid
 			);
+
+			if ( $translations ) {
+				foreach ( $translations as $tr_locale => $tr_post ) {
+					update_post_meta( $tr_post->ID,
+						'_original_post', $original_post_guid
+					);
+				}
+			}
 
 			update_post_meta( $new_post_id,
 				'_original_post', $original_post_guid
@@ -482,7 +492,15 @@ function bogo_save_post( $post_id, $post ) {
 			$post_guid = $post_id;
 		}
 
+		$translations = bogo_get_post_translations( $post_id );
+
 		update_post_meta( $post_id, '_original_post', $post_guid );
+
+		if ( $translations ) {
+			foreach ( $translations as $tr_locale => $tr_post ) {
+				update_post_meta( $tr_post->ID, '_original_post', $post_guid );
+			}
+		}
 	}
 }
 
