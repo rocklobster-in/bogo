@@ -1,6 +1,6 @@
 const { registerPlugin } = wp.plugins;
 const { PluginDocumentSettingPanel } = wp.editPost;
-const { PanelRow, Button, ExternalLink } = wp.components;
+const { PanelRow, Button, ExternalLink, Spinner } = wp.components;
 const { useState } = wp.element;
 const { dispatch, useSelect } = wp.data;
 const { apiFetch } = wp;
@@ -68,6 +68,14 @@ function LanguagePanel() {
 
 	const AddTranslation = () => {
 		const addTranslation = ( locale ) => {
+			const translationsAlt = Object.assign( {}, translations );
+
+			translationsAlt[ locale ] = {
+				creating: true,
+			};
+
+			setTranslations( translationsAlt );
+
 			apiFetch( {
 				path: '/bogo/v1/posts/' + currentPost.id +
 					'/translations/' + locale,
@@ -77,8 +85,9 @@ function LanguagePanel() {
 
 				translationsAlt[ locale ] = {
 					postId: response[ locale ].id,
-					postTitle: response[ locale ].title.rendered,
+					postTitle: response[ locale ].title.raw,
 					editLink: response[ locale ].edit_link,
+					creating: false,
 				};
 
 				setTranslations( translationsAlt );
@@ -103,18 +112,21 @@ function LanguagePanel() {
 		const listItems = [];
 
 		Object.entries( translations ).forEach( ( [ key, value ] ) => {
-			if ( ! value.postId ) {
-				listItems.push(
-					<li key={ key }>
-						<Button
-							isDefault
-							onClick={ () => { addTranslation( key ) } }
-						>
-							{ bogo.l10n.addTranslation[ key ] }
-						</Button>
-					</li>
-				);
+			if ( value.postId ) {
+				return;
 			}
+
+			listItems.push(
+				<li key={ key }>
+					<Button
+						isDefault
+						onClick={ () => { addTranslation( key ) } }
+					>
+						{ bogo.l10n.addTranslation[ key ] }
+					</Button>
+					{ value.creating && <Spinner /> }
+				</li>
+			);
 		} );
 
 		if ( listItems.length < 1 || 'auto-draft' == currentPost.status ) {
