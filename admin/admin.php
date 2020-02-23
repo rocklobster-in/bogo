@@ -107,7 +107,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 				if ( $translation ) {
 					$current_post['translations'][$locale] = array(
 						'postId' => $translation->ID,
-						'postTitle' => get_the_title( $translation ),
+						'postTitle' => $translation->post_title,
 						'editLink' => get_edit_post_link( $translation, 'raw' ),
 					);
 				}
