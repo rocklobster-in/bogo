@@ -3,6 +3,7 @@ const { PluginDocumentSettingPanel } = wp.editPost;
 const { PanelRow, Button, ExternalLink, Spinner } = wp.components;
 const { useState } = wp.element;
 const { dispatch, useSelect } = wp.data;
+const { addQueryArgs, hasQueryArg } = wp.url;
 const { apiFetch } = wp;
 
 function LanguagePanel() {
@@ -156,6 +157,28 @@ function LanguagePanel() {
 registerPlugin( 'bogo-language-panel', {
 	render: LanguagePanel,
 	icon: 'translation'
+} );
+
+apiFetch.use( ( options, next ) => {
+	const postLang = bogo.currentPost.lang;
+
+	if ( postLang ) {
+		if (
+			typeof options.url === 'string' &&
+			! hasQueryArg( options.url, 'lang' )
+		) {
+			options.url = addQueryArgs( options.url, { lang: postLang } );
+		}
+
+		if (
+			typeof options.path === 'string' &&
+			! hasQueryArg( options.path, 'lang' )
+		) {
+			options.path = addQueryArgs( options.path, { lang: postLang } );
+		}
+	}
+
+	return next( options, next );
 } );
 
 const getLanguage = ( locale ) => {
