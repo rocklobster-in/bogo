@@ -31,29 +31,6 @@ add_action( 'init',
 	10, 0
 );
 
-/*
- * In the editor screen of a Page or other hierarchical post types,
- * Page Attributes > Parent Page should display candidates in the same locale
- * as the current page. This code block does it by guessing the locale
- * from the REST request and setting the lang query arg to it.
- */
-array_map(
-	function( $post_type ) {
-		add_filter( "rest_{$post_type}_query", 'bogo_rest_post_query', 10, 2 );
-	},
-	bogo_localizable_post_types()
-);
-
-function bogo_rest_post_query( $args, $request ) {
-	if ( empty( $args['lang'] )
-	and ! empty( $request['parent_exclude'] ) ) {
-		$post_ids = (array) $request['parent_exclude'];
-		$args['lang'] = bogo_get_post_locale( $post_ids[0] );
-	}
-
-	return $args;
-}
-
 /* Post Template */
 
 add_filter( 'body_class', 'bogo_body_class', 10, 2 );
