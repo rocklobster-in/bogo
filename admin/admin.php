@@ -81,8 +81,11 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	);
 
 	if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
+		$user_locale = bogo_get_user_locale();
+
 		$current_post = array(
-			'locale' => bogo_get_user_locale(),
+			'locale' => $user_locale,
+			'lang' => bogo_lang_slug( $user_locale ),
 			'translations' => array(),
 		);
 
@@ -91,6 +94,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 
 			if ( $locale = get_post_meta( $post->ID, '_locale', true ) ) {
 				$current_post['locale'] = $locale;
+				$current_post['lang'] = bogo_lang_slug( $locale );
 			}
 
 			$available_locales = bogo_available_locales( array(
