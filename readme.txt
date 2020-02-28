@@ -64,6 +64,12 @@ With the default configuration, this plugin, in itself, does not:
 
 == Changelog ==
 
+= 3.3.1 =
+
+* Block Editor: Displays a spinner icon when creating a translation post.
+* Block Editor: Suggests posts in the same locale as the current post when making a text link or doing other operations in a block.
+* Block Editor: Fixes the issue that character references appear in post titles.
+
 = 3.3 =
 
 * Supports Block Editor.
