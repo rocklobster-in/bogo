@@ -435,8 +435,8 @@ function bogo_texts_page() {
 <?php bogo_admin_notice(); ?>
 
 <form action="" method="get">
-<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ); ?>" />
-<input type="hidden" name="locale" value="<?php echo esc_attr( $_REQUEST['locale'] ); ?>" />
+<input type="hidden" name="page" value="<?php echo isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : ''; ?>" />
+<input type="hidden" name="locale" value="<?php echo isset( $_REQUEST['locale'] ) ? esc_attr( $_REQUEST['locale'] ) : ''; ?>" />
 <?php
 	$list_table->search_box(
 		__( 'Search Translation', 'bogo' ), 'bogo-terms-translation'
@@ -446,7 +446,7 @@ function bogo_texts_page() {
 
 <form action="" method="post" id="bogo-terms-translation">
 <input type="hidden" name="action" value="save" />
-<input type="hidden" name="paged" value="<?php echo absint( $_GET['paged'] ); ?>" />
+<input type="hidden" name="paged" value="<?php echo isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : ''; ?>" />
 <?php
 	wp_nonce_field( 'bogo-edit-text-translation' );
 	$list_table->display();
