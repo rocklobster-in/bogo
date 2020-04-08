@@ -43,7 +43,7 @@ function init_bogo_admin() {
             var response = JSON.parse( httpRequest.response );
             var post = response[locale];
 
-            if (!post) {
+            if ( !post ) {
               return;
             }
 
