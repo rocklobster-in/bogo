@@ -64,7 +64,7 @@ function init_bogo_admin() {
 
             var langs = document.getElementById( 'bogo-translations-to-add' );
 
-            if (!langs.options.length) {
+            if ( !langs.options.length ) {
               document.getElementById( 'bogo-add-translation-actions' ).remove();
             }
           }
