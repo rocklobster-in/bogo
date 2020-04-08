@@ -9,13 +9,11 @@ function init_bogo_admin() {
   };
 
   bogo.apiSettings.getRoute = function( path ) {
-
     var url = bogo.apiSettings.root;
     url = url.replace( bogo.apiSettings.namespace, bogo.apiSettings.namespace + path );
 
     return url;
   };
-
 
   var bogo_add_translation = document.getElementById( 'bogo-add-translation' );
 
@@ -48,7 +46,7 @@ function init_bogo_admin() {
             }
 
             // The element into which appending will be done
-            var element = document.'bogo-translations-to-add'( 'bogo-translations' );
+            var element = document.getElementById( 'bogo-translations' );
 
             // The element to be appended
             var child = document.createElement( 'LI' );
@@ -81,10 +79,7 @@ function init_bogo_admin() {
     };
   }
 
-
-
   if ( 'bogo-texts' == bogo.pagenow ) {
-
 
     window.onbeforeunload =  function( event ) {
       var changed = false;
@@ -101,12 +96,9 @@ function init_bogo_admin() {
       }
     };
 
-
-
     document.getElementById( 'bogo-terms-translation' ).onsubmit = function(){
       window.onbeforeunload = function () {};
     };
-
 
     var select_local = document.getElementById( 'select-locale' );
     select_local.addEventListener( 'change',function(){
