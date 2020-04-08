@@ -1,110 +1,124 @@
-( function( $ ) {
+function init_bogo_admin() {
 
-	'use strict';
+  if ( typeof bogo === 'undefined' || bogo === null ) {
+    return;
+  }
 
-	if ( typeof bogo === 'undefined' || bogo === null ) {
-		return;
-	}
+  bogo.langName = function( locale ) {
+    return bogo.availableLanguages[ locale ] || '';
+  };
 
-	bogo.langName = function( locale ) {
-		return bogo.availableLanguages[ locale ] || '';
-	};
+  bogo.apiSettings.getRoute = function( path ) {
 
-	$( function() {
-		$( 'body.options-general-php select#WPLANG' ).each( function() {
-			$( this ).find( 'option[selected="selected"]' ).removeAttr( 'selected' );
-			var val = bogo.defaultLocale || 'en_US';
-			val = ( 'en_US' == val ? '' : val );
-			$( this ).find( 'option[value="' + val + '"]' ).first().attr( 'selected', 'selected' );
-		} );
-	} );
+    var url = bogo.apiSettings.root;
+    url = url.replace( bogo.apiSettings.namespace, bogo.apiSettings.namespace + path );
 
-	$( function() {
-		$( '#bogo-add-translation' ).click( function() {
-			if ( ! bogo.currentPost.postId ) {
-				return;
-			}
+    return url;
+  };
+  
 
-			var locale = $( '#bogo-translations-to-add' ).val();
-			var rest_url = bogo.apiSettings.getRoute(
-				'/posts/' + bogo.currentPost.postId + '/translations/' + locale );
-			$( '#bogo-add-translation' ).next( '.spinner' )
-				.css( 'visibility', 'visible' );
+  var bogo_add_translation = document.getElementById( 'bogo-add-translation' );
 
-			$.ajax( {
-				type: 'POST',
-				url: rest_url,
-				beforeSend: function( xhr ) {
-					xhr.setRequestHeader( 'X-WP-Nonce', bogo.apiSettings.nonce );
-				}
-			} ).done( function( response ) {
-				var post = response[ locale ];
+  if ( bogo_add_translation ) {
 
-				if ( ! post ) {
-					return;
-				}
+    bogo_add_translation.onclick = function() {
 
-				var $added = $( '<a></a>' ).attr( {
-					href: post.edit_link,
-					target: '_blank',
-					rel: 'noopener noreferrer'
-				} ).html( function() {
-					var output = post.title.rendered;
-					output += ' <span class="screen-reader-text">'
-						+ bogo.l10n.targetBlank + '</span>';
-					return output;
-				} );
+      if ( !bogo.currentPost.postId ) {
+        return;
+      }
 
-				$added = $( '<li></li>' ).append( $added ).append(
-					' [' + bogo.availableLanguages[ locale ] + ']' );
-				$( '#bogo-translations' ).append( $added );
+      var locale = document.getElementById('bogo-translations-to-add').value;
+      var rest_url = bogo.apiSettings.getRoute( '/posts/' + bogo.currentPost.postId + '/translations/' + locale );
+      var spinner_element = document.getElementById( 'bogo-add-translation' ).nextElementSibling;
 
-				$( '#bogo-translations-to-add option[value="' + locale + '"]' ).detach();
+      spinner_element.style.visibility = 'visible';
 
-				if ( $( '#bogo-translations-to-add option' ).length < 1 ) {
-					$( '#bogo-add-translation-actions' ).detach();
-				}
-			} ).always( function() {
-				$( '#bogo-add-translation' ).next( '.spinner' ).css( 'visibility', 'hidden' );
-			} );
-		} );
-	} );
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.onreadystatechange = function( data ) {
 
-	$( function() {
-		if ( 'bogo-texts' == bogo.pagenow ) {
-			$( window ).on( 'beforeunload', function( event ) {
-				var changed = false;
+        if ( httpRequest.readyState == XMLHttpRequest.DONE ) {   // XMLHttpRequest.DONE == 4
 
-				$( '#bogo-terms-translation :text' ).each( function() {
-					if ( this.defaultValue != $( this ).val() ) {
-						changed = true;
-					}
-				} );
+          if ( httpRequest.status == 200 ) {
 
-				if ( changed ) {
-					event.returnValue = bogo.l10n.saveAlert;
-					return bogo.l10n.saveAlert;
-				}
-			} );
+            var response = JSON.parse( httpRequest.response );
+            var post = response[locale];
 
-			$( '#bogo-terms-translation' ).submit( function() {
-				$( window ).off( 'beforeunload' );
-			} );
+            if (!post) {
+              return;
+            }
 
-			$( '#select-locale' ).change( function() {
-				location = 'admin.php?page=bogo-texts&locale=' + $( this ).val();
-			} );
-		}
-	} );
+            // The element into which appending will be done
+            var element = document.getElementById( 'bogo-translations' );
 
-	bogo.apiSettings.getRoute = function( path ) {
-		var url = bogo.apiSettings.root;
+            // The element to be appended
+            var child = document.createElement( 'LI' );
+            var output = post.title.rendered;
+            output += ' <span class="screen-reader-text">' + bogo.l10n.targetBlank + '</span>';
+            child.innerHTML = '<a href="' + post.edit_link + '" target="_blank" rel="noopener noreferrer">' + output + '</a> [' + bogo.availableLanguages[locale] + ']';
 
-		url = url.replace(
-			bogo.apiSettings.namespace,
-			bogo.apiSettings.namespace + path );
+            // append
+            element.appendChild( child );
 
-		return url;
-	};
+            // remove appended option
+            document.querySelector( '#bogo-translations-to-add option[value="' + locale + '"]' ).remove();
 
-} )( jQuery );
+            var langs = document.getElementById( 'bogo-translations-to-add' );
+
+            if (!langs.options.length) {
+              document.getElementById( 'bogo-add-translation-actions' ).remove();
+            }
+          }
+
+          spinner_element.style.visibility = 'hidden';
+        }
+      };
+
+      httpRequest.open( 'POST', rest_url );
+      httpRequest.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+      httpRequest.setRequestHeader( 'X-WP-Nonce', bogo.apiSettings.nonce );
+      httpRequest.send();
+
+    };
+  }
+
+
+
+  if ( 'bogo-texts' == bogo.pagenow ) {
+
+    // window.addEventListener( "beforeunload", function( event ) {
+    window.onbeforeunload =  function( event ) {
+      var changed = false;
+
+      document.querySelectorAll( "#bogo-terms-translation input[type=text]" ).forEach( text => {
+        if ( text.defaultValue != text.value ) {
+              changed = true;
+            }
+      });
+
+      if ( changed ) {
+        event.returnValue = bogo.l10n.saveAlert;
+        return bogo.l10n.saveAlert;
+      }
+    };
+
+
+
+    document.getElementById('bogo-terms-translation').onsubmit = function(){
+      window.onbeforeunload = function () {};
+    };
+
+
+    var select_local = document.getElementById('select-locale');
+    select_local.addEventListener('change',function(){
+      location = 'admin.php?page=bogo-texts&locale=' + select_local.value;
+    });
+
+  }
+
+
+
+}
+
+
+// fire
+init_bogo_admin();
