@@ -15,7 +15,7 @@ function init_bogo_admin() {
 
     return url;
   };
-  
+
 
   var bogo_add_translation = document.getElementById( 'bogo-add-translation' );
 
@@ -103,22 +103,18 @@ function init_bogo_admin() {
 
 
 
-    document.getElementById('bogo-terms-translation').onsubmit = function(){
+    document.getElementById( 'bogo-terms-translation' ).onsubmit = function(){
       window.onbeforeunload = function () {};
     };
 
 
-    var select_local = document.getElementById('select-locale');
-    select_local.addEventListener('change',function(){
+    var select_local = document.getElementById( 'select-locale' );
+    select_local.addEventListener( 'change',function(){
       location = 'admin.php?page=bogo-texts&locale=' + select_local.value;
     });
 
   }
-
-
-
 }
-
 
 // fire
 init_bogo_admin();
