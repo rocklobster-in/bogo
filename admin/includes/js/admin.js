@@ -27,7 +27,7 @@ function init_bogo_admin() {
         return;
       }
 
-      var locale = document.getElementById('bogo-translations-to-add').value;
+      var locale = document.getElementById( 'bogo-translations-to-add' ).value;
       var rest_url = bogo.apiSettings.getRoute( '/posts/' + bogo.currentPost.postId + '/translations/' + locale );
       var spinner_element = document.getElementById( 'bogo-add-translation' ).nextElementSibling;
 
@@ -48,7 +48,7 @@ function init_bogo_admin() {
             }
 
             // The element into which appending will be done
-            var element = document.getElementById( 'bogo-translations' );
+            var element = document.'bogo-translations-to-add'( 'bogo-translations' );
 
             // The element to be appended
             var child = document.createElement( 'LI' );
@@ -85,7 +85,7 @@ function init_bogo_admin() {
 
   if ( 'bogo-texts' == bogo.pagenow ) {
 
-    // window.addEventListener( "beforeunload", function( event ) {
+
     window.onbeforeunload =  function( event ) {
       var changed = false;
 
