@@ -60,7 +60,7 @@ add_filter( 'locale', 'bogo_locale', 10, 1 );
 function bogo_locale( $locale ) {
 	global $wp_rewrite, $wp_query;
 
-	if ( ! did_action( 'plugins_loaded' ) ) {
+	if ( ! did_action( 'plugins_loaded' ) or is_admin() ) {
 		return $locale;
 	}
 
@@ -68,10 +68,6 @@ function bogo_locale( $locale ) {
 
 	if ( $bogo_locale ) {
 		return $bogo_locale;
-	}
-
-	if ( is_admin() ) {
-		return $bogo_locale = bogo_get_user_locale();
 	}
 
 	$default_locale = bogo_get_default_locale();
