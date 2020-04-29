@@ -38,13 +38,11 @@ function bogo_update_user_option( $user_id ) {
 add_action( 'personal_options', 'bogo_set_locale_options', 10, 1 );
 
 function bogo_set_locale_options( $profileuser ) {
-	if ( is_network_admin() ) {
+	if ( is_network_admin() or IS_PROFILE_PAGE ) {
 		return;
 	}
 
-	if ( defined( 'IS_PROFILE_PAGE' ) and IS_PROFILE_PAGE ) {
-		bogo_select_own_locale( $profileuser );
-	} elseif ( ! user_can( $profileuser, 'bogo_access_all_locales' ) ) {
+	if ( ! user_can( $profileuser, 'bogo_access_all_locales' ) ) {
 		bogo_set_accessible_locales( $profileuser );
 	}
 }
@@ -85,36 +83,6 @@ function bogo_set_accessible_locales( $profileuser ) {
 	endforeach;
 ?>
 </fieldset>
-</td>
-</tr>
-
-<?php
-}
-
-function bogo_select_own_locale( $profileuser ) {
-	if ( ! empty( $profileuser->locale ) ) { // WordPress 4.7+
-		return;
-	}
-
-	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true,
-		'orderby' => 'value',
-		'current_user_can_access' => true,
-	) );
-
-	$selected = bogo_get_user_locale( $profileuser->ID );
-
-?>
-
-<!-- Bogo plugin -->
-<tr>
-<th scope="row"><?php echo esc_html( __( 'Locale', 'bogo' ) ); ?></th>
-<td>
-<select name="bogo_own_locale">
-<?php foreach ( $available_languages as $locale => $lang ) : ?>
-<option value="<?php echo esc_attr( $locale ); ?>" <?php selected( $locale, $selected ); ?>><?php echo esc_html( $lang ); ?></option>
-<?php endforeach; ?>
-</select>
 </td>
 </tr>
 
