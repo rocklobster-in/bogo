@@ -113,3 +113,31 @@ function bogo_get_user_accessible_locales( $user_id ) {
 
 	return $locales;
 }
+
+add_filter( 'insert_user_meta', 'bogo_user_meta_filter', 10, 3 );
+
+function bogo_user_meta_filter( $meta, $user, $update ) {
+	if ( user_can( $user, 'bogo_access_all_locales' ) ) {
+		return $meta;
+	}
+
+	$locale = $meta['locale'];
+
+	if ( empty( $locale ) ) {
+		$locale = bogo_get_default_locale();
+	}
+
+	$accessible_locales = bogo_filter_locales(
+		bogo_get_user_accessible_locales( $user->ID )
+	);
+
+	if ( empty( $accessible_locales ) ) {
+		$locale = '';
+	} elseif ( ! in_array( $locale, $accessible_locales, true ) ) {
+		$locale = $accessible_locales[0];
+	}
+
+	$meta['locale'] = $locale;
+
+	return $meta;
+}
