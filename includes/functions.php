@@ -520,7 +520,7 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 			$url = substr( $url, 0, - strlen( $frag ) );
 		}
 
-		if ( $query = @parse_url( $url, PHP_URL_QUERY ) ) {
+		if ( $query = wp_parse_url( $url, PHP_URL_QUERY ) ) {
 			parse_str( $query, $query_vars );
 
 			foreach ( array_keys( $query_vars ) as $qv ) {
@@ -602,7 +602,7 @@ function bogo_get_lang_from_url( $url = '' ) {
 		return $matches[1];
 	}
 
-	if ( $query = @parse_url( $url, PHP_URL_QUERY ) ) {
+	if ( $query = wp_parse_url( $url, PHP_URL_QUERY ) ) {
 		parse_str( $query, $query_vars );
 
 		if ( isset( $query_vars['lang'] )
