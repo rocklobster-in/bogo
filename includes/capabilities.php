@@ -18,17 +18,31 @@ function bogo_map_meta_cap( $caps, $cap, $user_id, $args ) {
 		$caps[] = $meta_caps[$cap];
 	}
 
-	if ( 'bogo_access_locale' == $cap
+	static $accessible_locales = array();
+
+	if ( empty( $accessible_locales ) ) {
+		$accessible_locales = bogo_filter_locales(
+			bogo_get_user_accessible_locales( $user_id )
+		);
+	}
+
+	if ( 'bogo_access_locale' === $cap
 	and ! user_can( $user_id, 'bogo_access_all_locales' ) ) {
-		$accessible_locales = bogo_get_user_accessible_locales( $user_id );
+		$locale = $args[0];
 
-		if ( ! empty( $accessible_locales ) ) {
-			$accessible_locales = bogo_filter_locales( $accessible_locales );
-			$locale = $args[0];
+		if ( ! in_array( $locale, $accessible_locales ) ) {
+			$caps[] = 'do_not_allow';
+		}
+	}
 
-			if ( ! in_array( $locale, $accessible_locales ) ) {
-				$caps[] = 'do_not_allow';
-			}
+	if ( in_array( $cap, array( 'edit_post', 'delete_post' ), true )
+	and $post = get_post( $args[0] )
+	and $user_id !== $post->post_author
+	and ! user_can( $user_id, 'bogo_access_all_locales' ) ) {
+		$locale = bogo_get_post_locale( $post->ID );
+
+		if ( ! in_array( $locale, $accessible_locales ) ) {
+			$caps[] = 'do_not_allow';
 		}
 	}
 

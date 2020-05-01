@@ -368,7 +368,7 @@ function bogo_is_available_locale( $locale ) {
 }
 
 function bogo_filter_locales( $locales, $filter = 'available' ) {
-	return array_intersect( $locales, bogo_available_locales() );
+	return array_intersect( (array) $locales, bogo_available_locales() );
 }
 
 /**
