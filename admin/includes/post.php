@@ -101,14 +101,14 @@ add_filter( 'post_row_actions', 'bogo_post_row_actions', 10, 2 );
 add_filter( 'page_row_actions', 'bogo_post_row_actions', 10, 2 );
 
 function bogo_post_row_actions( $actions, $post ) {
-	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
+	if ( ! bogo_is_localizable_post_type( $post->post_type )
+	or 'trash' === $post->post_status ) {
 		return $actions;
 	}
 
 	$post_type_object = get_post_type_object( $post->post_type );
 
-	if ( ! current_user_can( $post_type_object->cap->edit_post, $post->ID )
-	or 'trash' == $post->post_status ) {
+	if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 		return $actions;
 	}
 
