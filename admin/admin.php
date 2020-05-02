@@ -91,6 +91,8 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 
 		if ( $post = get_post() ) {
 			$current_post['postId'] = $post->ID;
+			$post_type_object = get_post_type_object( $post->post_type );
+			$edit_post_cap = $post_type_object->cap->edit_post;
 
 			if ( $locale = get_post_meta( $post->ID, '_locale', true ) ) {
 				$current_post['locale'] = $locale;
@@ -100,7 +102,6 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 			$available_locales = bogo_available_locales( array(
 				'exclude' => array( $current_post['locale'] ),
 				'exclude_enus_if_inactive' => true,
-				'current_user_can_access' => true,
 			) );
 
 			foreach ( $available_locales as $locale ) {
@@ -112,7 +113,9 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 					$current_post['translations'][$locale] = array(
 						'postId' => $translation->ID,
 						'postTitle' => $translation->post_title,
-						'editLink' => get_edit_post_link( $translation, 'raw' ),
+						'editLink' => current_user_can( $edit_post_cap, $translation->ID )
+							? get_edit_post_link( $translation, 'raw' )
+							: '',
 					);
 				}
 			}
