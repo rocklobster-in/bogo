@@ -18,12 +18,11 @@ function bogo_map_meta_cap( $caps, $cap, $user_id, $args ) {
 		$caps[] = $meta_caps[$cap];
 	}
 
-	static $accessible_locales = array();
+	static $accessible_locales = null;
 
-	if ( empty( $accessible_locales ) ) {
-		$accessible_locales = bogo_filter_locales(
-			bogo_get_user_accessible_locales( $user_id )
-		);
+	if ( 'bogo_access_all_locales' !== $cap
+	and null === $accessible_locales ) {
+		$accessible_locales = bogo_get_user_accessible_locales( $user_id );
 	}
 
 	if ( 'bogo_access_locale' === $cap
