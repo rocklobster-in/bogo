@@ -268,7 +268,7 @@ function bogo_available_locales( $args = '' ) {
 
 		$available_locales = array_intersect(
 			$available_locales,
-			(array) $user_accessible_locales
+			$user_accessible_locales
 		);
 	}
 

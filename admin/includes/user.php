@@ -55,12 +55,6 @@ function bogo_set_accessible_locales( $profileuser ) {
 
 	$accessible_locales = bogo_get_user_accessible_locales( $profileuser->ID );
 
-	if ( empty( $accessible_locales ) ) {
-		$accessible_locales = array_keys( $available_languages );
-	} else {
-		$accessible_locales = bogo_filter_locales( $accessible_locales );
-	}
-
 ?>
 
 <!-- Bogo plugin -->

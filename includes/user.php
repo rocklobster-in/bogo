@@ -103,12 +103,27 @@ function bogo_get_user_accessible_locales( $user_id ) {
 	global $wpdb;
 
 	$user_id = absint( $user_id );
+
+	if ( user_can( $user_id, 'bogo_access_all_locales' ) ) {
+		$locales = bogo_available_locales( array(
+			'exclude_enus_if_inactive' => true,
+		) );
+
+		return $locales;
+	}
+
 	$meta_key = $wpdb->get_blog_prefix() . 'accessible_locale';
 
-	$locales = get_user_meta( $user_id, $meta_key );
+	$locales = (array) get_user_meta( $user_id, $meta_key );
 
 	if ( bogo_is_enus_deactivated() ) {
 		$locales = array_diff( $locales, array( 'en_US' ) );
+	}
+
+	$locales = bogo_filter_locales( $locales );
+
+	if ( empty( $locales ) ) {
+		$locales = array( bogo_get_default_locale() );
 	}
 
 	return $locales;
