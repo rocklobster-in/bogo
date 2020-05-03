@@ -5,7 +5,7 @@ add_filter( 'map_meta_cap', 'bogo_map_meta_cap', 10, 4 );
 function bogo_map_meta_cap( $caps, $cap, $user_id, $args ) {
 	$meta_caps = array(
 		'bogo_manage_language_packs' => 'install_languages',
-		'bogo_edit_terms_translation' => 'manage_options',
+		'bogo_edit_terms_translation' => 'manage_categories',
 		'bogo_access_all_locales' => 'manage_options',
 		'bogo_access_locale' => 'read',
 	);

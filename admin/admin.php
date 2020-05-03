@@ -347,32 +347,34 @@ function bogo_load_texts_page() {
 	if ( 'save' == $action ) {
 		check_admin_referer( 'bogo-edit-text-translation' );
 
-		$locale = isset( $_POST['locale'] ) ? $_POST['locale'] : null;
-
 		if ( ! current_user_can( 'bogo_edit_terms_translation' ) ) {
 			wp_die( __( "You are not allowed to edit translations.", 'bogo' ) );
+		}
+
+		$locale = isset( $_POST['locale'] ) ? $_POST['locale'] : null;
+
+		if ( ! bogo_is_available_locale( $locale ) ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'bogo_access_locale', $locale ) ) {
+			wp_die( __( "You are not allowed to edit terms in this locale.", 'bogo' ) );
 		}
 
 		$entries = array();
 
 		foreach ( (array) bogo_terms_translation( $locale ) as $item ) {
-			$entries[] = array(
-				'singular' => $item['name'],
-				'translations' => array( $item['translated'] ),
-				'context' => preg_replace( '/:.*$/', '', $item['name'] ),
-			);
-		}
+			$translation = $item['translated'];
 
-		foreach ( $_POST as $p_key => $p_val ) {
-			if ( in_array( $p_key, array( 'action', 'locale', 'submit', 'paged' ) )
-			or substr( $p_key, 0, 1 ) == '_' ) {
-				continue;
+			if ( isset( $_POST[$item['name']] )
+			and current_user_can( $item['cap'] ) ) {
+				$translation = $_POST[$item['name']];
 			}
 
 			$entries[] = array(
-				'singular' => $p_key,
-				'translations' => array( $p_val ),
-				'context' => preg_replace( '/:.*$/', '', $p_key ),
+				'singular' => $item['name'],
+				'translations' => array( $translation ),
+				'context' => preg_replace( '/:.*$/', '', $item['name'] ),
 			);
 		}
 
