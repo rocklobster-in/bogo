@@ -18,18 +18,20 @@ function bogo_map_meta_cap( $caps, $cap, $user_id, $args ) {
 		$caps[] = $meta_caps[$cap];
 	}
 
-	static $accessible_locales = null;
+	static $accessible_locales = array();
 
 	if ( 'bogo_access_all_locales' !== $cap
-	and null === $accessible_locales ) {
-		$accessible_locales = bogo_get_user_accessible_locales( $user_id );
+	and ! isset( $accessible_locales[$user_id] ) ) {
+		$accessible_locales[$user_id] = bogo_get_user_accessible_locales(
+			$user_id
+		);
 	}
 
 	if ( 'bogo_access_locale' === $cap
 	and ! user_can( $user_id, 'bogo_access_all_locales' ) ) {
 		$locale = $args[0];
 
-		if ( ! in_array( $locale, $accessible_locales ) ) {
+		if ( ! in_array( $locale, $accessible_locales[$user_id] ) ) {
 			$caps[] = 'do_not_allow';
 		}
 	}
@@ -40,7 +42,7 @@ function bogo_map_meta_cap( $caps, $cap, $user_id, $args ) {
 	and ! user_can( $user_id, 'bogo_access_all_locales' ) ) {
 		$locale = bogo_get_post_locale( $post->ID );
 
-		if ( ! in_array( $locale, $accessible_locales ) ) {
+		if ( ! in_array( $locale, $accessible_locales[$user_id] ) ) {
 			$caps[] = 'do_not_allow';
 		}
 	}
