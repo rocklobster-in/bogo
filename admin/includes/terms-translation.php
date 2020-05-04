@@ -27,7 +27,11 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 		$items = bogo_terms_translation( $this->locale_to_edit );
 
 		foreach ( $items as $key => $item ) {
-			if ( ! current_user_can( $item['cap'] ) ) {
+			$cap = isset( $item['cap'] )
+				? $item['cap']
+				: 'bogo_edit_terms_translation';
+
+			if ( ! current_user_can( $cap ) ) {
 				unset( $items[$key] );
 			}
 		}

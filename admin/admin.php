@@ -366,8 +366,12 @@ function bogo_load_texts_page() {
 		foreach ( (array) bogo_terms_translation( $locale ) as $item ) {
 			$translation = $item['translated'];
 
+			$cap = isset( $item['cap'] )
+				? $item['cap']
+				: 'bogo_edit_terms_translation';
+
 			if ( isset( $_POST[$item['name']] )
-			and current_user_can( $item['cap'] ) ) {
+			and current_user_can( $cap ) ) {
 				$translation = $_POST[$item['name']];
 			}
 
