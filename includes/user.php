@@ -2,6 +2,18 @@
 
 /* Toolbar (Admin Bar) */
 
+add_action( 'admin_bar_init', 'bogo_admin_bar_init', 10, 0 );
+
+function bogo_admin_bar_init() {
+	switch_to_locale( bogo_get_user_locale() );
+}
+
+add_action( 'wp_after_admin_bar_render', 'bogo_after_admin_bar_render', 10, 0 );
+
+function bogo_after_admin_bar_render() {
+	restore_current_locale();
+}
+
 add_action( 'admin_bar_menu', 'bogo_admin_bar_menu', 10, 1 );
 
 function bogo_admin_bar_menu( $wp_admin_bar ) {
