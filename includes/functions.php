@@ -53,6 +53,7 @@ function bogo_languages() {
 		'es_GT' => __( 'Spanish (Guatemala)', 'bogo' ),
 		'es_MX' => __( 'Spanish (Mexico)', 'bogo' ),
 		'es_PE' => __( 'Spanish (Peru)', 'bogo' ),
+		'es_PR' => __( 'Spanish (Puerto Rico)', 'bogo' ),
 		'es_UY' => __( 'Spanish (Uruguay)', 'bogo' ),
 		'es_VE' => __( 'Spanish (Venezuela)', 'bogo' ),
 		'et' => __( 'Estonian', 'bogo' ),
