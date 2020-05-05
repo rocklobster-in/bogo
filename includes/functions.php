@@ -4,7 +4,7 @@ function bogo_languages() {
 	static $languages = array();
 	static $textdomain_loaded = false;
 
-	if ( $languages and $textdomain_loaded ) {
+	if ( $languages and $textdomain_loaded and ! is_locale_switched() ) {
 		return apply_filters( 'bogo_languages', $languages );
 	}
 
@@ -151,9 +151,7 @@ function bogo_languages() {
 		'zh_TW' => __( 'Chinese (Taiwan)', 'bogo' ),
 	);
 
-	if ( is_textdomain_loaded( 'bogo' ) ) {
-		$textdomain_loaded = true;
-	}
+	$textdomain_loaded = is_textdomain_loaded( 'bogo' ) && ! is_locale_switched();
 
 	asort( $languages, SORT_STRING );
 
