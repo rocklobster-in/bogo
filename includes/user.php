@@ -11,7 +11,9 @@ function bogo_admin_bar_init() {
 add_action( 'wp_after_admin_bar_render', 'bogo_after_admin_bar_render', 10, 0 );
 
 function bogo_after_admin_bar_render() {
-	restore_current_locale();
+	if ( is_locale_switched() ) {
+		restore_current_locale();
+	}
 }
 
 add_action( 'admin_bar_menu', 'bogo_admin_bar_menu', 10, 1 );
