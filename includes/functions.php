@@ -293,7 +293,7 @@ function bogo_available_languages( $args = '' ) {
 		'exclude' => array(),
 		'orderby' => 'key',
 		'order' => 'ASC',
-		'exclude_enus_if_inactive' => false,
+		'exclude_enus_if_inactive' => true,
 		'current_user_can_access' => false,
 		'short_name' => true,
 	);
@@ -306,28 +306,13 @@ function bogo_available_languages( $args = '' ) {
 
 	foreach ( $available_locales as $locale ) {
 		$lang = bogo_get_language( $locale );
-		$langs[$locale] = empty( $lang ) ? "[$locale]" : $lang;
-	}
 
-	if ( $args['short_name'] ) {
-		$langs_tmp = $langs;
-
-		foreach( $langs as $locale => $lang ) {
-			if ( preg_match( '/^([^()]+)/', $lang, $matches ) ) {
-				$short_name = trim( $matches[1] );
-
-				$in_same_lang = preg_grep(
-					sprintf( '/^%s/', preg_quote( $short_name, '/' ) ),
-					$langs
-				);
-
-				if ( count( $in_same_lang ) < 2 ) {
-					$langs_tmp[$locale] = $short_name;
-				}
-			}
+		if ( $args['short_name'] and bogo_locale_is_alone( $locale ) ) {
+			$lang = bogo_shorten_name( $lang );
 		}
 
-		$langs = $langs_tmp;
+		$lang = trim( $lang );
+		$langs[$locale] = empty( $lang ) ? "[$locale]" : $lang;
 	}
 
 	if ( 'value' == $args['orderby'] ) {
@@ -391,13 +376,35 @@ function bogo_lang_slug( $locale ) {
 		$slug = substr( $tag, 0, $pos );
 	}
 
-	$variations = preg_grep( '/^' . $slug . '/', bogo_available_locales() );
+	$variations = preg_grep( '/^' . $slug . '/',
+		bogo_available_locales( array( 'exclude_enus_if_inactive' => true ) )
+	);
 
 	if ( 1 < count( $variations ) ) {
 		$slug = $tag;
 	}
 
 	return apply_filters( 'bogo_lang_slug', $slug, $locale );
+}
+
+function bogo_locale_is_alone( $locale ) {
+	$tag = bogo_language_tag( $locale );
+
+	if ( false === strpos( $tag, '-' ) ) {
+		return true;
+	}
+
+	$slug = bogo_lang_slug( $locale );
+
+	return strlen( $slug ) < strlen( $tag );
+}
+
+function bogo_shorten_name( $lang ) {
+	if ( preg_match( '/^([^()]+)/', $lang, $matches ) ) {
+		$lang = $matches[1];
+	}
+
+	return trim( $lang );
 }
 
 function bogo_get_lang_regex() {
