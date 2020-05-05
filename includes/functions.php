@@ -376,9 +376,9 @@ function bogo_language_tag( $locale ) {
 	$tag = preg_replace( '/[^0-9a-zA-Z]+/', '-', $locale );
 	$tag = trim( $tag, '-' );
 
-	if ( '-formal' == substr( $tag, -7 ) ) {
-		$tag = substr( $tag, 0, -7 );
-	}
+	$tag = explode( '-', $tag );
+	$tag = array_slice( $tag, 0, 2 ); // de-DE-formal => de-DE
+	$tag = implode( '-', $tag );
 
 	return apply_filters( 'bogo_language_tag', $tag, $locale );
 }
