@@ -98,6 +98,7 @@ function bogo_language_switcher_links( $args = '' ) {
 	$args = wp_parse_args( $args, array() );
 
 	$locale = get_locale();
+
 	$available_languages = bogo_available_languages( array(
 		'exclude_enus_if_inactive' => true,
 	) );
@@ -114,11 +115,17 @@ function bogo_language_switcher_links( $args = '' ) {
 	$links = array();
 
 	foreach ( $available_languages as $code => $name ) {
+		$native_name = bogo_get_language_native_name( $code );
+
+		if ( bogo_locale_is_alone( $code ) ) {
+			$native_name = bogo_shorten_name( $native_name );
+		}
+
 		$link = array(
 			'locale' => $code,
 			'lang' => bogo_language_tag( $code ),
 			'title' => $name,
-			'native_name' => bogo_get_language_native_name( $code ),
+			'native_name' => trim( $native_name ),
 			'href' => '',
 		);
 
