@@ -243,7 +243,7 @@ function bogo_is_enus_deactivated() {
 function bogo_available_locales( $args = '' ) {
 	$defaults = array(
 		'exclude' => array(),
-		'exclude_enus_if_inactive' => false,
+		'exclude_enus_if_inactive' => true,
 		'current_user_can_access' => false,
 	);
 
@@ -343,9 +343,7 @@ function bogo_is_available_locale( $locale ) {
 	static $available_locales = array();
 
 	if ( empty( $available_locales ) ) {
-		$available_locales = bogo_available_locales( array(
-			'exclude_enus_if_inactive' => true,
-		) );
+		$available_locales = bogo_available_locales();
 	}
 
 	return in_array( $locale, $available_locales );
@@ -378,7 +376,7 @@ function bogo_lang_slug( $locale ) {
 	}
 
 	$variations = preg_grep( '/^' . $slug . '/',
-		bogo_available_locales( array( 'exclude_enus_if_inactive' => true ) )
+		bogo_available_locales()
 	);
 
 	if ( 1 < count( $variations ) ) {

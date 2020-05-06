@@ -37,9 +37,7 @@ function bogo_rest_languages( WP_REST_Request $request ) {
 
 	$available_translations = wp_get_available_translations();
 
-	$local_available_locales = bogo_available_locales( array(
-		'exclude_enus_if_inactive' => true,
-	) );
+	$local_available_locales = bogo_available_locales();
 
 	$available_translations = array_intersect_key(
 		$available_translations,

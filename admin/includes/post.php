@@ -68,11 +68,9 @@ function bogo_manage_posts_custom_column( $column_name, $post_id ) {
 	);
 }
 
-add_action( 'restrict_manage_posts', 'bogo_restrict_manage_posts', 10, 0 );
+add_action( 'restrict_manage_posts', 'bogo_restrict_manage_posts', 10, 2 );
 
-function bogo_restrict_manage_posts() {
-	global $post_type;
-
+function bogo_restrict_manage_posts( $post_type, $which ) {
 	if ( ! bogo_is_localizable_post_type( $post_type ) ) {
 		return;
 	}
@@ -221,7 +219,6 @@ function bogo_l10n_meta_box( $post ) {
 
 	$translations = bogo_get_post_translations( $post->ID );
 	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true,
 		'current_user_can_access' => true,
 	) );
 

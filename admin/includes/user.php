@@ -49,7 +49,6 @@ function bogo_set_locale_options( $profileuser ) {
 
 function bogo_set_accessible_locales( $profileuser ) {
 	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true,
 		'orderby' => 'value',
 	) );
 
