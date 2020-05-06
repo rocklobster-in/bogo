@@ -118,7 +118,7 @@ function bogo_language_switcher_links( $args = '' ) {
 		$native_name = bogo_get_language_native_name( $code );
 
 		if ( bogo_locale_is_alone( $code ) ) {
-			$native_name = bogo_shorten_name( $native_name );
+			$native_name = bogo_get_short_name( $native_name );
 		}
 
 		$link = array(
