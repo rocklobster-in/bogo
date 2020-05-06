@@ -309,7 +309,7 @@ function bogo_available_languages( $args = '' ) {
 		$lang = bogo_get_language( $locale );
 
 		if ( $args['short_name'] and bogo_locale_is_alone( $locale ) ) {
-			$lang = bogo_shorten_name( $lang );
+			$lang = bogo_get_short_name( $lang );
 		}
 
 		$lang = trim( $lang );
@@ -400,12 +400,30 @@ function bogo_locale_is_alone( $locale ) {
 	return strlen( $slug ) < strlen( $tag );
 }
 
-function bogo_shorten_name( $lang ) {
-	if ( preg_match( '/^([^()]+)/', $lang, $matches ) ) {
-		$lang = $matches[1];
+function bogo_get_short_name( $orig_name ) {
+	$short_name = $orig_name;
+
+	$langs_with_variants = array(
+		'中文',
+		'Français',
+		'Português',
+		'Español',
+	);
+
+	foreach ( $langs_with_variants as $lang ) {
+		if ( false !== strpos( $orig_name, $lang ) ) {
+			$short_name = $lang;
+			break;
+		}
 	}
 
-	return trim( $lang );
+	if ( preg_match( '/^([^()]+)/', $short_name, $matches ) ) {
+		$short_name = $matches[1];
+	}
+
+	$short_name = apply_filters( 'bogo_get_short_name', $short_name, $orig_name );
+
+	return trim( $short_name );
 }
 
 function bogo_get_lang_regex() {
