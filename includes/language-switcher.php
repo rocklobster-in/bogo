@@ -99,9 +99,7 @@ function bogo_language_switcher_links( $args = '' ) {
 
 	$locale = get_locale();
 
-	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true,
-	) );
+	$available_languages = bogo_available_languages();
 
 	$translations = array();
 	$is_singular = false;

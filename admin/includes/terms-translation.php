@@ -109,7 +109,6 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 			);
 
 			$available_locales = bogo_available_locales( array(
-				'exclude_enus_if_inactive' => true,
 				'current_user_can_access' => true,
 			) );
 

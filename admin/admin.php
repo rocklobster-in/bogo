@@ -41,7 +41,6 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	);
 
 	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true,
 		'orderby' => 'value',
 	) );
 
@@ -101,7 +100,6 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 
 			$available_locales = bogo_available_locales( array(
 				'exclude' => array( $current_post['locale'] ),
-				'exclude_enus_if_inactive' => true,
 			) );
 
 			foreach ( $available_locales as $locale ) {
@@ -144,7 +142,6 @@ function bogo_admin_menu() {
 	add_action( 'load-' . $tools, 'bogo_load_tools_page', 10, 0 );
 
 	$available_locales = bogo_available_locales( array(
-		'exclude_enus_if_inactive' => true,
 		'current_user_can_access' => true,
 	) );
 

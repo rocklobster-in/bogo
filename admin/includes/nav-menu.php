@@ -20,7 +20,6 @@ class Bogo_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 
 	private function language_settings( $menu_item ) {
 		$available_languages = bogo_available_languages( array(
-			'exclude_enus_if_inactive' => true,
 			'orderby' => 'value',
 		) );
 

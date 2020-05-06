@@ -22,7 +22,6 @@ function bogo_admin_bar_menu( $wp_admin_bar ) {
 	$current_locale = bogo_get_user_locale();
 
 	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true,
 		'current_user_can_access' => true,
 	) );
 
@@ -119,9 +118,7 @@ function bogo_get_user_accessible_locales( $user_id ) {
 	$user_id = absint( $user_id );
 
 	if ( user_can( $user_id, 'bogo_access_all_locales' ) ) {
-		$locales = bogo_available_locales( array(
-			'exclude_enus_if_inactive' => true,
-		) );
+		$locales = bogo_available_locales();
 
 		return $locales;
 	}

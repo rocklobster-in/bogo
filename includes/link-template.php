@@ -174,9 +174,7 @@ function bogo_m17n_headers() {
 			}
 		}
 	} else {
-		$available_locales = bogo_available_locales( array(
-			'exclude_enus_if_inactive' => true,
-		) );
+		$available_locales = bogo_available_locales();
 
 		foreach ( $available_locales as $locale ) {
 			$languages[] = array(
