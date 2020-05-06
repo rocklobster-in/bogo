@@ -143,9 +143,10 @@ function bogo_admin_menu() {
 
 	$available_locales = bogo_available_locales( array(
 		'current_user_can_access' => true,
+		'exclude' => array( bogo_get_default_locale() ),
 	) );
 
-	if ( 1 < count( $available_locales ) ) {
+	if ( 0 < count( $available_locales ) ) {
 		$texts = add_submenu_page( 'bogo',
 			__( 'Terms Translation', 'bogo' ),
 			__( 'Terms Translation', 'bogo' ),
