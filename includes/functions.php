@@ -514,7 +514,7 @@ function bogo_http_accept_languages() {
 
 function bogo_url( $url = null, $lang = null ) {
 	if ( ! $lang ) {
-		$lang = get_locale();
+		$lang = determine_locale();
 	}
 
 	$args = array(
