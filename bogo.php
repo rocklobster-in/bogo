@@ -52,7 +52,7 @@ add_action( 'init', 'bogo_init', 10, 0 );
 
 function bogo_init() {
 	bogo_languages();
-	Bogo_POMO::import( get_locale() );
+	Bogo_POMO::import( determine_locale() );
 }
 
 add_filter( 'locale', 'bogo_locale', 10, 1 );
