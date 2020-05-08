@@ -36,7 +36,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	}
 
 	wp_enqueue_script( 'bogo-admin',
-		plugins_url( 'admin/includes/js/admin.js', BOGO_PLUGIN_BASENAME ),
+		plugins_url( 'admin/includes/js/admin.min.js', BOGO_PLUGIN_BASENAME ),
 		array( 'jquery' ), BOGO_VERSION, true
 	);
 
