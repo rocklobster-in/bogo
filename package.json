@@ -25,6 +25,15 @@
   },
   "homepage": "https://github.com/takayukister/bogo#readme",
   "devDependencies": {
-    "@wordpress/scripts": "6.1.0"
+    "@wordpress/scripts": "6.1.0",
+    "@types/jquery": "^3.3.38",
+    "gulp": "^4.0.2",
+    "gulp-rename": "1.4.0",
+    "gulp-uglify": "3.0.2"
+  },
+  "dependencies": {
+    "@wordpress/api-fetch": "^3.14.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "typescript": "^3.8.3"
   }
 }
