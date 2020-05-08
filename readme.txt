@@ -2,7 +2,7 @@
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 5.3
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: 3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -63,6 +63,14 @@ With the default configuration, this plugin, in itself, does not:
 1. The **Language Packs** screen lets you view and install language packs.
 
 == Changelog ==
+
+= 3.3.2 =
+
+* User locale: Fixes several issues seen when you are logged-in as a non-Administrator role user.
+* User locale: Renders the **Toolbar** in the logged-in user's locale even on the front side.
+* Capabilities: Editor role users can now access the **Terms Translation** page, but higher level capabilities are required to edit some of translation items.
+* Makes the `exclude_enus_if_inactive` option true by default.
+* New filter hook: `bogo_get_short_name`
 
 = 3.3.1 =
 

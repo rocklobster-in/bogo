@@ -2,13 +2,26 @@
 
 /* Toolbar (Admin Bar) */
 
+add_action( 'admin_bar_init', 'bogo_admin_bar_init', 10, 0 );
+
+function bogo_admin_bar_init() {
+	switch_to_locale( bogo_get_user_locale() );
+}
+
+add_action( 'wp_after_admin_bar_render', 'bogo_after_admin_bar_render', 10, 0 );
+
+function bogo_after_admin_bar_render() {
+	if ( is_locale_switched() ) {
+		restore_current_locale();
+	}
+}
+
 add_action( 'admin_bar_menu', 'bogo_admin_bar_menu', 10, 1 );
 
 function bogo_admin_bar_menu( $wp_admin_bar ) {
 	$current_locale = bogo_get_user_locale();
 
 	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true,
 		'current_user_can_access' => true,
 	) );
 
@@ -103,13 +116,54 @@ function bogo_get_user_accessible_locales( $user_id ) {
 	global $wpdb;
 
 	$user_id = absint( $user_id );
+
+	if ( user_can( $user_id, 'bogo_access_all_locales' ) ) {
+		$locales = bogo_available_locales();
+
+		return $locales;
+	}
+
 	$meta_key = $wpdb->get_blog_prefix() . 'accessible_locale';
 
-	$locales = get_user_meta( $user_id, $meta_key );
+	$locales = (array) get_user_meta( $user_id, $meta_key );
 
 	if ( bogo_is_enus_deactivated() ) {
 		$locales = array_diff( $locales, array( 'en_US' ) );
 	}
 
+	$locales = bogo_filter_locales( $locales );
+
+	if ( empty( $locales ) ) {
+		$locales = array( bogo_get_default_locale() );
+	}
+
 	return $locales;
+}
+
+add_filter( 'insert_user_meta', 'bogo_user_meta_filter', 10, 3 );
+
+function bogo_user_meta_filter( $meta, $user, $update ) {
+	if ( user_can( $user, 'bogo_access_all_locales' ) ) {
+		return $meta;
+	}
+
+	$locale = $meta['locale'];
+
+	if ( empty( $locale ) ) {
+		$locale = bogo_get_default_locale();
+	}
+
+	$accessible_locales = bogo_filter_locales(
+		bogo_get_user_accessible_locales( $user->ID )
+	);
+
+	if ( empty( $accessible_locales ) ) {
+		$locale = '';
+	} elseif ( ! in_array( $locale, $accessible_locales, true ) ) {
+		$locale = $accessible_locales[0];
+	}
+
+	$meta['locale'] = $locale;
+
+	return $meta;
 }

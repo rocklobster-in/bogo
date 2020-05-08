@@ -2,7 +2,7 @@
   "name": "bogo",
   "version": "3.3.0",
   "description": "A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "build": "wp-scripts build includes/js/src/block-editor.js --output-path=includes/js",
     "check-engines": "wp-scripts check-engines",

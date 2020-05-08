@@ -37,9 +37,7 @@ function bogo_rest_languages( WP_REST_Request $request ) {
 
 	$available_translations = wp_get_available_translations();
 
-	$local_available_locales = bogo_available_locales( array(
-		'exclude_enus_if_inactive' => true,
-	) );
+	$local_available_locales = bogo_available_locales();
 
 	$available_translations = array_intersect_key(
 		$available_translations,
@@ -61,13 +59,18 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 		);
 	}
 
-	$post_type_object = get_post_type_object( $post->post_type );
-	$user_can_edit = current_user_can(
-		$post_type_object->cap->edit_post, $post->ID
-	);
+	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
+		return new WP_Error( 'bogo_post_type_invalid',
+			__( "The requested post type is not localizable.", 'bogo' ),
+			array( 'status' => 400 )
+		);
+	}
 
-	if ( ! $user_can_edit
-	and 'publish' != get_post_status( $post ) ) {
+	$post_type_object = get_post_type_object( $post->post_type );
+	$edit_post_cap = $post_type_object->cap->edit_post;
+
+	if ( ! current_user_can( $edit_post_cap, $post->ID )
+	and 'publish' !== get_post_status( $post ) ) {
 		return new WP_Error( 'bogo_post_not_found',
 			__( "The requested post was not found.", 'bogo' ),
 			array( 'status' => 404 )
@@ -79,7 +82,7 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 
 	foreach ( $translations as $locale => $translation ) {
 		if ( ! current_user_can( 'edit_post', $translation->ID )
-		and 'publish' != get_post_status( $translation ) ) {
+		and 'publish' !== get_post_status( $translation ) ) {
 			continue;
 		}
 
@@ -107,7 +110,7 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 			$response[$locale]['guid']['rendered'] =
 				apply_filters( 'get_the_guid', $translation->guid );
 
-			if ( $user_can_edit ) {
+			if ( current_user_can( $edit_post_cap, $translation->ID ) ) {
 				$response[$locale]['guid']['raw'] = $translation->guid;
 			}
 		}
@@ -116,7 +119,7 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 			$response[$locale]['title']['rendered'] =
 				get_the_title( $translation->ID );
 
-			if ( $user_can_edit ) {
+			if ( current_user_can( $edit_post_cap, $translation->ID ) ) {
 				$response[$locale]['title']['raw'] = $translation->post_title;
 			}
 		}
@@ -127,7 +130,7 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 				$translation->post_content
 			);
 
-			if ( $user_can_edit ) {
+			if ( current_user_can( $edit_post_cap, $translation->ID ) ) {
 				$response[$locale]['content']['raw'] = $translation->post_content;
 			}
 		}
@@ -138,7 +141,7 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 				apply_filters( 'get_the_excerpt', $translation->post_excerpt )
 			);
 
-			if ( $user_can_edit ) {
+			if ( current_user_can( $edit_post_cap, $translation->ID ) ) {
 				$response[$locale]['excerpt']['raw'] = $translation->post_excerpt;
 			}
 		}
@@ -152,12 +155,17 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 
 	$post = get_post( $post_id );
 
-	if ( ! $post
-	or ! current_user_can( 'edit_post', $post->ID )
-	and 'publish' != get_post_status( $post ) ) {
+	if ( ! $post ) {
 		return new WP_Error( 'bogo_post_not_found',
 			__( "The requested post was not found.", 'bogo' ),
 			array( 'status' => 404 )
+		);
+	}
+
+	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
+		return new WP_Error( 'bogo_post_type_invalid',
+			__( "The requested post type is not localizable.", 'bogo' ),
+			array( 'status' => 400 )
 		);
 	}
 
@@ -170,10 +178,9 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 		);
 	}
 
-	if ( $post_type_object = get_post_type_object( $post->post_type )
-	and ! current_user_can( $post_type_object->cap->edit_posts ) ) {
-		return new WP_Error( 'bogo_post_type_forbidden',
-			__( "You are not allowed to edit posts in this post type.", 'bogo' ),
+	if ( ! current_user_can( 'bogo_access_locale', $locale ) ) {
+		return new WP_Error( 'bogo_locale_forbidden',
+			__( "You are not allowed to access posts in the requested locale.", 'bogo' ),
 			array( 'status' => 403 )
 		);
 	}
