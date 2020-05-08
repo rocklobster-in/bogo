@@ -7,10 +7,10 @@ Author: Takayuki Miyoshi
 Author URI: https://ideasilo.wordpress.com/
 Text Domain: bogo
 Domain Path: /languages/
-Version: 3.3.1
+Version: 3.3.2
 */
 
-define( 'BOGO_VERSION', '3.3.1' );
+define( 'BOGO_VERSION', '3.3.2' );
 
 define( 'BOGO_PLUGIN', __FILE__ );
 
@@ -52,7 +52,7 @@ add_action( 'init', 'bogo_init', 10, 0 );
 
 function bogo_init() {
 	bogo_languages();
-	Bogo_POMO::import( get_locale() );
+	Bogo_POMO::import( determine_locale() );
 }
 
 add_filter( 'locale', 'bogo_locale', 10, 1 );
@@ -60,7 +60,7 @@ add_filter( 'locale', 'bogo_locale', 10, 1 );
 function bogo_locale( $locale ) {
 	global $wp_rewrite, $wp_query;
 
-	if ( ! did_action( 'plugins_loaded' ) ) {
+	if ( ! did_action( 'plugins_loaded' ) or is_admin() ) {
 		return $locale;
 	}
 
@@ -68,10 +68,6 @@ function bogo_locale( $locale ) {
 
 	if ( $bogo_locale ) {
 		return $bogo_locale;
-	}
-
-	if ( is_admin() ) {
-		return $bogo_locale = bogo_get_user_locale();
 	}
 
 	$default_locale = bogo_get_default_locale();

@@ -4,7 +4,6 @@ add_action( 'in_widget_form', 'bogo_in_widget_form', 10, 3 );
 
 function bogo_in_widget_form( $widget, $return, $instance ) {
 	$available_languages = bogo_available_languages( array(
-		'exclude_enus_if_inactive' => true,
 		'orderby' => 'value',
 	) );
 

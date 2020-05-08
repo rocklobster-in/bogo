@@ -44,6 +44,14 @@ function LanguagePanel() {
 						<em>{ getLanguage( key ) }</em>
 					</li>
 				);
+			} else if ( value.postTitle ) {
+				listItems.push(
+					<li key={ key }>
+						{ value.postTitle }
+						<br />
+						<em>{ getLanguage( key ) }</em>
+					</li>
+				);
 			}
 		} );
 
