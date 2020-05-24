@@ -273,7 +273,7 @@ function bogo_l10n_meta_box( $post ) {
 		echo ' [' . $lang . ']';
 		echo '</li>';
 
-		// make sure it is not available for select options
+		// make it unavailable for select options
 		unset( $available_languages[$locale] );
 	}
 
