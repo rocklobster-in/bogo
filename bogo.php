@@ -55,6 +55,17 @@ function bogo_init() {
 	Bogo_POMO::import( determine_locale() );
 }
 
+add_filter( 'pre_determine_locale', 'bogo_pre_determine_locale', 10, 1 );
+
+function bogo_pre_determine_locale( $locale ) {
+	if ( isset( $_GET['lang'] )
+	and $closest = bogo_get_closest_locale( $_GET['lang'] ) ) {
+		$locale = $closest;
+	}
+
+	return $locale;
+}
+
 add_filter( 'locale', 'bogo_locale', 10, 1 );
 
 function bogo_locale( $locale ) {
