@@ -3,7 +3,7 @@ Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 5.3
 Tested up to: 5.4
-Stable tag: 3.3
+Stable tag: 3.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://contactform7.com/donate/
@@ -63,6 +63,12 @@ With the default configuration, this plugin, in itself, does not:
 1. The **Language Packs** screen lets you view and install language packs.
 
 == Changelog ==
+
+= 3.3.3 =
+
+* Fixed: Translation selector with no available option was displayed in a Classic Editor meta box.
+* Fixed: The `lang` variable in a request was ignored on admin screens.
+* Fixed: Elements in the HTML header had incorrect language attributes.
 
 = 3.3.2 =
 
