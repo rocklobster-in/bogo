@@ -2,9 +2,9 @@
 
 /* Toolbar (Admin Bar) */
 
-add_action( 'admin_bar_init', 'bogo_admin_bar_init', 10, 0 );
+add_action( 'admin_bar_menu', 'bogo_admin_bar_init', 0, 1 );
 
-function bogo_admin_bar_init() {
+function bogo_admin_bar_init( $wp_admin_bar ) {
 	switch_to_locale( bogo_get_user_locale() );
 }
 
