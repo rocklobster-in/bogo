@@ -8,6 +8,7 @@ function bogo_rest_api_init() {
 		array(
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => 'bogo_rest_languages',
+			'permission_callback' => '__return_true',
 		)
 	);
 
@@ -16,6 +17,7 @@ function bogo_rest_api_init() {
 		array(
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => 'bogo_rest_post_translations',
+			'permission_callback' => '__return_true',
 		)
 	);
 
@@ -26,6 +28,18 @@ function bogo_rest_api_init() {
 		array(
 			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => 'bogo_rest_create_post_translation',
+			'permission_callback' => function( WP_REST_Request $request ) {
+				$locale = $request->get_param( 'locale' );
+
+				if ( current_user_can( 'bogo_access_locale', $locale ) ) {
+					return true;
+				} else {
+					return new WP_Error( 'bogo_locale_forbidden',
+						__( "You are not allowed to access posts in the requested locale.", 'bogo' ),
+						array( 'status' => 403 )
+					);
+				}
+			},
 		)
 	);
 }
@@ -175,13 +189,6 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 		return new WP_Error( 'bogo_locale_invalid',
 			__( "The requested locale is not available.", 'bogo' ),
 			array( 'status' => 400 )
-		);
-	}
-
-	if ( ! current_user_can( 'bogo_access_locale', $locale ) ) {
-		return new WP_Error( 'bogo_locale_forbidden',
-			__( "You are not allowed to access posts in the requested locale.", 'bogo' ),
-			array( 'status' => 403 )
 		);
 	}
 
