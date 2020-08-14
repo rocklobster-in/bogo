@@ -58,6 +58,10 @@ function bogo_init() {
 add_filter( 'pre_determine_locale', 'bogo_pre_determine_locale', 10, 1 );
 
 function bogo_pre_determine_locale( $locale ) {
+	if ( ! empty( $_GET['filter_action'] ) ) {
+		return $locale;
+	}
+
 	if ( isset( $_GET['lang'] )
 	and $closest = bogo_get_closest_locale( $_GET['lang'] ) ) {
 		$locale = $closest;
