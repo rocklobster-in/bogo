@@ -2,8 +2,8 @@
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 5.3
-Tested up to: 5.4
-Stable tag: 3.3.2
+Tested up to: 5.5
+Stable tag: 3.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://contactform7.com/donate/
@@ -63,6 +63,12 @@ With the default configuration, this plugin, in itself, does not:
 1. The **Language Packs** screen lets you view and install language packs.
 
 == Changelog ==
+
+= 3.3.4 =
+
+* Fixed: Unintended locale was set in the Posts screen.
+* Supports `set_screen_option_bogo_texts_per_page` filter hook.
+* REST API: Adds the `permission_callback` argument to endpoint definition.
 
 = 3.3.3 =
 
