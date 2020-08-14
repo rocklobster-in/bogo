@@ -159,9 +159,13 @@ function bogo_admin_menu() {
 
 add_filter( 'set-screen-option', 'bogo_set_screen_options', 10, 3 );
 
+add_filter( 'set_screen_option_bogo_texts_per_page',
+	'bogo_set_screen_options', 10, 3
+);
+
 function bogo_set_screen_options( $result, $option, $value ) {
 	$bogo_screens = array(
-		'languages_page_bogo_texts_per_page',
+		'bogo_texts_per_page',
 	);
 
 	if ( in_array( $option, $bogo_screens ) ) {
@@ -407,8 +411,8 @@ function bogo_load_texts_page() {
 		);
 
 		add_screen_option( 'per_page', array(
-			'label' => __( 'Items', 'bogo' ),
 			'default' => 20,
+			'option' => 'bogo_texts_per_page',
 		) );
 	}
 }

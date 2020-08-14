@@ -54,8 +54,7 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 		$items = array_filter( $items );
 		$items = array_values( $items );
 
-		$per_page = $this->get_items_per_page(
-			'languages_page_bogo_texts_per_page' );
+		$per_page = $this->get_items_per_page( 'bogo_texts_per_page' );
 		$offset = ( $this->get_pagenum() - 1 ) * $per_page;
 
 		$this->items = array_slice( $items, $offset, $per_page );
