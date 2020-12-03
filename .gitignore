@@ -21,4 +21,6 @@ node_modules/
 *.log
 *.sql
 *.sqlite
-block-editor.asset.php
+
+includes/block-editor/index.js.map
+includes/block-editor/index.asset.php
