@@ -1,10 +1,11 @@
-const { registerPlugin } = wp.plugins;
-const { PluginDocumentSettingPanel } = wp.editPost;
-const { PanelRow, Button, ExternalLink, Spinner } = wp.components;
-const { useState } = wp.element;
-const { dispatch, useSelect } = wp.data;
-const { addQueryArgs, hasQueryArg } = wp.url;
-const { apiFetch } = wp;
+import { registerPlugin } from '@wordpress/plugins';
+import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
+import { PanelRow, Button, ExternalLink, Spinner } from '@wordpress/components';
+import { useState } from '@wordpress/element';
+import { dispatch, useSelect } from '@wordpress/data';
+import { addQueryArgs, hasQueryArg } from '@wordpress/url';
+import { __ } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
 
 function LanguagePanel() {
 	const currentPost = useSelect( ( select ) => {
