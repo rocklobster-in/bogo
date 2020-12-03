@@ -4,8 +4,8 @@
   "description": "A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.",
   "private": true,
   "scripts": {
-    "build": "wp-scripts build includes/js/src/block-editor.js --output-path=includes/js",
-    "start": "wp-scripts start",
+    "start": "wp-scripts start includes/block-editor/src/index.js --output-path=includes/block-editor",
+    "build": "wp-scripts build includes/block-editor/src/index.js --output-path=includes/block-editor",
     "packages-update": "wp-scripts packages-update"
   },
   "repository": {
@@ -13,12 +13,12 @@
     "url": "git+https://github.com/takayukister/bogo.git"
   },
   "author": "takayukister",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-only",
   "bugs": {
     "url": "https://github.com/takayukister/bogo/issues"
   },
   "homepage": "https://github.com/takayukister/bogo#readme",
   "devDependencies": {
-    "@wordpress/scripts": "6.1.0"
+    "@wordpress/scripts": "^12.5.0"
   }
 }
