@@ -1,7 +1,7 @@
 === Bogo ===
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
-Requires at least: 5.3
+Requires at least: 5.4
 Tested up to: 5.5
 Stable tag: 3.3.3
 License: GPLv2 or later
