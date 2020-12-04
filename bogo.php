@@ -39,15 +39,6 @@ if ( is_admin() ) {
 	require_once BOGO_PLUGIN_DIR . '/admin/admin.php';
 }
 
-add_action( 'plugins_loaded', 'bogo_plugins_loaded', 10, 0 );
-
-function bogo_plugins_loaded() {
-	load_plugin_textdomain( 'bogo',
-		false,
-		'bogo/languages'
-	);
-}
-
 add_action( 'init', 'bogo_init', 10, 0 );
 
 function bogo_init() {
