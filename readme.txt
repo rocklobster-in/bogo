@@ -67,7 +67,7 @@ With the default configuration, this plugin, in itself, does not:
 = 3.4 =
 
 * Modernize the JS build process.
-* Uses '__()' in JavaScript.
+* Uses `__()` in JavaScript.
 * Has removed some unused functions and variables.
 * Has been tested with WordPress 5.6.
 
