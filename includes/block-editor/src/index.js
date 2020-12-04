@@ -25,7 +25,7 @@ function LanguagePanel() {
 	const PostLanguage = () => {
 		return(
 			<PanelRow>
-				<span>{ bogo.l10n.language }</span>
+				<span>{ __( 'Language', 'bogo' ) }</span>
 				<div>{ getLanguage( currentPost.locale ) }</div>
 			</PanelRow>
 		);
@@ -63,14 +63,14 @@ function LanguagePanel() {
 				);
 			} else {
 				return(
-					<em>{ bogo.l10n.none }</em>
+					<em>{ __( 'None', 'bogo' ) }</em>
 				);
 			}
 		}
 
 		return(
 			<PanelRow>
-				<span>{ bogo.l10n.translations }</span>
+				<span>{ __( 'Translations', 'bogo' ) }</span>
 				<ListItems listItems={ listItems } />
 			</PanelRow>
 		);
@@ -103,7 +103,7 @@ function LanguagePanel() {
 				setTranslations( translationsAlt );
 
 				dispatch( 'core/notices' ).createInfoNotice(
-					bogo.l10n.noticePostCreation,
+					__( "Translation post created.", 'bogo' ),
 					{
 						isDismissible: true,
 						type: 'snackbar',
@@ -111,7 +111,7 @@ function LanguagePanel() {
 						actions: [
 							{
 								url: translationsAlt[ locale ].editLink,
-								label: bogo.l10n.editPost,
+								label: __( 'Edit Post', 'bogo' ),
 							}
 						]
 					}
@@ -153,7 +153,7 @@ function LanguagePanel() {
 	return(
 		<PluginDocumentSettingPanel
 			name="bogo-language-panel"
-			title={ bogo.l10n.language }
+			title={ __( 'Language', 'bogo' ) }
 			className="bogo-language-panel"
 		>
 			<PostLanguage />
