@@ -112,15 +112,23 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 add_action( 'admin_menu', 'bogo_admin_menu', 10, 0 );
 
 function bogo_admin_menu() {
-	add_menu_page( __( 'Languages', 'bogo' ), __( 'Languages', 'bogo' ),
-		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page',
-		'dashicons-translation', 73 // between Users (70) and Tools (75)
+	add_menu_page(
+		__( 'Languages', 'bogo' ),
+		__( 'Languages', 'bogo' ),
+		'bogo_manage_language_packs',
+		'bogo',
+		'bogo_tools_page',
+		'dashicons-translation',
+		73 // between Users (70) and Tools (75)
 	);
 
-	$tools = add_submenu_page( 'bogo',
+	$tools = add_submenu_page(
+		'bogo',
 		__( 'Language Packs', 'bogo' ),
 		__( 'Language Packs', 'bogo' ),
-		'bogo_manage_language_packs', 'bogo', 'bogo_tools_page'
+		'bogo_manage_language_packs',
+		'bogo',
+		'bogo_tools_page'
 	);
 
 	add_action( 'load-' . $tools, 'bogo_load_tools_page', 10, 0 );
@@ -131,20 +139,23 @@ function bogo_admin_menu() {
 	) );
 
 	if ( 0 < count( $available_locales ) ) {
-		$texts = add_submenu_page( 'bogo',
+		$texts = add_submenu_page(
+			'bogo',
 			__( 'Terms Translation', 'bogo' ),
 			__( 'Terms Translation', 'bogo' ),
-			'bogo_edit_terms_translation', 'bogo-texts', 'bogo_texts_page'
+			'bogo_edit_terms_translation',
+			'bogo-texts',
+			'bogo_texts_page'
 		);
 
 		add_action( 'load-' . $texts, 'bogo_load_texts_page', 10, 0 );
 	}
 }
 
-add_filter( 'set-screen-option', 'bogo_set_screen_options', 10, 3 );
-
-add_filter( 'set_screen_option_bogo_texts_per_page',
-	'bogo_set_screen_options', 10, 3
+add_filter(
+	'set_screen_option_bogo_texts_per_page',
+	'bogo_set_screen_options',
+	10, 3
 );
 
 function bogo_set_screen_options( $result, $option, $value ) {
