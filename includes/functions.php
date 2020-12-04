@@ -35,6 +35,7 @@ function bogo_languages() {
 		'de_AT' => __( 'German (Austria)', 'bogo' ),
 		'de_CH' => __( 'German (Switzerland)', 'bogo' ),
 		'de_CH_informal' => __( 'German (Switzerland) (Informal)', 'bogo' ),
+		'dsb' => __( 'Lower Sorbian', 'bogo' ),
 		'dv' => __( 'Dhivehi', 'bogo' ),
 		'dzo' => __( 'Dzongkha', 'bogo' ),
 		'el' => __( 'Greek', 'bogo' ),
