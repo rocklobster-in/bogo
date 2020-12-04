@@ -2,7 +2,7 @@
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 5.4
-Tested up to: 5.5
+Tested up to: 5.6
 Stable tag: 3.3.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,13 @@ With the default configuration, this plugin, in itself, does not:
 
 == Changelog ==
 
+= 3.4 =
+
+* Modernize the JS build process.
+* Uses '__()' in JavaScript.
+* Has removed some unused functions and variables.
+* Has been tested with WordPress 5.6.
+
 = 3.3.4 =
 
 * Fixed: Unintended locale was set in the Posts screen.
@@ -96,15 +103,3 @@ With the default configuration, this plugin, in itself, does not:
 * Adds the `short_name` option to `bogo_available_languages()`.
 * Uses the post guid for the value of the `_original_post` post meta.
 * Improves HTML markup of the language switcher.
-
-= 3.2.1 =
-
-* Recalculates values in some WP query parameters in bogo_parse_query().
-
-= 3.2 =
-
-* Uses the install_languages as the default capability required for the Language Packs page.
-* Adds rel="noopener noreferrer" and screenreader text to target="_blank" links.
-* Adds a filter hook: bogo_terms_translation.
-* Introduces the Bogo_Terms_Translation_List_Table class.
-* Introduces the Bogo_Language_Packs_List_Table class.
