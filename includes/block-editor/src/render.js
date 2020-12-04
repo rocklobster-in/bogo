@@ -2,7 +2,7 @@ import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
 import { PanelRow, Button, ExternalLink, Spinner } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { dispatch, useSelect } from '@wordpress/data';
-import { __ } from '@wordpress/i18n';
+import { sprintf, __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 
 export default function LanguagePanel() {
@@ -130,7 +130,13 @@ export default function LanguagePanel() {
 						isDefault
 						onClick={ () => { addTranslation( key ) } }
 					>
-						{ bogo.l10n.addTranslation[ key ] }
+						{
+							sprintf(
+								/* translators: %s: Language name. */
+								__( 'Add %s translation', 'bogo' ),
+								getLanguage( key )
+							)
+						}
 					</Button>
 					{ value.creating && <Spinner /> }
 				</li>

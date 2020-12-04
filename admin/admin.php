@@ -44,26 +44,10 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		'orderby' => 'value',
 	) );
 
-	$add_translation_l10n = array();
-
-	foreach ( $available_languages as $locale => $lang ) {
-		$add_translation_l10n[$locale] = sprintf(
-			/* translators: %s: language name */
-			__( 'Add %s Translation', 'bogo' ),
-			$lang
-		);
-	}
-
 	$local_args = array(
 		'l10n' => array(
 			/* translators: accessibility text */
 			'targetBlank' => __( '(opens in a new window)', 'bogo' ),
-			'language' => __( 'Language', 'bogo' ),
-			'none' => __( 'None', 'bogo' ),
-			'translations' => __( 'Translations', 'bogo' ),
-			'addTranslation' => $add_translation_l10n,
-			'noticePostCreation' => __( "Translation post created.", 'bogo' ),
-			'editPost' => __( 'Edit Post', 'bogo' ),
 			'saveAlert' => __( "The changes you made will be lost if you navigate away from this page.", 'bogo' ),
 		),
 		'apiSettings' => array(
