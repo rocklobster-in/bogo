@@ -7,12 +7,17 @@ add_action( 'init',
 	function() {
 		$post_types = bogo_localizable_post_types();
 
+		$auth_callback = function ( $allowed, $meta_key, $object_id, $user_id ) {
+			return user_can( $user_id, 'edit_post', $object_id );
+		};
+
 		foreach ( $post_types as $post_type ) {
 			register_post_meta( $post_type,
 				'_locale',
 				array(
 					'type' => 'string',
 					'single' => true,
+					'auth_callback' => $auth_callback,
 					'show_in_rest' => true,
 				)
 			);
@@ -22,6 +27,7 @@ add_action( 'init',
 				array(
 					'type' => 'string',
 					'single' => true,
+					'auth_callback' => $auth_callback,
 					'show_in_rest' => true,
 				)
 			);
