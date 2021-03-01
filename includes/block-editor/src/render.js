@@ -76,7 +76,7 @@ export default function LanguagePanel() {
 
 	const AddTranslation = () => {
 		const addTranslation = ( locale ) => {
-			const translationsAlt = Object.assign( {}, translations );
+			const translationsAlt = { ...translations };
 
 			translationsAlt[ locale ] = {
 				creating: true,
@@ -85,11 +85,10 @@ export default function LanguagePanel() {
 			setTranslations( translationsAlt );
 
 			apiFetch( {
-				path: '/bogo/v1/posts/' + currentPost.id +
-					'/translations/' + locale,
+				path: `/bogo/v1/posts/${ currentPost.id }/translations/${ locale }`,
 				method: 'POST',
 			} ).then( ( response ) => {
-				const translationsAlt = Object.assign( {}, translations );
+				const translationsAlt = { ...translations };
 
 				translationsAlt[ locale ] = {
 					postId: response[ locale ].id,
