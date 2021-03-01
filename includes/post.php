@@ -638,3 +638,18 @@ function bogo_truncate_post_slug( $slug, $length = 200 ) {
 
 	return rtrim( $slug, '-' );
 }
+
+
+add_filter(
+	'wp_sitemaps_posts_query_args',
+	'bogo_sitemaps_posts_query_args',
+	10, 2
+);
+
+function bogo_sitemaps_posts_query_args( $args, $post_type ) {
+	if ( bogo_is_localizable_post_type( $post_type ) ) {
+		$args['bogo_suppress_locale_query'] = true;
+	}
+
+	return $args;
+}
