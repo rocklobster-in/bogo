@@ -161,6 +161,65 @@ function bogo_page_rewrite_rules( $page_rewrite ) {
 	return array_merge( $extra, $page_rewrite );
 }
 
+
+add_action(
+	'init',
+	function () {
+		$taxonomies = get_taxonomies(
+			array(
+				'public' => true,
+			),
+			'objects'
+		);
+
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( empty( $taxonomy->rewrite ) ) {
+				continue;
+			}
+
+			add_filter(
+				"{$taxonomy->name}_rewrite_rules",
+				function ( $rules ) use ( $taxonomy ) {
+					global $wp_rewrite;
+
+					$permastruct = $wp_rewrite->get_extra_permastruct( $taxonomy->name );
+
+					if ( $taxonomy->rewrite['with_front'] ) {
+						$permastruct = preg_replace(
+							'#^' . $wp_rewrite->front . '#',
+							'/%lang%' . $wp_rewrite->front,
+							$permastruct
+						);
+					} else {
+						$permastruct = preg_replace(
+							'#^' . $wp_rewrite->root . '#',
+							'/%lang%' . $wp_rewrite->root,
+							$permastruct
+						);
+					}
+
+					$ep_mask = isset( $taxonomy->rewrite['ep_mask'] )
+						? $taxonomy->rewrite['ep_mask']
+						: EP_NONE;
+
+					$extra = bogo_generate_rewrite_rules(
+						$permastruct,
+						array(
+							'ep_mask' => $ep_mask,
+						)
+					);
+
+					return array_merge( $extra, $rules );
+				},
+				10, 1
+			);
+		}
+	},
+	10, 0
+);
+
+
+/*
 add_filter( 'category_rewrite_rules', 'bogo_category_rewrite_rules', 10, 1 );
 
 function bogo_category_rewrite_rules( $category_rewrite ) {
@@ -201,6 +260,8 @@ function bogo_taxonomy_rewrite_rules( $taxonomy_rewrite, $taxonomy, $ep_mask = E
 
 	return array_merge( $extra, $taxonomy_rewrite );
 }
+*/
+
 
 add_filter( 'rewrite_rules_array', 'bogo_rewrite_rules_array', 10, 1 );
 
