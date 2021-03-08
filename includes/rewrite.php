@@ -219,50 +219,6 @@ add_action(
 );
 
 
-/*
-add_filter( 'category_rewrite_rules', 'bogo_category_rewrite_rules', 10, 1 );
-
-function bogo_category_rewrite_rules( $category_rewrite ) {
-	return bogo_taxonomy_rewrite_rules( $category_rewrite,
-		'category', EP_CATEGORIES
-	);
-}
-
-add_filter( 'post_tag_rewrite_rules', 'bogo_post_tag_rewrite_rules', 10, 1 );
-
-function bogo_post_tag_rewrite_rules( $post_tag_rewrite ) {
-	return bogo_taxonomy_rewrite_rules( $post_tag_rewrite, 'post_tag', EP_TAGS );
-}
-
-add_filter( 'post_format_rewrite_rules',
-	'bogo_post_format_rewrite_rules',
-	10, 1
-);
-
-function bogo_post_format_rewrite_rules( $post_format_rewrite ) {
-	return bogo_taxonomy_rewrite_rules( $post_format_rewrite, 'post_format' );
-}
-
-function bogo_taxonomy_rewrite_rules( $taxonomy_rewrite, $taxonomy, $ep_mask = EP_NONE ) {
-	global $wp_rewrite;
-
-	$permastruct = $wp_rewrite->get_extra_permastruct( $taxonomy );
-
-	$permastruct = preg_replace(
-		'#^' . $wp_rewrite->front . '#',
-		'/%lang%' . $wp_rewrite->front,
-		$permastruct
-	);
-
-	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => $ep_mask,
-	) );
-
-	return array_merge( $extra, $taxonomy_rewrite );
-}
-*/
-
-
 add_filter( 'rewrite_rules_array', 'bogo_rewrite_rules_array', 10, 1 );
 
 function bogo_rewrite_rules_array( $rules ) {
@@ -403,18 +359,14 @@ function bogo_rewrite_rules_array( $rules ) {
 function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 	global $wp_rewrite;
 
-	$defaults = array(
+	$args = wp_parse_args( $args, array(
 		'ep_mask' => EP_NONE,
 		'paged' => true,
 		'feed' => true,
 		'forcomments' => false,
 		'walk_dirs' => true,
 		'endpoints' => true,
-	);
-
-	$args = wp_parse_args( $args, $defaults );
-
-	extract( $args, EXTR_SKIP );
+	) );
 
 	$feedregex2 = '(' . implode( '|', $wp_rewrite->feeds ) . ')/?$';
 	$feedregex = $wp_rewrite->feed_base . '/' . $feedregex2;
@@ -423,7 +375,7 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 	$commentregex = 'comment-page-([0-9]{1,})/?$';
 	$embedregex = 'embed/?$';
 
-	if ( $endpoints ) {
+	if ( $args['endpoints'] ) {
 		$ep_query_append = array();
 
 		foreach ( (array) $wp_rewrite->endpoints as $endpoint ) {
@@ -463,7 +415,7 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 
 	$structure = trim( $structure, '/' );
 
-	$dirs = $walk_dirs ? explode( '/', $structure ) : array( $structure );
+	$dirs = $args['walk_dirs'] ? explode( '/', $structure ) : array( $structure );
 	$num_dirs = count( $dirs );
 
 	$front = preg_replace( '|^/+|', '', $front );
@@ -517,34 +469,34 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 		$feedquery2 = $feedindex . '?' . $query
 			. '&feed=' . $wp_rewrite->preg_index( $num_toks + 1 );
 
-		if ( $forcomments ) {
+		if ( $args['forcomments'] ) {
 			$feedquery .= '&withcomments=1';
 			$feedquery2 .= '&withcomments=1';
 		}
 
 		$rewrite = array();
 
-		if ( $feed ) {
+		if ( $args['feed'] ) {
 			$rewrite = array( $feedmatch => $feedquery, $feedmatch2 => $feedquery2 );
 		}
 
-		if ( $paged ) {
+		if ( $args['paged'] ) {
 			$rewrite = array_merge( $rewrite, array( $pagematch => $pagequery ) );
 		}
 
-		if ( EP_PAGES & $ep_mask
-		or EP_PERMALINK & $ep_mask ) {
+		if ( EP_PAGES & $args['ep_mask']
+		or EP_PERMALINK & $args['ep_mask'] ) {
 			$rewrite = array_merge( $rewrite, array( $commentmatch => $commentquery ) );
-		} elseif ( EP_ROOT & $ep_mask
+		} elseif ( EP_ROOT & $args['ep_mask']
 		and get_option( 'page_on_front' ) ) {
 			$rewrite = array_merge( $rewrite,
 				array( $rootcommentmatch => $rootcommentquery )
 			);
 		}
 
-		if ( $endpoints ) {
+		if ( $args['endpoints'] ) {
 			foreach ( (array) $ep_query_append as $regex => $ep ) {
-				if ( $ep[0] & $ep_mask
+				if ( $ep[0] & $args['ep_mask']
 				or $ep[0] & $ep_mask_specific ) {
 					$rewrite[$match . $regex] = $index . '?' . $query
 						. $ep[1] . $wp_rewrite->preg_index( $num_toks + 2 );
@@ -612,7 +564,7 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 				$subcommentquery = $subquery . '&cpage=' . $wp_rewrite->preg_index( 2 );
 				$subembedquery = $subquery . '&embed=true';
 
-				if ( ! empty( $endpoints ) ) {
+				if ( ! empty( $args['endpoints'] ) ) {
 					foreach ( (array) $ep_query_append as $regex => $ep ) {
 						if ( $ep[0] & EP_ATTACHMENT ) {
 							$rewrite[$sub1 . $regex] =
