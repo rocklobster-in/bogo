@@ -372,7 +372,7 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 	$feedregex = $wp_rewrite->feed_base . '/' . $feedregex2;
 	$trackbackregex = 'trackback/?$';
 	$pageregex = $wp_rewrite->pagination_base . '/?([0-9]{1,})/?$';
-	$commentregex = 'comment-page-([0-9]{1,})/?$';
+	$commentregex = $wp_rewrite->comments_pagination_base . '-([0-9]{1,})/?$';
 	$embedregex = 'embed/?$';
 
 	if ( $args['endpoints'] ) {
@@ -380,57 +380,74 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 
 		foreach ( (array) $wp_rewrite->endpoints as $endpoint ) {
 			$epmatch = $endpoint[1] . '(/(.*))?/?$';
-			$epquery = '&' . $endpoint[1] . '=';
+			$epquery = '&' . $endpoint[2] . '=';
 			$ep_query_append[$epmatch] = array( $endpoint[0], $epquery );
 		}
 	}
 
-	$front = substr( $permalink_structure, 0, strpos( $permalink_structure, '%' ) );
+	$front = substr(
+		$permalink_structure,
+		0,
+		strpos( $permalink_structure, '%' )
+	);
+
 	preg_match_all( '/%.+?%/', $permalink_structure, $tokens );
-	$num_tokens = count( $tokens[0] );
+
 	$index = $wp_rewrite->index;
 	$feedindex = $index;
 	$trackbackindex = $index;
 	$embedindex = $index;
 
-	for ( $i = 0; $i < $num_tokens; ++$i ) {
+	$queries = array();
+
+	for ( $i = 0; $i < count( $tokens[0] ); ++$i ) {
 		if ( 0 < $i ) {
 			$queries[$i] = $queries[$i - 1] . '&';
 		} else {
 			$queries[$i] = '';
 		}
 
-		$query_token =
-			str_replace( $wp_rewrite->rewritecode, $wp_rewrite->queryreplace, $tokens[0][$i] )
-			. $wp_rewrite->preg_index( $i + 1 );
+		$query_token = str_replace(
+			$wp_rewrite->rewritecode,
+			$wp_rewrite->queryreplace,
+			$tokens[0][$i]
+		) . $wp_rewrite->preg_index( $i + 1 );
 
 		$queries[$i] .= $query_token;
 	}
 
 	$structure = $permalink_structure;
 
-	if ( $front != '/' ) {
+	if ( '/' !== $front ) {
 		$structure = str_replace( $front, '', $structure );
 	}
 
 	$structure = trim( $structure, '/' );
 
-	$dirs = $args['walk_dirs'] ? explode( '/', $structure ) : array( $structure );
-	$num_dirs = count( $dirs );
+	$dirs = $args['walk_dirs']
+		? explode( '/', $structure )
+		: array( $structure );
 
 	$front = preg_replace( '|^/+|', '', $front );
 
 	$post_rewrite = array();
 	$struct = $front;
 
-	for ( $j = 0; $j < $num_dirs; ++$j ) {
+	for ( $j = 0; $j < count( $dirs ); ++$j ) {
 		$struct .= $dirs[$j] . '/';
 		$struct = ltrim( $struct, '/' );
-		$match = str_replace( $wp_rewrite->rewritecode, $wp_rewrite->rewritereplace, $struct);
+
+		$match = str_replace(
+			$wp_rewrite->rewritecode,
+			$wp_rewrite->rewritereplace,
+			$struct
+		);
+
 		$num_toks = preg_match_all( '/%.+?%/', $struct, $toks );
 
-		$query = ( isset( $queries ) && is_array( $queries ) && ! empty( $num_toks ) )
-			? $queries[$num_toks - 1] : '';
+		$query = ( ! empty( $num_toks ) && isset( $queries[$num_toks - 1] ) )
+			? $queries[$num_toks - 1]
+			: '';
 
 		switch ( $dirs[$j] ) {
 			case '%year%':
@@ -469,6 +486,9 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 		$feedquery2 = $feedindex . '?' . $query
 			. '&feed=' . $wp_rewrite->preg_index( $num_toks + 1 );
 
+		$embedmatch = $match . $embedregex;
+		$embedquery = $embedindex . '?' . $query . '&embed=true';
+
 		if ( $args['forcomments'] ) {
 			$feedquery .= '&withcomments=1';
 			$feedquery2 .= '&withcomments=1';
@@ -477,19 +497,30 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 		$rewrite = array();
 
 		if ( $args['feed'] ) {
-			$rewrite = array( $feedmatch => $feedquery, $feedmatch2 => $feedquery2 );
+			$rewrite = array(
+				$feedmatch => $feedquery,
+				$feedmatch2 => $feedquery2,
+				$embedmatch => $embedquery,
+			);
 		}
 
 		if ( $args['paged'] ) {
-			$rewrite = array_merge( $rewrite, array( $pagematch => $pagequery ) );
+			$rewrite = array_merge(
+				$rewrite,
+				array( $pagematch => $pagequery )
+			);
 		}
 
 		if ( EP_PAGES & $args['ep_mask']
 		or EP_PERMALINK & $args['ep_mask'] ) {
-			$rewrite = array_merge( $rewrite, array( $commentmatch => $commentquery ) );
+			$rewrite = array_merge(
+				$rewrite,
+				array( $commentmatch => $commentquery )
+			);
 		} elseif ( EP_ROOT & $args['ep_mask']
 		and get_option( 'page_on_front' ) ) {
-			$rewrite = array_merge( $rewrite,
+			$rewrite = array_merge(
+				$rewrite,
 				array( $rootcommentmatch => $rootcommentquery )
 			);
 		}
@@ -568,9 +599,9 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 					foreach ( (array) $ep_query_append as $regex => $ep ) {
 						if ( $ep[0] & EP_ATTACHMENT ) {
 							$rewrite[$sub1 . $regex] =
-								$subquery . $ep[1] . $wp_rewrite->preg_index( 2 );
+								$subquery . $ep[1] . $wp_rewrite->preg_index( 3 );
 							$rewrite[$sub2 . $regex] =
-								$subquery . $ep[1] . $wp_rewrite->preg_index( 2 );
+								$subquery . $ep[1] . $wp_rewrite->preg_index( 3 );
 						}
 					}
 				}
@@ -578,7 +609,7 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 				$sub1 .= '?$';
 				$sub2 .= '?$';
 
-				$match = $match . '(/[0-9]+)?/?$';
+				$match = $match . '(?:/([0-9]+))?/?$';
 				$query = $index . '?' . $query
 					. '&page=' . $wp_rewrite->preg_index( $num_toks + 1 );
 			} else {
@@ -589,27 +620,41 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 			$rewrite = array_merge( $rewrite, array( $match => $query ) );
 
 			if ( $post ) {
-				$rewrite = array_merge( array( $trackbackmatch => $trackbackquery ), $rewrite );
+				$rewrite = array_merge(
+					array( $trackbackmatch => $trackbackquery ),
+					$rewrite
+				);
 
-				$rewrite = array_merge( array( $embedmatch => $embedquery ), $rewrite );
+				$rewrite = array_merge(
+					array( $embedmatch => $embedquery ),
+					$rewrite
+				);
 
 				if ( ! $page ) {
-					$rewrite = array_merge( $rewrite, array(
-						$sub1 => $subquery,
-						$sub1tb => $subtbquery,
-						$sub1feed => $subfeedquery,
-						$sub1feed2 => $subfeedquery,
-						$sub1comment => $subcommentquery,
-						$sub1embed => $subembedquery ) );
+					$rewrite = array_merge(
+						$rewrite,
+						array(
+							$sub1 => $subquery,
+							$sub1tb => $subtbquery,
+							$sub1feed => $subfeedquery,
+							$sub1feed2 => $subfeedquery,
+							$sub1comment => $subcommentquery,
+							$sub1embed => $subembedquery,
+						)
+					);
 				}
 
-				$rewrite = array_merge( array(
-					$sub2 => $subquery,
-					$sub2tb => $subtbquery,
-					$sub2feed => $subfeedquery,
-					$sub2feed2 => $subfeedquery,
-					$sub2comment => $subcommentquery,
-					$sub2embed => $subembedquery ), $rewrite );
+				$rewrite = array_merge(
+					array(
+						$sub2 => $subquery,
+						$sub2tb => $subtbquery,
+						$sub2feed => $subfeedquery,
+						$sub2feed2 => $subfeedquery,
+						$sub2comment => $subcommentquery,
+						$sub2embed => $subembedquery,
+					),
+					$rewrite
+				);
 			}
 		}
 
