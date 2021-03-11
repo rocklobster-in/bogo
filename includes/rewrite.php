@@ -226,20 +226,6 @@ function bogo_rewrite_rules_array( $rules ) {
 
 	$lang_regex = bogo_get_lang_regex();
 
-	// REST rewrite rules
-	if ( function_exists( 'rest_get_url_prefix' ) ) {
-		$rest_url_prefix = rest_get_url_prefix();
-
-		$extra_rules = array(
-			"^{$lang_regex}/{$rest_url_prefix}/?$"
-				=> 'index.php?lang=$matches[1]&rest_route=/',
-			"^{$lang_regex}/{$rest_url_prefix}/(.*)?"
-				=> 'index.php?lang=$matches[1]&rest_route=/$matches[2]',
-		);
-
-		$rules = $extra_rules + $rules;
-	}
-
 	$post_types = array_diff(
 		(array) bogo_localizable_post_types(),
 		get_post_types( array( '_builtin' => true ) )
