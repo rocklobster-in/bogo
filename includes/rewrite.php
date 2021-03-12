@@ -19,19 +19,6 @@ function bogo_add_rewrite_tags() {
 	}
 }
 
-add_filter( 'root_rewrite_rules', 'bogo_root_rewrite_rules', 10, 1 );
-
-function bogo_root_rewrite_rules( $root_rewrite ) {
-	global $wp_rewrite;
-
-	$permastruct = trailingslashit( $wp_rewrite->root ) . '%lang%/';
-
-	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_ROOT,
-	) );
-
-	return array_merge( $extra, $root_rewrite );
-}
 
 add_filter( 'post_rewrite_rules', 'bogo_post_rewrite_rules', 10, 1 );
 
@@ -168,6 +155,12 @@ function bogo_rewrite_rules_array( $rules ) {
 	global $wp_rewrite;
 
 	$lang_regex = bogo_get_lang_regex();
+
+	$root_rules = bogo_generate_rewrite_rules(
+		trailingslashit( $wp_rewrite->root ) . '%lang%/',
+		array( 'ep_mask' => EP_ROOT )
+	);
+
 	$localizable_post_types = bogo_localizable_post_types();
 
 	if ( empty( $localizable_post_types ) ) {
@@ -273,7 +266,11 @@ function bogo_rewrite_rules_array( $rules ) {
 		);
 	}
 
-	$rules = array_merge( $extra_rules, $rules );
+	if ( $wp_rewrite->use_verbose_page_rules ) {
+		$rules = array_merge( $extra_rules, $root_rules, $rules );
+	} else {
+		$rules = array_merge( $extra_rules, $root_rules, $rules );
+	}
 
 	return $rules;
 }
