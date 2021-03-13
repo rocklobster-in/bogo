@@ -27,30 +27,14 @@ function bogo_post_rewrite_rules( $post_rewrite ) {
 
 	$permastruct = $wp_rewrite->permalink_structure;
 
-	// from wp-admin/includes/misc.php
-	$got_rewrite = apply_filters( 'got_rewrite',
-		apache_mod_loaded( 'mod_rewrite', true )
+	$permastruct = preg_replace(
+		'#^' . $wp_rewrite->root . '#',
+		path_join(
+			$wp_rewrite->root,
+			'/' === substr( $wp_rewrite->root, -1, 1 ) ? '%lang%/' : '%lang%'
+		),
+		$permastruct
 	);
-
-	$got_url_rewrite = apply_filters( 'got_url_rewrite',
-		$got_rewrite || $GLOBALS['is_nginx'] || iis7_supports_permalinks()
-	);
-
-	if ( ! $got_url_rewrite ) {
-		$permastruct = preg_replace(
-			'#^/index\.php#', '/index.php/%lang%', $permastruct
-		);
-	} elseif ( is_multisite()
-	and ! is_subdomain_install()
-	and is_main_site() ) {
-		$permastruct = preg_replace(
-			'#^/blog#', '/%lang%/blog', $permastruct
-		);
-	} else {
-		$permastruct = preg_replace(
-			'#^/#', '/%lang%/', $permastruct
-		);
-	}
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
 		'ep_mask' => EP_PERMALINK,
@@ -157,7 +141,10 @@ function bogo_rewrite_rules_array( $rules ) {
 	$lang_regex = bogo_get_lang_regex();
 
 	$root_rules = bogo_generate_rewrite_rules(
-		trailingslashit( $wp_rewrite->root ) . '%lang%/',
+		path_join(
+			$wp_rewrite->root,
+			'/' === substr( $wp_rewrite->root, -1, 1 ) ? '%lang%/' : '%lang%'
+		),
 		array( 'ep_mask' => EP_ROOT )
 	);
 
