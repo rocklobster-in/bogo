@@ -25,8 +25,8 @@ add_filter( 'comments_rewrite_rules', 'bogo_comments_rewrite_rules', 10, 1 );
 function bogo_comments_rewrite_rules( $comments_rewrite ) {
 	global $wp_rewrite;
 
-	$permastruct = trailingslashit( $wp_rewrite->root )
-		. '%lang%/' . $wp_rewrite->comments_base;
+	$permastruct = $wp_rewrite->root . $wp_rewrite->comments_base;
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
 		'ep_mask' => EP_COMMENTS,
@@ -42,8 +42,8 @@ add_filter( 'search_rewrite_rules', 'bogo_search_rewrite_rules', 10, 1 );
 function bogo_search_rewrite_rules( $search_rewrite ) {
 	global $wp_rewrite;
 
-	$permastruct = trailingslashit( $wp_rewrite->root ) . '%lang%/'
-		. $wp_rewrite->search_base . '/%search%';
+	$permastruct = $wp_rewrite->get_search_permastruct();
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
 		'ep_mask' => EP_SEARCH,
@@ -58,12 +58,7 @@ function bogo_author_rewrite_rules( $author_rewrite ) {
 	global $wp_rewrite;
 
 	$permastruct = $wp_rewrite->get_author_permastruct();
-
-	$permastruct = preg_replace(
-		'#^' . $wp_rewrite->front . '#',
-		'/%lang%' . $wp_rewrite->front,
-		$permastruct
-	);
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
 
 	$extra = bogo_generate_rewrite_rules( $permastruct, array(
 		'ep_mask' => EP_AUTHORS,
@@ -81,23 +76,12 @@ function bogo_rewrite_rules_array( $rules ) {
 	$lang_regex = bogo_get_lang_regex();
 
 	$root_rules = bogo_generate_rewrite_rules(
-		path_join(
-			$wp_rewrite->root,
-			'/' === substr( $wp_rewrite->root, -1, 1 ) ? '%lang%/' : '%lang%'
-		),
+		bogo_add_lang_to_permastruct( $wp_rewrite->root ),
 		array( 'ep_mask' => EP_ROOT )
 	);
 
 	$permastruct = $wp_rewrite->permalink_structure;
-
-	$permastruct = preg_replace(
-		'#^' . $wp_rewrite->root . '#',
-		path_join(
-			$wp_rewrite->root,
-			'/' === substr( $wp_rewrite->root, -1, 1 ) ? '%lang%/' : '%lang%'
-		),
-		$permastruct
-	);
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
 
 	$post_rules = bogo_generate_rewrite_rules(
 		$permastruct,
@@ -109,13 +93,11 @@ function bogo_rewrite_rules_array( $rules ) {
 
 	$wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
 
+	$permastruct = $wp_rewrite->get_page_permastruct();
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
+
 	$page_rules = bogo_generate_rewrite_rules(
-		path_join(
-			$wp_rewrite->root,
-			'/' === substr( $wp_rewrite->root, -1, 1 )
-				? '%lang%/%pagename%/'
-				: '%lang%/%pagename%'
-		),
+		$permastruct,
 		array(
 			'ep_mask' => EP_PAGES,
 			'walk_dirs' => false,
@@ -123,15 +105,7 @@ function bogo_rewrite_rules_array( $rules ) {
 	);
 
 	$permastruct = $wp_rewrite->get_date_permastruct();
-
-	$permastruct = preg_replace(
-		'#^' . $wp_rewrite->root . '#',
-		path_join(
-			$wp_rewrite->root,
-			'/' === substr( $wp_rewrite->root, -1, 1 ) ? '%lang%/' : '%lang%'
-		),
-		$permastruct
-	);
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
 
 	$date_rules = bogo_generate_rewrite_rules(
 		$permastruct,
@@ -148,15 +122,7 @@ function bogo_rewrite_rules_array( $rules ) {
 		}
 
 		$permastruct = $wp_rewrite->get_extra_permastruct( $post_type );
-
-		$permastruct = preg_replace(
-			'#^' . $wp_rewrite->root . '#',
-			path_join(
-				$wp_rewrite->root,
-				$post_type_obj->rewrite['with_front'] ? '%lang%' : '%lang%/'
-			),
-			$permastruct
-		);
+		$permastruct = bogo_add_lang_to_permastruct( $permastruct );
 
 		$extra_rules += bogo_generate_rewrite_rules(
 			$permastruct,
@@ -212,15 +178,7 @@ function bogo_rewrite_rules_array( $rules ) {
 		}
 
 		$permastruct = $wp_rewrite->get_extra_permastruct( $taxonomy->name );
-
-		$permastruct = preg_replace(
-			'#^' . $wp_rewrite->root . '#',
-			path_join(
-				$wp_rewrite->root,
-				$taxonomy->rewrite['with_front'] ? '%lang%' : '%lang%/'
-			),
-			$permastruct
-		);
+		$permastruct = bogo_add_lang_to_permastruct( $permastruct );
 
 		$extra_rules += bogo_generate_rewrite_rules(
 			$permastruct,
@@ -249,6 +207,17 @@ function bogo_rewrite_rules_array( $rules ) {
 	}
 
 	return $rules;
+}
+
+function bogo_add_lang_to_permastruct( $permastruct ) {
+	global $wp_rewrite;
+
+	$root_quoted = preg_quote( $wp_rewrite->root );
+
+	$remains = preg_replace( "#^{$root_quoted}#", '', $permastruct );
+	$remains = path_join( '%lang%', ltrim( $remains, '/' ) );
+
+	return path_join( $wp_rewrite->root, $remains );
 }
 
 function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
