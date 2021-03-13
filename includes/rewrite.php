@@ -177,19 +177,14 @@ function bogo_rewrite_rules_array( $rules ) {
 
 		$permastruct = $wp_rewrite->get_extra_permastruct( $post_type );
 
-		if ( $post_type_obj->rewrite['with_front'] ) {
-			$permastruct = preg_replace(
-				'#^' . $wp_rewrite->front . '#',
-				'/%lang%' . $wp_rewrite->front,
-				$permastruct
-			);
-		} else {
-			$permastruct = preg_replace(
-				'#^' . $wp_rewrite->root . '#',
-				'/%lang%/' . $wp_rewrite->root,
-				$permastruct
-			);
-		}
+		$permastruct = preg_replace(
+			'#^' . $wp_rewrite->root . '#',
+			path_join(
+				$wp_rewrite->root,
+				$post_type_obj->rewrite['with_front'] ? '%lang%' : '%lang%/'
+			),
+			$permastruct
+		);
 
 		$extra_rules += bogo_generate_rewrite_rules(
 			$permastruct,
@@ -246,19 +241,14 @@ function bogo_rewrite_rules_array( $rules ) {
 
 		$permastruct = $wp_rewrite->get_extra_permastruct( $taxonomy->name );
 
-		if ( $taxonomy->rewrite['with_front'] ) {
-			$permastruct = preg_replace(
-				'#^' . $wp_rewrite->front . '#',
-				'/%lang%' . $wp_rewrite->front,
-				$permastruct
-			);
-		} else {
-			$permastruct = preg_replace(
-				'#^' . $wp_rewrite->root . '#',
-				'/%lang%/' . $wp_rewrite->root,
-				$permastruct
-			);
-		}
+		$permastruct = preg_replace(
+			'#^' . $wp_rewrite->root . '#',
+			path_join(
+				$wp_rewrite->root,
+				$taxonomy->rewrite['with_front'] ? '%lang%' : '%lang%/'
+			),
+			$permastruct
+		);
 
 		$extra_rules += bogo_generate_rewrite_rules(
 			$permastruct,
