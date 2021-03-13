@@ -20,26 +20,6 @@ function bogo_add_rewrite_tags() {
 }
 
 
-add_filter( 'date_rewrite_rules', 'bogo_date_rewrite_rules', 10, 1 );
-
-function bogo_date_rewrite_rules( $date_rewrite ) {
-	global $wp_rewrite;
-
-	$permastruct = $wp_rewrite->get_date_permastruct();
-
-	$permastruct = preg_replace(
-		'#^' . $wp_rewrite->front . '#',
-		'/%lang%' . $wp_rewrite->front,
-		$permastruct
-	);
-
-	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_DATE,
-	) );
-
-	return array_merge( $extra, $date_rewrite );
-}
-
 add_filter( 'comments_rewrite_rules', 'bogo_comments_rewrite_rules', 10, 1 );
 
 function bogo_comments_rewrite_rules( $comments_rewrite ) {
@@ -142,13 +122,24 @@ function bogo_rewrite_rules_array( $rules ) {
 		)
 	);
 
-	$localizable_post_types = bogo_localizable_post_types();
+	$permastruct = $wp_rewrite->get_date_permastruct();
 
-	if ( empty( $localizable_post_types ) ) {
-		return $rules;
-	}
+	$permastruct = preg_replace(
+		'#^' . $wp_rewrite->root . '#',
+		path_join(
+			$wp_rewrite->root,
+			'/' === substr( $wp_rewrite->root, -1, 1 ) ? '%lang%/' : '%lang%'
+		),
+		$permastruct
+	);
+
+	$date_rules = bogo_generate_rewrite_rules(
+		$permastruct,
+		array( 'ep_mask' => EP_DATE )
+	);
 
 	$extra_rules = array();
+	$localizable_post_types = bogo_localizable_post_types();
 
 	foreach ( $localizable_post_types as $post_type ) {
 		if ( ! $post_type_obj = get_post_type_object( $post_type )
@@ -241,6 +232,7 @@ function bogo_rewrite_rules_array( $rules ) {
 		$rules = array_merge(
 			$extra_rules,
 			$root_rules,
+			$date_rules,
 			$page_rules,
 			$post_rules,
 			$rules
@@ -249,6 +241,7 @@ function bogo_rewrite_rules_array( $rules ) {
 		$rules = array_merge(
 			$extra_rules,
 			$root_rules,
+			$date_rules,
 			$post_rules,
 			$page_rules,
 			$rules
