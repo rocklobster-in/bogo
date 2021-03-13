@@ -20,54 +20,6 @@ function bogo_add_rewrite_tags() {
 }
 
 
-add_filter( 'comments_rewrite_rules', 'bogo_comments_rewrite_rules', 10, 1 );
-
-function bogo_comments_rewrite_rules( $comments_rewrite ) {
-	global $wp_rewrite;
-
-	$permastruct = $wp_rewrite->root . $wp_rewrite->comments_base;
-	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
-
-	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_COMMENTS,
-		'forcomments' => true,
-		'walk_dirs' => false,
-	) );
-
-	return array_merge( $extra, $comments_rewrite );
-}
-
-add_filter( 'search_rewrite_rules', 'bogo_search_rewrite_rules', 10, 1 );
-
-function bogo_search_rewrite_rules( $search_rewrite ) {
-	global $wp_rewrite;
-
-	$permastruct = $wp_rewrite->get_search_permastruct();
-	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
-
-	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_SEARCH,
-	) );
-
-	return array_merge( $extra, $search_rewrite );
-}
-
-add_filter( 'author_rewrite_rules', 'bogo_author_rewrite_rules', 10, 1 );
-
-function bogo_author_rewrite_rules( $author_rewrite ) {
-	global $wp_rewrite;
-
-	$permastruct = $wp_rewrite->get_author_permastruct();
-	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
-
-	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_AUTHORS,
-	) );
-
-	return array_merge( $extra, $author_rewrite );
-}
-
-
 add_filter( 'rewrite_rules_array', 'bogo_rewrite_rules_array', 10, 1 );
 
 function bogo_rewrite_rules_array( $rules ) {
@@ -110,6 +62,34 @@ function bogo_rewrite_rules_array( $rules ) {
 	$date_rules = bogo_generate_rewrite_rules(
 		$permastruct,
 		array( 'ep_mask' => EP_DATE )
+	);
+
+	$permastruct = $wp_rewrite->root . $wp_rewrite->comments_base;
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
+
+	$comments_rules = bogo_generate_rewrite_rules(
+		$permastruct,
+		array(
+			'ep_mask' => EP_COMMENTS,
+			'forcomments' => true,
+			'walk_dirs' => false,
+		)
+	);
+
+	$permastruct = $wp_rewrite->get_search_permastruct();
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
+
+	$search_rules = bogo_generate_rewrite_rules(
+		$permastruct,
+		array( 'ep_mask' => EP_SEARCH )
+	);
+
+	$permastruct = $wp_rewrite->get_author_permastruct();
+	$permastruct = bogo_add_lang_to_permastruct( $permastruct );
+
+	$author_rules = bogo_generate_rewrite_rules(
+		$permastruct,
+		array( 'ep_mask' => EP_AUTHORS )
 	);
 
 	$extra_rules = array();
@@ -190,6 +170,9 @@ function bogo_rewrite_rules_array( $rules ) {
 		$rules = array_merge(
 			$extra_rules,
 			$root_rules,
+			$comments_rules,
+			$search_rules,
+			$author_rules,
 			$date_rules,
 			$page_rules,
 			$post_rules,
@@ -199,6 +182,9 @@ function bogo_rewrite_rules_array( $rules ) {
 		$rules = array_merge(
 			$extra_rules,
 			$root_rules,
+			$comments_rules,
+			$search_rules,
+			$author_rules,
 			$date_rules,
 			$post_rules,
 			$page_rules,
@@ -208,6 +194,7 @@ function bogo_rewrite_rules_array( $rules ) {
 
 	return $rules;
 }
+
 
 function bogo_add_lang_to_permastruct( $permastruct ) {
 	global $wp_rewrite;
@@ -219,6 +206,7 @@ function bogo_add_lang_to_permastruct( $permastruct ) {
 
 	return path_join( $wp_rewrite->root, $remains );
 }
+
 
 function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 	global $wp_rewrite;
