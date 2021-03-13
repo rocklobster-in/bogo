@@ -92,22 +92,6 @@ function bogo_author_rewrite_rules( $author_rewrite ) {
 	return array_merge( $extra, $author_rewrite );
 }
 
-add_filter( 'page_rewrite_rules', 'bogo_page_rewrite_rules', 10, 1 );
-
-function bogo_page_rewrite_rules( $page_rewrite ) {
-	global $wp_rewrite;
-
-	$wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
-	$permastruct = trailingslashit( $wp_rewrite->root ) . '%lang%/%pagename%';
-
-	$extra = bogo_generate_rewrite_rules( $permastruct, array(
-		'ep_mask' => EP_PAGES,
-		'walk_dirs' => false,
-	) );
-
-	return array_merge( $extra, $page_rewrite );
-}
-
 
 add_filter( 'rewrite_rules_array', 'bogo_rewrite_rules_array', 10, 1 );
 
@@ -140,6 +124,21 @@ function bogo_rewrite_rules_array( $rules ) {
 		array(
 			'ep_mask' => EP_PERMALINK,
 			'paged' => false,
+		)
+	);
+
+	$wp_rewrite->add_rewrite_tag( '%pagename%', '(.?.+?)', 'pagename=' );
+
+	$page_rules = bogo_generate_rewrite_rules(
+		path_join(
+			$wp_rewrite->root,
+			'/' === substr( $wp_rewrite->root, -1, 1 )
+				? '%lang%/%pagename%/'
+				: '%lang%/%pagename%'
+		),
+		array(
+			'ep_mask' => EP_PAGES,
+			'walk_dirs' => false,
 		)
 	);
 
@@ -242,6 +241,7 @@ function bogo_rewrite_rules_array( $rules ) {
 		$rules = array_merge(
 			$extra_rules,
 			$root_rules,
+			$page_rules,
 			$post_rules,
 			$rules
 		);
@@ -250,6 +250,7 @@ function bogo_rewrite_rules_array( $rules ) {
 			$extra_rules,
 			$root_rules,
 			$post_rules,
+			$page_rules,
 			$rules
 		);
 	}
