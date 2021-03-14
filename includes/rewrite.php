@@ -204,6 +204,10 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 		'endpoints' => true,
 	) );
 
+	if ( strpos( $permalink_structure, '%lang%' ) === false ) {
+		return array();
+	}
+
 	$feedregex2 = '(' . implode( '|', $wp_rewrite->feeds ) . ')/?$';
 	$feedregex = $wp_rewrite->feed_base . '/' . $feedregex2;
 	$trackbackregex = 'trackback/?$';
@@ -280,6 +284,11 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 		);
 
 		$num_toks = preg_match_all( '/%.+?%/', $struct, $toks );
+
+		if ( $num_toks < count( $tokens[0] )
+		and $toks[0] === array( '%lang%' ) ) {
+			continue;
+		}
 
 		$query = ( ! empty( $num_toks ) && isset( $queries[$num_toks - 1] ) )
 			? $queries[$num_toks - 1]
