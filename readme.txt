@@ -2,7 +2,7 @@
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 5.5
-Tested up to: 5.6
+Tested up to: 5.7
 Stable tag: 3.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -64,42 +64,15 @@ With the default configuration, this plugin, in itself, does not:
 
 == Changelog ==
 
+= 3.5 =
+
+* Adds `auth_callback` to post meta definition.
+* Suppresses locale query for XML sitemap.
+* Corrects several rewrite rules-related issues.
+
 = 3.4 =
 
 * Modernize the JS build process.
 * Uses `__()` in JavaScript.
 * Has removed some unused functions and variables.
 * Has been tested with WordPress 5.6.
-
-= 3.3.4 =
-
-* Fixed: Unintended locale was set in the Posts screen.
-* Supports `set_screen_option_bogo_texts_per_page` filter hook.
-* REST API: Adds the `permission_callback` argument to endpoint definition.
-
-= 3.3.3 =
-
-* Fixed: Translation selector with no available option was displayed in a Classic Editor meta box.
-* Fixed: The `lang` variable in a request was ignored on admin screens.
-* Fixed: Elements in the HTML header had incorrect language attributes.
-
-= 3.3.2 =
-
-* User locale: Fixes several issues seen when you are logged-in as a non-Administrator role user.
-* User locale: Renders the **Toolbar** in the logged-in user's locale even on the front side.
-* Capabilities: Editor role users can now access the **Terms Translation** page, but higher level capabilities are required to edit some of translation items.
-* Makes the `exclude_enus_if_inactive` option true by default.
-* New filter hook: `bogo_get_short_name`
-
-= 3.3.1 =
-
-* Block Editor: Displays a spinner icon when creating a translation post.
-* Block Editor: Suggests posts in the same locale as the current post when making a text link or doing other operations in a block.
-* Block Editor: Fixes the issue that character references appear in post titles.
-
-= 3.3 =
-
-* Supports Block Editor.
-* Adds the `short_name` option to `bogo_available_languages()`.
-* Uses the post guid for the value of the `_original_post` post meta.
-* Improves HTML markup of the language switcher.
