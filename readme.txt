@@ -3,7 +3,7 @@ Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 5.5
 Tested up to: 5.7
-Stable tag: 3.4
+Stable tag: 3.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://contactform7.com/donate/
