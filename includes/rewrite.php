@@ -28,6 +28,16 @@ function bogo_rewrite_rules_array( $rules ) {
 	$lang_regex = bogo_get_lang_regex();
 
 	$extra_rules = array();
+
+	if ( $rest_url_prefix = rest_get_url_prefix() ) {
+		$extra_rules += array(
+			"{$lang_regex}/{$rest_url_prefix}/?$"
+				=> 'index.php?lang=$matches[1]&rest_route=/',
+			"{$lang_regex}/{$rest_url_prefix}/(.*)?"
+				=> 'index.php?lang=$matches[1]&rest_route=/$matches[2]',
+		);
+	}
+
 	$localizable_post_types = bogo_localizable_post_types();
 
 	foreach ( $localizable_post_types as $post_type ) {
