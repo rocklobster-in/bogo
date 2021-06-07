@@ -526,6 +526,8 @@ function bogo_url( $url = null, $lang = null ) {
 }
 
 function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
+	global $wp_rewrite;
+
 	$defaults = array(
 		'using_permalinks' => true,
 	);
@@ -566,9 +568,6 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 		? ''
 		: bogo_lang_slug( $lang );
 
-	$home = set_url_scheme( get_option( 'home' ) );
-	$home = trailingslashit( $home );
-
 	$url = remove_query_arg( 'lang', $url );
 
 	if ( ! $args['using_permalinks'] ) {
@@ -579,14 +578,23 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 		return $url;
 	}
 
-	$available_languages = array_map( 'bogo_lang_slug',
-		bogo_available_locales()
-	);
-
 	$tail_slashed = ( '/' == substr( $url, -1 ) );
 
+	$home = set_url_scheme( get_option( 'home' ) );
+
+	$url_has_index = $wp_rewrite->using_index_permalinks() && preg_match(
+		'#^' . preg_quote( path_join( $home, $wp_rewrite->index ) ) . '#',
+		$url
+	);
+
+	if ( $url_has_index ) {
+		$home = path_join( $home, $wp_rewrite->index );
+	}
+
+	$home = trailingslashit( $home );
+
 	$url = preg_replace(
-		'#^' . preg_quote( $home ) . '((' . implode( '|', $available_languages ) . ')/)?#',
+		'#^' . preg_quote( $home ) . '(' . bogo_get_lang_regex() . '/)?#',
 		$home . ( $lang_slug ? trailingslashit( $lang_slug ) : '' ),
 		trailingslashit( $url )
 	);
