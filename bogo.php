@@ -96,13 +96,10 @@ function bogo_locale( $locale ) {
 		$home = set_url_scheme( get_option( 'home' ) );
 		$home = trailingslashit( $home );
 
-		$available_locales = bogo_available_locales();
-		$available_locales = array_map( 'bogo_lang_slug', $available_locales );
-		$available_locales = implode( '|', $available_locales );
-
 		$pattern = '#^'
 			. preg_quote( $home )
-			. '(' . $available_locales . ')'
+			. '(?:' . preg_quote( trailingslashit( $wp_rewrite->index ) ) . ')?'
+			. bogo_get_lang_regex()
 			. '(/|$)#';
 
 		if ( preg_match( $pattern, $url, $matches )
