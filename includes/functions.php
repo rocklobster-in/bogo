@@ -581,23 +581,51 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 	$tail_slashed = ( '/' == substr( $url, -1 ) );
 
 	$home = set_url_scheme( get_option( 'home' ) );
+	$home = untrailingslashit( $home );
 
-	$url_has_index = $wp_rewrite->using_index_permalinks() && preg_match(
-		'#^' . preg_quote( path_join( $home, $wp_rewrite->index ) ) . '#',
-		$url
-	);
+	if ( $wp_rewrite->using_index_permalinks() ) {
+		$pattern = '#^'
+			. preg_quote( $home )
+			. '(?:/' . preg_quote( $wp_rewrite->index ) . ')?'
+			. '(?:/' . bogo_get_lang_regex() . ')?'
+			. '#';
 
-	if ( $url_has_index ) {
-		$home = path_join( $home, $wp_rewrite->index );
+		$replacement = $home . '/' . $wp_rewrite->index;
+
+		if ( $lang_slug ) {
+			$replacement .= '/' . $lang_slug;
+		}
+
+		$url = preg_replace(
+			$pattern,
+			$replacement,
+			$url
+		);
+
+		$url = preg_replace(
+			'#' . preg_quote( $wp_rewrite->index ) . '/?$#',
+			'',
+			$url
+		);
+
+	} else {
+		$pattern = '#^'
+			. preg_quote( $home )
+			. '(?:/' . bogo_get_lang_regex() . ')?'
+			. '#';
+
+		$replacement = $home;
+
+		if ( $lang_slug ) {
+			$replacement .= '/' . $lang_slug;
+		}
+
+		$url = preg_replace(
+			$pattern,
+			$replacement,
+			$url
+		);
 	}
-
-	$home = trailingslashit( $home );
-
-	$url = preg_replace(
-		'#^' . preg_quote( $home ) . '(' . bogo_get_lang_regex() . '/)?#',
-		$home . ( $lang_slug ? trailingslashit( $lang_slug ) : '' ),
-		trailingslashit( $url )
-	);
 
 	if ( ! $tail_slashed ) {
 		$url = untrailingslashit( $url );
