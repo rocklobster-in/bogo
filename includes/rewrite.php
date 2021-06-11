@@ -35,6 +35,10 @@ function bogo_rewrite_rules_array( $rules ) {
 				=> 'index.php?lang=$matches[1]&rest_route=/',
 			"{$lang_regex}/{$rest_url_prefix}/(.*)?"
 				=> 'index.php?lang=$matches[1]&rest_route=/$matches[2]',
+			"{$wp_rewrite->index}/{$lang_regex}/{$rest_url_prefix}/?$"
+				=> 'index.php?lang=$matches[1]&rest_route=/',
+			"{$wp_rewrite->index}/{$lang_regex}/{$rest_url_prefix}/(.*)?"
+				=> 'index.php?lang=$matches[1]&rest_route=/$matches[2]',
 		);
 	}
 
