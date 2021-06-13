@@ -50,14 +50,6 @@ function bogo_rewrite_rules_array( $rules ) {
 			continue;
 		}
 
-		$permastruct = $wp_rewrite->get_extra_permastruct( $post_type );
-		$permastruct = bogo_add_lang_to_permastruct( $permastruct );
-
-		$extra_rules += bogo_generate_rewrite_rules(
-			$permastruct,
-			$post_type_obj->rewrite
-		);
-
 		if ( $post_type_obj->has_archive ) {
 			if ( $post_type_obj->has_archive === true ) {
 				$archive_slug = $post_type_obj->rewrite['slug'];
@@ -94,6 +86,14 @@ function bogo_rewrite_rules_array( $rules ) {
 				);
 			}
 		}
+
+		$permastruct = $wp_rewrite->get_extra_permastruct( $post_type );
+		$permastruct = bogo_add_lang_to_permastruct( $permastruct );
+
+		$extra_rules += bogo_generate_rewrite_rules(
+			$permastruct,
+			$post_type_obj->rewrite
+		);
 	}
 
 	$localizable_taxonomies = get_object_taxonomies(
