@@ -64,15 +64,12 @@ With the default configuration, this plugin, in itself, does not:
 
 == Changelog ==
 
+= 3.5.1 =
+
+* Fixes several rewrite rules-related bugs that 3.5 has introduced.
+
 = 3.5 =
 
 * Adds `auth_callback` to post meta definition.
 * Suppresses locale query for XML sitemap.
 * Corrects several rewrite rules-related issues.
-
-= 3.4 =
-
-* Modernize the JS build process.
-* Uses `__()` in JavaScript.
-* Has removed some unused functions and variables.
-* Has been tested with WordPress 5.6.
