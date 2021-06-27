@@ -590,7 +590,7 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 		$pattern = '#^'
 			. preg_quote( $home )
 			. '(?:/' . preg_quote( $wp_rewrite->index ) . ')?'
-			. '(?:/' . bogo_get_lang_regex() . ')?'
+			. '(?:/' . bogo_get_lang_regex() . '(?![0-9A-Za-z%_-]))?'
 			. '#';
 
 		$replacement = $home . '/' . $wp_rewrite->index;
@@ -614,7 +614,7 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 	} else {
 		$pattern = '#^'
 			. preg_quote( $home )
-			. '(?:/' . bogo_get_lang_regex() . ')?'
+			. '(?:/' . bogo_get_lang_regex() . '(?![0-9A-Za-z%_-]))?'
 			. '#';
 
 		$replacement = $home;
