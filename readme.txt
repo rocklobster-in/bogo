@@ -2,7 +2,7 @@
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 5.5
-Tested up to: 5.7
+Tested up to: 5.8
 Stable tag: 3.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -63,6 +63,10 @@ With the default configuration, this plugin, in itself, does not:
 1. The **Language Packs** screen lets you view and install language packs.
 
 == Changelog ==
+
+= 3.5.2 =
+
+* Corrects regexp patterns in `bogo_get_url_with_lang()`.
 
 = 3.5.1 =
 
