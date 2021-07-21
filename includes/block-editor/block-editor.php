@@ -34,7 +34,7 @@ function bogo_init_block_editor_assets() {
 		'version' => BOGO_VERSION,
 	) );
 
-	wp_enqueue_script(
+	wp_register_script(
 		'bogo-block-editor',
 		$assets['src'],
 		$assets['dependencies'],
