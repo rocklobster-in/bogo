@@ -64,6 +64,10 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	);
 
 	if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
+		if ( $screen = get_current_screen() and $screen->is_block_editor() ) {
+			wp_enqueue_script( 'bogo-block-editor' );
+		}
+
 		$user_locale = bogo_get_user_locale();
 
 		$current_post = array(
