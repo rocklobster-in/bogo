@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/takayukister/bogo#readme",
   "devDependencies": {
-    "@wordpress/scripts": "^16.1.4"
+    "@wordpress/scripts": "^17.0.0"
   }
 }
