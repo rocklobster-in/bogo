@@ -316,6 +316,11 @@ function bogo_duplicate_post( $original_post, $locale ) {
 	}
 
 	if ( $post_metas = get_post_meta( $original_post->ID ) ) {
+
+		$post_metas = array_map( function ( $post_meta ) {
+			return array_map( 'maybe_unserialize', (array) $post_meta );
+		}, $post_metas );
+
 		$postarr['meta_input'] = $post_metas;
 	}
 
