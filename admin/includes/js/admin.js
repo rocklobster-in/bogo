@@ -12,10 +12,10 @@
 
 	$( function() {
 		$( 'body.options-general-php select#WPLANG' ).each( function() {
-			$( this ).find( 'option[selected="selected"]' ).removeAttr( 'selected' );
+			$( this ).find( 'option[selected="selected"]' ).removeAttr( 'selected' ).prop( 'selected', false );
 			var val = bogo.defaultLocale || 'en_US';
 			val = ( 'en_US' == val ? '' : val );
-			$( this ).find( 'option[value="' + val + '"]' ).first().attr( 'selected', 'selected' );
+			$( this ).find( 'option[value="' + val + '"]' ).first().attr( 'selected', 'selected' ).prop( 'selected', true );
 		} );
 	} );
 
