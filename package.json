@@ -1,6 +1,6 @@
 {
   "name": "bogo",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "description": "A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.",
   "private": true,
   "scripts": {
@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/takayukister/bogo#readme",
   "devDependencies": {
-    "@wordpress/scripts": "^17.0.0"
+    "@wordpress/scripts": "^23.3.0"
   }
 }
