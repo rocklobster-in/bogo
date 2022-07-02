@@ -1,6 +1,19 @@
 <?php
 
 add_action(
+	'init',
+	'bogo_register_language_switcher_block',
+	10, 0
+);
+
+function bogo_register_language_switcher_block() {
+	register_block_type(
+		path_join( BOGO_PLUGIN_DIR, 'includes/block-editor/language-switcher' )
+	);
+}
+
+
+add_action(
 	'enqueue_block_editor_assets',
 	'bogo_init_block_editor_assets',
 	10, 0

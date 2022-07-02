@@ -7,5 +7,6 @@
 	"icon": "translation",
 	"description": "Language switcher widget by Bogo.",
 	"keywords": [ "Bogo", "locale" ],
-	"textdomain": "bogo"
+	"textdomain": "bogo",
+	"editorScript": "file:./index.js"
 }
