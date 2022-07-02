@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=window.wp.element;(0,window.wp.blocks.registerBlockType)("bogo/language-switcher",{edit:()=>(0,e.createElement)("p",null," Hello world (from the editor)"),save:()=>(0,e.createElement)("p",null," Hola mundo (from the frontend) ")})})();
