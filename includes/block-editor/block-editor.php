@@ -11,7 +11,7 @@ function bogo_init_block_editor_assets() {
 
 	$asset_file = path_join(
 		BOGO_PLUGIN_DIR,
-		'includes/block-editor/index.asset.php'
+		'includes/block-editor/language-panel/index.asset.php'
 	);
 
 	if ( file_exists( $asset_file ) ) {
@@ -20,7 +20,7 @@ function bogo_init_block_editor_assets() {
 
 	$assets = wp_parse_args( $assets, array(
 		'src' => plugins_url(
-			'includes/block-editor/index.js',
+			'includes/block-editor/language-panel/index.js',
 			BOGO_PLUGIN_BASENAME
 		),
 		'dependencies' => array(
