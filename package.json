@@ -6,8 +6,8 @@
   "scripts": {
     "start:panel": "wp-scripts start includes/block-editor/language-panel/src/index.js --output-path=includes/block-editor/language-panel",
     "build:panel": "wp-scripts build includes/block-editor/language-panel/src/index.js --output-path=includes/block-editor/language-panel",
-		"start:switcher": "wp-scripts start includes/block-editor/language-switcher/src/index.js --output-path=includes/block-editor/language-switcher",
-		"build:switcher": "wp-scripts build includes/block-editor/language-switcher/src/index.js --output-path=includes/block-editor/language-switcher",
+    "start:switcher": "wp-scripts start includes/block-editor/language-switcher/src/index.js --output-path=includes/block-editor/language-switcher",
+    "build:switcher": "wp-scripts build includes/block-editor/language-switcher/src/index.js --output-path=includes/block-editor/language-switcher",
     "packages-update": "wp-scripts packages-update"
   },
   "repository": {
