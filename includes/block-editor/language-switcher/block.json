@@ -8,5 +8,6 @@
 	"description": "Language switcher widget by Bogo.",
 	"keywords": [ "Bogo", "locale" ],
 	"textdomain": "bogo",
-	"editorScript": "file:./index.js"
+	"editorScript": "file:./index.js",
+	"style": "file:../../css/style.css"
 }
