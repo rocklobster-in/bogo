@@ -1,10 +1,14 @@
 import { registerBlockType } from '@wordpress/blocks';
+import { useBlockProps } from '@wordpress/block-editor';
+
+import edit from './edit';
 
 registerBlockType( 'bogo/language-switcher', {
-	edit: () => {
-		return <p> Hello world (from the editor)</p>;
-	},
+	edit,
+
 	save: () => {
-		return <p> Hola mundo (from the frontend) </p>;
+		const blockProps = useBlockProps.save();
+
+		return <div { ...blockProps }>[bogo]</div>;
 	},
 } );
