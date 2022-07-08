@@ -40,9 +40,14 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		array( 'jquery' ), BOGO_VERSION, true
 	);
 
-	$available_languages = bogo_available_languages( array(
-		'orderby' => 'value',
-	) );
+	$available_languages = array();
+
+	foreach ( bogo_available_languages( 'orderby=value' ) as $locale => $lang ) {
+		$available_languages[$locale] = array(
+			'name' => $lang,
+			'nativename' => bogo_get_language_native_name( $locale ),
+		);
+	}
 
 	$local_args = array(
 		'l10n' => array(

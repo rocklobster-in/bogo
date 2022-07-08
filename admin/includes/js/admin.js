@@ -7,7 +7,11 @@
 	}
 
 	bogo.langName = function( locale ) {
-		return bogo.availableLanguages[ locale ] || '';
+		if ( bogo.availableLanguages[ locale ] ) {
+			return bogo.availableLanguages[ locale ].name;
+		} else {
+			return '';
+		}
 	};
 
 	$( function() {
@@ -56,7 +60,7 @@
 				} );
 
 				$added = $( '<li></li>' ).append( $added ).append(
-					' [' + bogo.availableLanguages[ locale ] + ']' );
+					' [' + bogo.langName( locale ) + ']' );
 				$( '#bogo-translations' ).append( $added );
 
 				$( '#bogo-translations-to-add option[value="' + locale + '"]' ).detach();

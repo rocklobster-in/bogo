@@ -168,6 +168,6 @@ export default function LanguagePanel() {
 
 const getLanguage = ( locale ) => {
 	return bogo.availableLanguages[locale]
-		? bogo.availableLanguages[locale]
+		? bogo.availableLanguages[locale].name
 		: locale;
 }
