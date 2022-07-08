@@ -10,7 +10,7 @@ export default function LanguageSwitcher() {
 			<li key={ locale }>
 				<span className="bogoflags"></span>
 				<span className="bogo-language-name">
-					{ language }
+					{ language.nativename ?? locale }
 				</span>
 			</li>
 		);
