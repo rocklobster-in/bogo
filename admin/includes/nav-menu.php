@@ -85,7 +85,7 @@ class Bogo_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 
 add_filter( 'wp_edit_nav_menu_walker', 'bogo_edit_nav_menu_walker', 10, 2 );
 
-function bogo_edit_nav_menu_walker( $class, $menu_id ) {
+function bogo_edit_nav_menu_walker( $class_name, $menu_id ) {
 	return 'Bogo_Walker_Nav_Menu_Edit';
 }
 
