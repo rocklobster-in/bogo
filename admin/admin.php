@@ -42,10 +42,17 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 
 	$available_languages = array();
 
-	foreach ( bogo_available_languages( 'orderby=value' ) as $locale => $lang ) {
+	foreach ( bogo_available_languages() as $locale => $language ) {
 		$available_languages[$locale] = array(
-			'name' => $lang,
+			'name' => $language,
 			'nativename' => bogo_get_language_native_name( $locale ),
+			'flag' => bogo_get_flag( $locale ),
+			'tags' => array_unique( array_filter(
+				array(
+					bogo_language_tag( $locale ),
+					bogo_lang_slug( $locale ),
+				)
+			) ),
 		);
 	}
 
@@ -66,6 +73,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		'pagenow' => isset( $_GET['page'] ) ? trim( $_GET['page'] ) : '',
 		'currentPost' => array(),
 		'localizablePostTypes' => bogo_localizable_post_types(),
+		'showFlags' => apply_filters( 'bogo_use_flags', true ),
 	);
 
 	if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
