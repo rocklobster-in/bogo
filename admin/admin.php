@@ -43,9 +43,15 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 	$available_languages = array();
 
 	foreach ( bogo_available_languages() as $locale => $language ) {
+		$native_name = bogo_get_language_native_name( $locale );
+
+		if ( bogo_locale_is_alone( $locale ) ) {
+			$native_name = bogo_get_short_name( $native_name );
+		}
+
 		$available_languages[$locale] = array(
 			'name' => $language,
-			'nativename' => bogo_get_language_native_name( $locale ),
+			'nativename' => trim( $native_name ),
 			'flag' => bogo_get_flag( $locale ),
 			'tags' => array_unique( array_filter(
 				array(
