@@ -6,9 +6,22 @@ export default function LanguageSwitcher() {
 	const listItems = Object.entries(
 		bogo?.availableLanguages ?? {}
 	).map( ( [ locale, language ] ) => {
+		const flag = ( flag => {
+			const found = flag.match( /\/(?<name>[a-z]+)\.png$/ );
+
+			const classes = [
+				'bogoflags',
+				`bogoflags-${ found?.groups.name ?? 'zz' }`,
+			];
+
+			return (
+				<span className={ classes.join( ' ' ) }></span>
+			);
+		} )( language.flag );
+
 		return (
-			<li key={ locale }>
-				<span className="bogoflags"></span>
+			<li key={ locale } className={ language.tags.join( ' ' ) }>
+				{ bogo.showFlags && flag }
 				<span className="bogo-language-name">
 					{ language.nativename ?? locale }
 				</span>
