@@ -441,11 +441,11 @@ function bogo_get_lang_regex() {
 	return '(' . implode( '|', $langs ) . ')';
 }
 
-function bogo_get_closest_locale( $var ) {
-	$var = strtolower( $var );
+function bogo_get_closest_locale( $locale_orig ) {
+	$locale_orig = strtolower( $locale_orig );
 	$locale_pattern = '/^([a-z]{2,3})(?:[_-]([a-z]{2})(?:[_-]([a-z0-9]+))?)?$/';
 
-	if ( ! preg_match( $locale_pattern, $var, $matches ) ) {
+	if ( ! preg_match( $locale_pattern, $locale_orig, $matches ) ) {
 		return false;
 	}
 
