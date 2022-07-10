@@ -41,7 +41,7 @@ add_action( 'init',
 
 add_filter( 'body_class', 'bogo_body_class', 10, 2 );
 
-function bogo_body_class( $classes, $class ) {
+function bogo_body_class( $classes, $classes_to_add ) {
 	$locale = bogo_language_tag( get_locale() );
 	$locale = esc_attr( $locale );
 
@@ -54,7 +54,7 @@ function bogo_body_class( $classes, $class ) {
 
 add_filter( 'post_class', 'bogo_post_class', 10, 3 );
 
-function bogo_post_class( $classes, $class, $post_id ) {
+function bogo_post_class( $classes, $classes_to_add, $post_id ) {
 	$locale = bogo_get_post_locale( $post_id );
 	$locale = bogo_language_tag( $locale );
 	$locale = esc_attr( $locale );
