@@ -64,6 +64,12 @@ With the default configuration, this plugin, in itself, does not:
 
 == Changelog ==
 
+= 3.6 =
+
+* Introduces the language switcher block.
+* Fixes a bug that causes multiple serialization on post duplication.
+* Fixes a bug in jQuery code that makes the site language unable to switch.
+
 = 3.5.3 =
 
 * Enqueues the Block Editor script only in the post editor screens.
