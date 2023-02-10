@@ -67,6 +67,7 @@ With the default configuration, this plugin, in itself, does not:
 = 3.6.1 =
 
 * Updates bundled JS libraries.
+* Includes asset files in the wp.org SVN repository.
 
 = 3.6 =
 
