@@ -32,24 +32,25 @@ function bogo_init_block_editor_assets() {
 	}
 
 	$assets = wp_parse_args( $assets, array(
-		'src' => plugins_url(
-			'includes/block-editor/language-panel/index.js',
-			BOGO_PLUGIN_BASENAME
-		),
 		'dependencies' => array(
+			'wp-api-fetch',
 			'wp-components',
 			'wp-data',
 			'wp-edit-post',
 			'wp-element',
-			'wp-plugins',
 			'wp-i18n',
+			'wp-plugins',
+			'wp-url',
 		),
 		'version' => BOGO_VERSION,
 	) );
 
 	wp_register_script(
 		'bogo-block-editor',
-		$assets['src'],
+		plugins_url(
+			'includes/block-editor/language-panel/index.js',
+			BOGO_PLUGIN_BASENAME
+		),
 		$assets['dependencies'],
 		$assets['version']
 	);
