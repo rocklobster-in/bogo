@@ -2,8 +2,8 @@
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 5.9
-Tested up to: 6.0
-Stable tag: 3.5.3
+Tested up to: 6.1
+Stable tag: 3.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://contactform7.com/donate/
@@ -63,6 +63,10 @@ With the default configuration, this plugin, in itself, does not:
 1. The **Language Packs** screen lets you view and install language packs.
 
 == Changelog ==
+
+= 3.6.1 =
+
+* Updates bundled JS libraries.
 
 = 3.6 =
 
