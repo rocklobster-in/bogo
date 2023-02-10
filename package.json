@@ -4,7 +4,7 @@
   "description": "A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.",
   "private": true,
   "scripts": {
-		"build:all": "npm run build:panel && npm run build:switcher",
+    "build:all": "npm run build:panel && npm run build:switcher",
     "start:panel": "wp-scripts start includes/block-editor/language-panel/src/index.js --output-path=includes/block-editor/language-panel",
     "build:panel": "wp-scripts build includes/block-editor/language-panel/src/index.js --output-path=includes/block-editor/language-panel",
     "start:switcher": "wp-scripts start includes/block-editor/language-switcher/src/index.js --output-path=includes/block-editor/language-switcher",
