@@ -23,4 +23,3 @@ node_modules/
 *.sqlite
 
 index.js.map
-includes/block-editor/language-panel/index.asset.php
