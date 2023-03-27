@@ -1,10 +1,11 @@
 === Bogo ===
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
-Requires at least: 5.9
-Tested up to: 6.1
-Stable tag: 3.6
-License: GPLv2 or later
+Requires at least: 6.1
+Tested up to: 6.2
+Stable tag: 3.6.1
+Requires PHP: 7.4
+License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://contactform7.com/donate/
 
