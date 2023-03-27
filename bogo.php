@@ -1,14 +1,18 @@
 <?php
 /*
-Plugin Name: Bogo
-Description: A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.
-Plugin URI: https://ideasilo.wordpress.com/bogo/
-Author: Takayuki Miyoshi
-Author URI: https://ideasilo.wordpress.com/
-Text Domain: bogo
-Domain Path: /languages/
-Version: 3.7-dev
-*/
+ * Plugin Name: Bogo
+ * Description: A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.
+ * Plugin URI: https://ideasilo.wordpress.com/bogo/
+ * Author: Takayuki Miyoshi
+ * Author URI: https://ideasilo.wordpress.com/
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: bogo
+ * Domain Path: /languages/
+ * Version: 3.7-dev
+ * Requires at least: 6.1
+ * Requires PHP: 7.4
+ */
 
 define( 'BOGO_VERSION', '3.7-dev' );
 
