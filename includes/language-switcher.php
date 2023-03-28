@@ -1,7 +1,5 @@
 <?php
 
-add_shortcode( 'bogo', 'bogo_language_switcher' );
-
 function bogo_language_switcher( $args = '' ) {
 	$args = wp_parse_args( $args, array(
 		'echo' => false,
