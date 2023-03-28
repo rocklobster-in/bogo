@@ -37,6 +37,7 @@ require_once BOGO_PLUGIN_DIR . '/includes/capabilities.php';
 require_once BOGO_PLUGIN_DIR . '/includes/query.php';
 require_once BOGO_PLUGIN_DIR . '/includes/flags.php';
 require_once BOGO_PLUGIN_DIR . '/includes/rest-api.php';
+require_once BOGO_PLUGIN_DIR . '/includes/shortcodes.php';
 require_once BOGO_PLUGIN_DIR . '/includes/block-editor/block-editor.php';
 
 if ( is_admin() ) {
