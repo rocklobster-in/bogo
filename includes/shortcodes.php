@@ -4,7 +4,10 @@ add_shortcode( 'bogo', 'bogo_shortcode_callback' );
 
 function bogo_shortcode_callback( $atts, $content, $shortcode_tag ) {
 	$atts = shortcode_atts( array(
+		'type' => 'language_switcher',
 	), $atts );
 
-	return bogo_language_switcher();
+	if ( 'language_switcher' === $atts['type'] ) {
+		return bogo_language_switcher( 'echo=0' );
+	}
 }
