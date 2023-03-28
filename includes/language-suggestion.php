@@ -15,10 +15,14 @@ function bogo_language_suggestion( $args = '' ) {
 		}
 	}
 
+	switch_to_locale( $locale_to_suggest );
+
 	$output = sprintf(
 		'This plugin is also available in %1$s.',
 		bogo_get_language( $locale_to_suggest )
 	);
+
+	restore_previous_locale();
 
 	$output = apply_filters( 'bogo_language_suggestion', $output, $args );
 
