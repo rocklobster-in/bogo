@@ -17,23 +17,29 @@ function bogo_language_suggestion( $args = '' ) {
 		}
 	}
 
+	if ( $locale_to_suggest ) {
+		$translation = reset( array_filter(
+			bogo_language_switcher_links( $args ),
+			function ( $link ) use ( $locale_to_suggest ) {
+				return $link['locale'] === $locale_to_suggest && $link['href'];
+			}
+		) );
+	}
+
 	$output = '';
 
-	if ( $locale_to_suggest ) {
-		$lang_name = bogo_get_language( $locale_to_suggest );
-		$lang_tag = bogo_language_tag( $locale_to_suggest );
-
+	if ( $translation ) {
 		switch_to_locale( $locale_to_suggest );
 
 		$link = sprintf(
 			'<a %1$s>%2$s</a>',
 			bogo_format_atts( array(
 				'rel' => 'alternate',
-				'hreflang' => $lang_tag,
-				'href' => bogo_url(),
-				'title' => $lang_name ? $lang_name : $lang_tag,
+				'hreflang' => $translation['lang'],
+				'href' => $translation['href'],
+				'title' => $translation['title'],
 			) ),
-			bogo_get_language( $locale_to_suggest )
+			bogo_get_short_name( bogo_get_language( $locale_to_suggest ) )
 		);
 
 		$output = sprintf(
