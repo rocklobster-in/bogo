@@ -8,9 +8,11 @@ function bogo_language_suggestion( $args = '' ) {
 	$locale_to_suggest = false;
 
 	foreach ( bogo_http_accept_languages() as $locale ) {
-		$locale_to_suggest = bogo_get_closest_locale( $locale );
+		$locale = bogo_get_closest_locale( $locale );
 
-		if ( $locale_to_suggest ) {
+		// A locale is available and it is not the current locale.
+		if ( $locale and $locale !== determine_locale() ) {
+			$locale_to_suggest = $locale;
 			break;
 		}
 	}
