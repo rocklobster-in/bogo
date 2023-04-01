@@ -108,11 +108,13 @@ function bogo_language_suggestion( $args = '' ) {
 		}
 	}
 
+	$translations = array();
+
 	if ( $locale_to_suggest ) {
 		$translations = array_filter(
 			bogo_language_switcher_links( $args ),
 			function ( $link ) use ( $locale_to_suggest ) {
-				return $link['locale'] === $locale_to_suggest && $link['href'];
+				return $link['locale'] === $locale_to_suggest && '' !== $link['href'];
 			}
 		);
 	}
