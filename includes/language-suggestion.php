@@ -18,17 +18,17 @@ function bogo_language_suggestion( $args = '' ) {
 	}
 
 	if ( $locale_to_suggest ) {
-		$translation = reset( array_filter(
+		$translations = array_filter(
 			bogo_language_switcher_links( $args ),
 			function ( $link ) use ( $locale_to_suggest ) {
 				return $link['locale'] === $locale_to_suggest && $link['href'];
 			}
-		) );
+		);
 	}
 
 	$output = '';
 
-	if ( $translation ) {
+	if ( $translations and $translation = reset( $translations ) ) {
 		switch_to_locale( $locale_to_suggest );
 
 		$link = sprintf(
