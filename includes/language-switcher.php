@@ -122,6 +122,14 @@ function bogo_language_suggestion( $args = '' ) {
 	if ( $translations and $translation = reset( $translations ) ) {
 		switch_to_locale( $locale_to_suggest );
 
+		$lang_name = bogo_get_language( $locale_to_suggest );
+
+		if ( $lang_name ) {
+			$lang_name = bogo_get_short_name( $lang_name );
+		} else {
+			$lang_name = sprintf( '[%s]', $locale_to_suggest );
+		}
+
 		$link = sprintf(
 			'<a %1$s>%2$s</a>',
 			bogo_format_atts( array(
@@ -130,11 +138,12 @@ function bogo_language_suggestion( $args = '' ) {
 				'href' => $translation['href'],
 				'title' => $translation['title'],
 			) ),
-			bogo_get_short_name( bogo_get_language( $locale_to_suggest ) )
+			esc_html( $lang_name )
 		);
 
 		$output = sprintf(
-			'This plugin is also available in %1$s.',
+			/* translators: %s: Language name */
+			esc_html( __( "This plugin is also available in %s.", 'bogo' ) ),
 			$link
 		);
 
