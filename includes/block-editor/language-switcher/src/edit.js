@@ -1,6 +1,8 @@
-import { useBlockProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, RadioControl } from '@wordpress/components';
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps();
 
 	const listItems = Object.entries(
@@ -30,10 +32,34 @@ export default function LanguageSwitcher() {
 	} );
 
 	return (
-		<div { ...blockProps }>
-			<ul className="bogo-language-switcher">
-				{ listItems }
-			</ul>
-		</div>
+		<>
+			<InspectorControls>
+				<PanelBody title={ __( 'Styles', 'bogo' ) }>
+					<RadioControl
+						label={ __( 'Type', 'bogo' ) }
+						help={ __( 'The type of language switcher', 'bogo' ) }
+						selected={ attributes.type }
+						options={ [
+							{
+								label: __( 'Default', 'bogo' ),
+								value: 'language_switcher'
+							},
+							{
+								label: __( 'Language suggestion', 'bogo' ),
+								value: 'language_suggestion'
+							},
+						] }
+						onChange={ ( value ) => setAttributes( {
+							type: value
+						} ) }
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div { ...blockProps }>
+				<ul className="bogo-language-switcher">
+					{ listItems }
+				</ul>
+			</div>
+		</>
 	);
 }
