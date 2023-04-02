@@ -8,6 +8,12 @@
 	"description": "Language switcher widget by Bogo.",
 	"keywords": [ "Bogo", "locale" ],
 	"textdomain": "bogo",
+	"attributes": {
+		"type": {
+			"enum": [ "language_switcher", "language_suggestion" ],
+			"default": "language_switcher"
+		}
+	},
 	"editorScript": "file:./index.js",
 	"style": "file:../../css/style.css"
 }
