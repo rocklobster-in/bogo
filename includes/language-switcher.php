@@ -145,7 +145,7 @@ function bogo_language_suggestion( $args = '' ) {
 
 		$output = sprintf(
 			/* translators: %s: Language name */
-			esc_html( __( "This plugin is also available in %s.", 'bogo' ) ),
+			esc_html( __( "This page is also available in %s.", 'bogo' ) ),
 			$link
 		);
 
