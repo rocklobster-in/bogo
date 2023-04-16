@@ -2,6 +2,8 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockControls } from '@wordpress/block-editor';
 import { ToolbarDropdownMenu } from '@wordpress/components';
 
+import { formatListBullets, tip } from '@wordpress/icons';
+
 export default function LanguageSwitcher( { attributes, setAttributes } ) {
 
 	const LanguageSwitcherPreview = () => {
@@ -46,9 +48,11 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 					controls={ [
 						{
 							title: __( 'List view', 'bogo' ),
+							icon: formatListBullets,
 						},
 						{
 							title: __( 'Suggestion view', 'bogo' ),
+							icon: tip,
 						},
 					] }
 				/>
