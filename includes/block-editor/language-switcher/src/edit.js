@@ -1,10 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, RadioControl } from '@wordpress/components';
+import { useBlockProps, BlockControls } from '@wordpress/block-editor';
+import { ToolbarDropdownMenu } from '@wordpress/components';
 
 export default function LanguageSwitcher( { attributes, setAttributes } ) {
 
-	const DemoLanguageSwitcher = () => {
+	const LanguageSwitcherPreview = () => {
 		const listItems = Object.entries(
 			bogo?.availableLanguages ?? {}
 		).map( ( [ locale, language ] ) => {
@@ -40,30 +40,21 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 
 	return (
 		<>
-			<InspectorControls>
-				<PanelBody title={ __( 'Styles', 'bogo' ) }>
-					<RadioControl
-						label={ __( 'Type', 'bogo' ) }
-						help={ __( 'The type of language switcher', 'bogo' ) }
-						selected={ attributes.type }
-						options={ [
-							{
-								label: __( 'Default', 'bogo' ),
-								value: 'language_switcher'
-							},
-							{
-								label: __( 'Language suggestion', 'bogo' ),
-								value: 'language_suggestion'
-							},
-						] }
-						onChange={ ( value ) => setAttributes( {
-							type: value
-						} ) }
-					/>
-				</PanelBody>
-			</InspectorControls>
+			<BlockControls group="block">
+				<ToolbarDropdownMenu
+					label={ __( 'Switch view type', 'bogo' ) }
+					controls={ [
+						{
+							title: __( 'List view', 'bogo' ),
+						},
+						{
+							title: __( 'Suggestion view', 'bogo' ),
+						},
+					] }
+				/>
+			</BlockControls>
 			<div { ...useBlockProps() }>
-				<DemoLanguageSwitcher />
+				<LanguageSwitcherPreview />
 			</div>
 		</>
 	);
