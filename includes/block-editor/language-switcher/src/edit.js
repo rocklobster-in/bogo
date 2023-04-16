@@ -45,14 +45,25 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 			<BlockControls group="block">
 				<ToolbarDropdownMenu
 					label={ __( 'Switch view type', 'bogo' ) }
+					icon={
+						attributes.type === 'language_suggestion'
+							? tip
+							: formatListBullets
+					}
 					controls={ [
 						{
 							title: __( 'List view', 'bogo' ),
 							icon: formatListBullets,
+							onClick: () => setAttributes( {
+								type: 'language_switcher',
+							} ),
 						},
 						{
 							title: __( 'Suggestion view', 'bogo' ),
 							icon: tip,
+							onClick: () => setAttributes( {
+								type: 'language_suggestion',
+							} ),
 						},
 					] }
 				/>
