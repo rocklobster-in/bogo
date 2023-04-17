@@ -1,9 +1,9 @@
 export const createShortcode = attributes => {
 	let shortcode = `[bogo]`;
 
-	if ( 'language_suggestion' === attributes.type ) {
+	if ( 'suggestion' === attributes.view ) {
 		shortcode = shortcode.replace( /\]$/,
-			` type="${ attributes.type }"]`
+			` view="${ attributes.view }"]`
 		);
 	}
 

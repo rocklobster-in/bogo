@@ -2,9 +2,11 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockControls } from '@wordpress/block-editor';
 import { ToolbarDropdownMenu } from '@wordpress/components';
 
+import { formatListBullets, tip } from '@wordpress/icons';
+
 export default function LanguageSwitcher( { attributes, setAttributes } ) {
 
-	const LanguageSwitcherPreview = () => {
+	const ListPreview = () => {
 		const listItems = Object.entries(
 			bogo?.availableLanguages ?? {}
 		).map( ( [ locale, language ] ) => {
@@ -38,23 +40,53 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 		);
 	};
 
+	const SuggestionPreview = () => {
+		return __( "This page is also available in (another language).", 'bogo' );
+	};
+
+	const blockProps = {
+		className: 'components-placeholder',
+		style: {
+			marginTop: '28px',
+			marginBottom: '28px',
+			paddingLeft: '28px',
+		},
+	};
+
 	return (
 		<>
 			<BlockControls group="block">
 				<ToolbarDropdownMenu
-					label={ __( 'Switch view type', 'bogo' ) }
+					label={ __( 'Switch view', 'bogo' ) }
+					icon={
+						attributes.view === 'suggestion'
+							? tip
+							: formatListBullets
+					}
 					controls={ [
 						{
 							title: __( 'List view', 'bogo' ),
+							icon: formatListBullets,
+							onClick: () => setAttributes( {
+								view: 'list',
+							} ),
 						},
 						{
 							title: __( 'Suggestion view', 'bogo' ),
+							icon: tip,
+							onClick: () => setAttributes( {
+								view: 'suggestion',
+							} ),
 						},
 					] }
 				/>
 			</BlockControls>
-			<div { ...useBlockProps() }>
-				<LanguageSwitcherPreview />
+			<div { ...useBlockProps( blockProps ) }>
+				{
+					attributes.view === 'suggestion'
+						? <SuggestionPreview />
+						: <ListPreview />
+				}
 			</div>
 		</>
 	);

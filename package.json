@@ -23,5 +23,8 @@
   "homepage": "https://github.com/takayukister/bogo#readme",
   "devDependencies": {
     "@wordpress/scripts": "^26.2.0"
+  },
+  "dependencies": {
+    "@wordpress/icons": "^9.22.0"
   }
 }
