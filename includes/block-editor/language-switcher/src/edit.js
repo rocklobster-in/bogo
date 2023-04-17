@@ -40,6 +40,19 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 		);
 	};
 
+	const SuggestionPreview = () => {
+		return __( "This page is also available in (another language).", 'bogo' );
+	};
+
+	const blockProps = {
+		className: 'components-placeholder',
+		style: {
+			marginTop: '28px',
+			marginBottom: '28px',
+			paddingLeft: '28px',
+		},
+	};
+
 	return (
 		<>
 			<BlockControls group="block">
@@ -68,8 +81,12 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 					] }
 				/>
 			</BlockControls>
-			<div { ...useBlockProps() }>
-				<ListPreview />
+			<div { ...useBlockProps( blockProps ) }>
+				{
+					attributes.view === 'suggestion'
+						? <SuggestionPreview />
+						: <ListPreview />
+				}
 			</div>
 		</>
 	);
