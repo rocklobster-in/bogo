@@ -9,9 +9,9 @@
 	"keywords": [ "Bogo", "locale" ],
 	"textdomain": "bogo",
 	"attributes": {
-		"type": {
-			"enum": [ "language_switcher", "language_suggestion" ],
-			"default": "language_switcher"
+		"view": {
+			"enum": [ "list", "suggestion" ],
+			"default": "list"
 		}
 	},
 	"editorScript": "file:./index.js",

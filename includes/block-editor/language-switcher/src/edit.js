@@ -6,7 +6,7 @@ import { formatListBullets, tip } from '@wordpress/icons';
 
 export default function LanguageSwitcher( { attributes, setAttributes } ) {
 
-	const LanguageSwitcherPreview = () => {
+	const ListPreview = () => {
 		const listItems = Object.entries(
 			bogo?.availableLanguages ?? {}
 		).map( ( [ locale, language ] ) => {
@@ -44,9 +44,9 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 		<>
 			<BlockControls group="block">
 				<ToolbarDropdownMenu
-					label={ __( 'Switch view type', 'bogo' ) }
+					label={ __( 'Switch view', 'bogo' ) }
 					icon={
-						attributes.type === 'language_suggestion'
+						attributes.view === 'suggestion'
 							? tip
 							: formatListBullets
 					}
@@ -55,21 +55,21 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 							title: __( 'List view', 'bogo' ),
 							icon: formatListBullets,
 							onClick: () => setAttributes( {
-								type: 'language_switcher',
+								view: 'list',
 							} ),
 						},
 						{
 							title: __( 'Suggestion view', 'bogo' ),
 							icon: tip,
 							onClick: () => setAttributes( {
-								type: 'language_suggestion',
+								view: 'suggestion',
 							} ),
 						},
 					] }
 				/>
 			</BlockControls>
 			<div { ...useBlockProps() }>
-				<LanguageSwitcherPreview />
+				<ListPreview />
 			</div>
 		</>
 	);
