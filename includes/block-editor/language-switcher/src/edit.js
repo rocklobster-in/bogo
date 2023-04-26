@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockControls } from '@wordpress/block-editor';
-import { ToolbarDropdownMenu } from '@wordpress/components';
+import { ToolbarDropdownMenu, Dashicon } from '@wordpress/components';
 
 import { formatListBullets, tip } from '@wordpress/icons';
 
@@ -41,12 +41,13 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 	};
 
 	const SuggestionPreview = () => {
-		return __( "This page is also available in (another language).", 'bogo' );
+		return __( "This page is also available in XXX.", 'bogo' );
 	};
 
 	const blockProps = {
 		className: 'components-placeholder',
 		style: {
+			minHeight: '100px',
 			marginTop: '28px',
 			marginBottom: '28px',
 			paddingLeft: '28px',
@@ -82,6 +83,10 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 				/>
 			</BlockControls>
 			<div { ...useBlockProps( blockProps ) }>
+				<label className="components-placeholder__label">
+					<Dashicon icon="translation" />
+					{ __( 'Language Switcher', 'bogo' ) }
+				</label>
 				{
 					attributes.view === 'suggestion'
 						? <SuggestionPreview />
