@@ -41,13 +41,13 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 	};
 
 	const SuggestionPreview = () => {
-		return __( "This page is also available in (another language).", 'bogo' );
+		return __( "This page is also available in XXX.", 'bogo' );
 	};
 
 	const blockProps = {
 		className: 'components-placeholder',
 		style: {
-			minHeight: '140px',
+			minHeight: '100px',
 			marginTop: '28px',
 			marginBottom: '28px',
 			paddingLeft: '28px',

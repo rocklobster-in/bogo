@@ -79,7 +79,10 @@ function bogo_language_switcher( $args = '' ) {
 		$output .= $li . "\n";
 	}
 
-	$output = '<ul class="bogo-language-switcher">' . $output . '</ul>' . "\n";
+	$output = sprintf(
+		'<ul class="bogo-language-switcher list-view">%s</ul>',
+		$output
+	);
 
 	$output = apply_filters( 'bogo_language_switcher', $output, $args );
 
@@ -147,6 +150,11 @@ function bogo_language_suggestion( $args = '' ) {
 			/* translators: %s: Language name */
 			esc_html( __( "This page is also available in %s.", 'bogo' ) ),
 			$link
+		);
+
+		$output = sprintf(
+			'<p class="bogo-language-switcher suggestion-view">%s</p>',
+			$output
 		);
 
 		restore_previous_locale();
