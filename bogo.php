@@ -25,6 +25,7 @@ define( 'BOGO_PLUGIN_NAME', trim( dirname( BOGO_PLUGIN_BASENAME ), '/' ) );
 define( 'BOGO_PLUGIN_DIR', untrailingslashit( dirname( BOGO_PLUGIN ) ) );
 
 require_once BOGO_PLUGIN_DIR . '/includes/functions.php';
+require_once BOGO_PLUGIN_DIR . '/includes/formatting.php';
 require_once BOGO_PLUGIN_DIR . '/includes/pomo.php';
 require_once BOGO_PLUGIN_DIR . '/includes/rewrite.php';
 require_once BOGO_PLUGIN_DIR . '/includes/link-template.php';
