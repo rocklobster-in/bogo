@@ -33,11 +33,15 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 			? trim( $_REQUEST['status'] )
 			: '';
 
+		$locales = array_keys( bogo_languages() );
+
+		sort( $locales );
+
 		$locales = array_unique( array_merge(
 			array( bogo_get_default_locale() ),
 			bogo_available_locales(),
 			array( 'en_US' ),
-			array_keys( wp_get_available_translations() )
+			$locales
 		) );
 
 		foreach ( $locales as $locale ) {
