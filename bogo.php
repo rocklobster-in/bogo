@@ -153,3 +153,95 @@ add_action( 'deactivate_' . BOGO_PLUGIN_BASENAME, 'bogo_deactivate', 10, 0 );
 function bogo_deactivate() {
 	bogo_delete_prop( 'lang_rewrite_regex' );
 }
+
+
+
+return;
+
+$unicode_symbols = array(
+	'a' => '\1F1E6',
+	'b' => '\1F1E7',
+	'c' => '\1F1E8',
+	'd' => '\1F1E9',
+	'e' => '\1F1EA',
+	'f' => '\1F1EB',
+	'g' => '\1F1EC',
+	'h' => '\1F1ED',
+	'i' => '\1F1EE',
+	'j' => '\1F1EF',
+	'k' => '\1F1F0',
+	'l' => '\1F1F1',
+	'm' => '\1F1F2',
+	'n' => '\1F1F3',
+	'o' => '\1F1F4',
+	'p' => '\1F1F5',
+	'q' => '\1F1F6',
+	'r' => '\1F1F7',
+	's' => '\1F1F8',
+	't' => '\1F1F9',
+	'u' => '\1F1FA',
+	'v' => '\1F1FB',
+	'w' => '\1F1FC',
+	'x' => '\1F1FD',
+	'y' => '\1F1FE',
+	'z' => '\1F1FF',
+);
+
+$special_cases = array(
+	'am' => 'et',
+	'ary' => 'ma',
+	'az' => 'az',
+	'bel' => 'by',
+	'bs' => 'ba',
+	'dzo' => 'bt',
+	'el' => 'gr',
+	'et' => 'ee',
+	'fi' => 'fi',
+	'ga' => 'ie',
+	'hr' => 'hr',
+	'ht' => 'ht',
+	'hy' => 'am',
+	'ja' => 'jp',
+	'kk' => 'kz',
+	'km' => 'kh',
+	'lo' => 'la',
+	'lv' => 'lv',
+	'mn' => 'mn',
+	'sq' => 'al',
+	'tg' => 'tj',
+	'th' => 'th',
+	'tl' => 'ph',
+	'uk' => 'ua',
+	'vi' => 'vn',
+);
+
+$languages = array_keys( bogo_languages() );
+
+$country_codes = array();
+
+foreach ( $languages as $language ) {
+	if ( isset( $special_cases[$language] ) ) {
+		$country_codes[] = $special_cases[$language];
+		continue;
+	}
+
+	if ( preg_match( '/^[a-z]+_([A-Z]{2})/', $language, $matches ) ) {
+		$country_codes[] = strtolower( $matches[1] );
+	}
+}
+
+$country_codes = array_unique( $country_codes );
+
+sort( $country_codes );
+
+echo '<pre>' . "\n";
+
+foreach ( $country_codes as $country_code ) {
+	echo sprintf( '.bogoflags-%s:before {', $country_code ) . "\n";
+
+	echo sprintf( '	content: "%s";', strtr( $country_code, $unicode_symbols ) ) . "\n";
+
+	echo '}' . "\n\n";
+}
+
+echo "\n" . '</pre>';
