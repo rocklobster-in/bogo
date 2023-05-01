@@ -10,10 +10,9 @@ ul.bogo-language-switcher li {
 
 /* National Flags */
 
-.bogoflags,
-.bogoflags-before:before {
+.bogoflags {
 	display: inline-block;
-	width: 16px;
+	width: 20px;
 	height: 11px;
 	background-image: none;
 	background-color: transparent;

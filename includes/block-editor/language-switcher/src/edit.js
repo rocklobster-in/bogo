@@ -10,18 +10,22 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 		const listItems = Object.entries(
 			bogo?.availableLanguages ?? {}
 		).map( ( [ locale, language ] ) => {
-			const flag = ( flag => {
-				const found = flag.match( /\/(?<name>[a-z]+)\.png$/ );
+			const flag = ( country => {
+				if ( country ) {
+					country = country.toLowerCase();
+				} else {
+					country = 'zz';
+				}
 
 				const classes = [
 					'bogoflags',
-					`bogoflags-${ found?.groups.name ?? 'zz' }`,
+					`bogoflags-${ country }`,
 				];
 
 				return (
 					<span className={ classes.join( ' ' ) }></span>
 				);
-			} )( language.flag );
+			} )( language.country );
 
 			return (
 				<li key={ locale } className={ language.tags.join( ' ' ) }>
