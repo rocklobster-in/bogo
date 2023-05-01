@@ -278,6 +278,10 @@ ul.bogo-language-switcher li {
 	content: "\1F1F5\1F1ED";
 }
 
+.bogoflags-pk:before {
+	content: "\1F1F5\1F1F0";
+}
+
 .bogoflags-pl:before {
 	content: "\1F1F5\1F1F1";
 }
