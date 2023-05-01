@@ -301,6 +301,44 @@ function bogo_get_language_native_name( $locale ) {
 	return false;
 }
 
+function bogo_get_country_code( $locale ) {
+	if ( preg_match( '/^[a-z]+_([A-Z]{2})/', $locale, $matches ) ) {
+		return $matches[1];
+	}
+
+	$special_cases = array(
+		'am' => 'ET', // Amharic => Ethiopia
+		'ary' => 'MA', // Moroccan Arabic => Morocco
+		'az' => 'AZ', // Azerbaijani => Azerbaijan
+		'bel' => 'BY', // Belarusian => Belarus
+		'dzo' => 'BT', // Dzongkha => Bhutan
+		'el' => 'GR', // Greek => Greece
+		'et' => 'EE', // Estonian => Estonia
+		'fi' => 'FI', // Finnish => Finland
+		'hr' => 'HR', // Croatian => Croatia
+		'hy' => 'AM', // Armenian => Armenia
+		'ja' => 'JP', // Japanese => Japan
+		'kk' => 'KZ', // Kazakh => Kazakhstan
+		'km' => 'KH', // Khmer => Cambodia
+		'lo' => 'LA', // Lao => Laos
+		'lv' => 'LV', // Latvian => Latvia
+		'mn' => 'MN', // Mongolian => Mongolia
+		'ps' => 'AF', // Pashto => Afghanistan
+		'sq' => 'AL', // Albanian => Albania
+		'th' => 'TH', // Thai => Thailand
+		'tl' => 'PH', // Tagalog => Philippines
+		'uk' => 'UA', // Ukrainian => Ukraine
+		'ur' => 'PK', // Urdu => Pakistan
+		'vi' => 'VN', // Vietnamese => Vietnam
+	);
+
+	if ( isset( $special_cases[$locale] ) ) {
+		return $special_cases[$locale];
+	}
+
+	return false;
+}
+
 function bogo_get_default_locale() {
 	static $locale = '';
 
