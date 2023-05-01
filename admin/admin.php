@@ -52,7 +52,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		$available_languages[$locale] = array(
 			'name' => $language,
 			'nativename' => trim( $native_name ),
-			'flag' => bogo_get_flag( $locale ),
+			'country' => bogo_get_country_code( $locale ),
 			'tags' => array_unique( array_filter(
 				array(
 					bogo_language_tag( $locale ),

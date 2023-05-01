@@ -64,11 +64,11 @@ function bogo_language_switcher( $args = '' ) {
 		);
 
 		if ( apply_filters( 'bogo_use_flags', true ) ) {
-			$flag = bogo_get_flag( $link['locale'] );
-			$flag = preg_replace( '/(?:.*?)([a-z]+)\.png$/', '$1', $flag, 1 );
+			$country_code = bogo_get_country_code( $link['locale'] );
+
 			$flag = sprintf(
 				'<span class="bogoflags bogoflags-%s"></span>',
-				$flag ? $flag : 'zz'
+				$country_code ? strtolower( $country_code ) : 'zz'
 			);
 
 			$li = sprintf( '<li class="%1$s">%3$s %2$s</li>', $class, $li, $flag );

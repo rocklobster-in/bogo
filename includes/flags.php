@@ -1,6 +1,23 @@
 <?php
 
+/**
+ * Returns a URL of the national flag icon.
+ *
+ * @deprecated 3.7
+ */
 function bogo_get_flag( $locale ) {
+	if ( WP_DEBUG ) {
+		trigger_error(
+			sprintf(
+				/* translators: 1: PHP function name, 2: version number */
+				__( 'Function %1$s is <strong>deprecated</strong> since Bogo version %2$s with no alternative available.', 'bogo' ),
+				__FUNCTION__,
+				'3.7'
+			),
+			E_USER_DEPRECATED
+		);
+	}
+
 	$locale = explode( '_', $locale );
 	$locale = array_slice( $locale, 0, 2 ); // de_DE_formal => de_DE
 	$locale = implode( '_', $locale );
