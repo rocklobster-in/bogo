@@ -117,10 +117,12 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 				}
 
 				echo sprintf(
-					'<option value="%1$s"%3$s>%2$s</option>',
-					esc_attr( $locale ),
-					esc_html( bogo_get_language( $locale ) ),
-					$locale === $this->locale_to_edit ? ' selected="selected"' : ''
+					'<option %1$s>%2$s</option>',
+					bogo_format_atts( array(
+						'value' => $locale,
+						'selected' => $locale === $this->locale_to_edit,
+					) ),
+					esc_html( bogo_get_language( $locale ) )
 				);
 			}
 
