@@ -164,8 +164,9 @@ function bogo_terms_translation( $locale_to_edit ) {
 	$items[] = array(
 		'name' => 'blogname',
 		'original' => get_option( 'blogname' ),
-		'translated' => bogo_translate( 'blogname', 'blogname',
-			get_option( 'blogname' ) ),
+		'translated' => bogo_translate(
+			'blogname', 'blogname', get_option( 'blogname' )
+		),
 		'context' => __( 'Site Title', 'bogo' ),
 		'cap' => 'manage_options',
 	);
@@ -173,8 +174,9 @@ function bogo_terms_translation( $locale_to_edit ) {
 	$items[] = array(
 		'name' => 'blogdescription',
 		'original' => get_option( 'blogdescription' ),
-		'translated' => bogo_translate( 'blogdescription', 'blogdescription',
-			get_option( 'blogdescription' ) ),
+		'translated' => bogo_translate(
+			'blogdescription', 'blogdescription', get_option( 'blogdescription' )
+		),
 		'context' => __( 'Tagline', 'bogo' ),
 		'cap' => 'manage_options',
 	);
@@ -194,8 +196,9 @@ function bogo_terms_translation( $locale_to_edit ) {
 			$items[] = array(
 				'name' => $name,
 				'original' => $term->name,
-				'translated' => bogo_translate( $name, $taxonomy->name,
-					$term->name ),
+				'translated' => bogo_translate(
+					$name, $taxonomy->name, $term->name
+				),
 				'context' => $tax_labels->name,
 				'cap' => $taxonomy->cap->edit_terms,
 			);
