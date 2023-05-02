@@ -79,10 +79,14 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 
 	public function column_translation( $item ) {
 		return sprintf(
-			'<input name="%1$s" type="text" id="%1$s" value="%2$s" class="%3$s" />',
-			esc_attr( $item['name'] ),
-			esc_attr( $item['translated'] ),
-			'large-text'
+			'<input %1$s />',
+			bogo_format_atts( array(
+				'type' => 'text',
+				'name' => $item['name'],
+				'id' => $item['name'],
+				'value' => $item['translated'],
+				'class' => 'large-text',
+			) )
 		);
 	}
 
