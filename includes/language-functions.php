@@ -297,10 +297,14 @@ function bogo_get_language_native_name( $locale ) {
 	);
 
 	if ( isset( $native_names[$locale] ) ) {
-		return $native_names[$locale];
+		$native_name = $native_names[$locale];
+	} else {
+		$native_name = false;
 	}
 
-	return false;
+	return apply_filters( 'bogo_get_language_native_name',
+		$native_name, $locale
+	);
 }
 
 function bogo_get_country_code( $locale ) {
