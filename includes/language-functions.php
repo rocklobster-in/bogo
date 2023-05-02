@@ -153,10 +153,12 @@ function bogo_get_language( $locale ) {
 	$languages = bogo_languages();
 
 	if ( isset( $languages[$locale] ) ) {
-		return $languages[$locale];
+		$language = $languages[$locale];
+	} else {
+		$language = false;
 	}
 
-	return null;
+	return apply_filters( 'bogo_get_language', $language, $locale );
 }
 
 function bogo_get_language_native_name( $locale ) {
@@ -454,7 +456,7 @@ function bogo_available_languages( $args = '' ) {
 	$available_locales = bogo_available_locales( $args );
 
 	foreach ( $available_locales as $locale ) {
-		$lang = bogo_get_language( $locale );
+		$lang = (string) bogo_get_language( $locale );
 
 		if ( $args['short_name'] and bogo_locale_is_alone( $locale ) ) {
 			$lang = bogo_get_short_name( $lang );
@@ -547,7 +549,7 @@ function bogo_locale_is_alone( $locale ) {
 }
 
 function bogo_get_short_name( $orig_name ) {
-	$short_name = $orig_name;
+	$short_name = $orig_name = (string) $orig_name;
 
 	$langs_with_variants = array(
 		'中文',
