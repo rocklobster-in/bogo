@@ -308,10 +308,6 @@ function bogo_get_language_native_name( $locale ) {
 }
 
 function bogo_get_country_code( $locale ) {
-	if ( preg_match( '/^[a-z]+_([A-Z]{2})/', $locale, $matches ) ) {
-		return $matches[1];
-	}
-
 	$special_cases = array(
 		'am' => 'ET', // Amharic => Ethiopia
 		'ary' => 'MA', // Moroccan Arabic => Morocco
@@ -338,11 +334,15 @@ function bogo_get_country_code( $locale ) {
 		'vi' => 'VN', // Vietnamese => Vietnam
 	);
 
-	if ( isset( $special_cases[$locale] ) ) {
-		return $special_cases[$locale];
+	if ( preg_match( '/^[a-z]+_([A-Z]{2})/', $locale, $matches ) ) {
+		$country_code = $matches[1];
+	} elseif ( isset( $special_cases[$locale] ) ) {
+		$country_code = $special_cases[$locale];
+	} else {
+		$country_code = false;
 	}
 
-	return false;
+	return apply_filters( 'bogo_get_country_code', $country_code, $locale );
 }
 
 function bogo_get_default_locale() {
