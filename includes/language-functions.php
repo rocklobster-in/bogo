@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Retrieves installable languages.
+ *
+ * @link http://api.wordpress.org/translations/core/1.0/
+ */
 function bogo_languages() {
 	static $languages = array();
 	static $textdomain_loaded = false;
