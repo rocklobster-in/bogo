@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Retrieves installable languages.
+ *
+ * @link http://api.wordpress.org/translations/core/1.0/
+ */
 function bogo_languages() {
 	static $languages = array();
 	static $textdomain_loaded = false;
@@ -149,6 +154,12 @@ function bogo_languages() {
 	return apply_filters( 'bogo_languages', $languages );
 }
 
+
+/**
+ * Returns the language name corresponding to the specified locale code.
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_get_language( $locale ) {
 	$languages = bogo_languages();
 
@@ -161,6 +172,14 @@ function bogo_get_language( $locale ) {
 	return apply_filters( 'bogo_get_language', $language, $locale );
 }
 
+
+/**
+ * Returns the language native name corresponding to the specified locale code.
+ *
+ * @link http://api.wordpress.org/translations/core/1.0/
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_get_language_native_name( $locale ) {
 	$native_names = array(
 		'af' => 'Afrikaans',
@@ -307,6 +326,15 @@ function bogo_get_language_native_name( $locale ) {
 	);
 }
 
+
+/**
+ * Returns the ISO 3166-1 alpha-2 country code corresponding to
+ * the specified locale code.
+ *
+ * @link https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_get_country_code( $locale ) {
 	$special_cases = array(
 		'am' => 'ET', // Amharic => Ethiopia
