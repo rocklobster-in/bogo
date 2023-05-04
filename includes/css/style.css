@@ -23,6 +23,13 @@ ul.bogo-language-switcher li {
 	vertical-align: top;
 }
 
+/*
+ * The following content properties use Unicode regional indicator symbols
+ * for national flags.
+ *
+ * https://en.wikipedia.org/wiki/Regional_indicator_symbol
+ */
+
 .bogoflags-af:before {
 	content: "\1F1E6\1F1EB";
 }
