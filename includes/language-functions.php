@@ -436,6 +436,10 @@ function bogo_is_enus_deactivated() {
 	return (bool) bogo_get_prop( 'enus_deactivated' );
 }
 
+
+/**
+ * Retrieves locale codes active on this site.
+ */
 function bogo_available_locales( $args = '' ) {
 	$defaults = array(
 		'exclude' => array(),
@@ -485,6 +489,10 @@ function bogo_available_locales( $args = '' ) {
 	return array_unique( array_filter( $available_locales ) );
 }
 
+
+/**
+ * Retrieves languages active on this site.
+ */
 function bogo_available_languages( $args = '' ) {
 	$defaults = array(
 		'exclude' => array(),
@@ -531,6 +539,12 @@ function bogo_available_languages( $args = '' ) {
 	return $langs;
 }
 
+
+/**
+ * Returns true if the specified locale is active on this site.
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_is_available_locale( $locale ) {
 	if ( empty( $locale ) ) {
 		return false;
@@ -545,12 +559,21 @@ function bogo_is_available_locale( $locale ) {
 	return in_array( $locale, $available_locales );
 }
 
+
+/**
+ * Filters locales list.
+ */
 function bogo_filter_locales( $locales, $filter = 'available' ) {
 	return array_intersect( (array) $locales, bogo_available_locales() );
 }
 
+
 /**
- * @see http://www.ietf.org/rfc/bcp/bcp47.txt
+ * Retrieves the language tag for the specified locale.
+ *
+ * @link https://www.ietf.org/rfc/bcp/bcp47.txt
+ *
+ * @param string $locale Locale code.
  */
 function bogo_language_tag( $locale ) {
 	$tag = preg_replace( '/[^0-9a-zA-Z]+/', '-', $locale );
@@ -563,6 +586,12 @@ function bogo_language_tag( $locale ) {
 	return apply_filters( 'bogo_language_tag', $tag, $locale );
 }
 
+
+/**
+ * Retrieves the language slug for the specified locale.
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_lang_slug( $locale ) {
 	$tag = bogo_language_tag( $locale );
 	$slug = $tag;
@@ -582,6 +611,12 @@ function bogo_lang_slug( $locale ) {
 	return apply_filters( 'bogo_lang_slug', $slug, $locale );
 }
 
+
+/**
+ * Returns true if the specified locale has no sibling active on this site.
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_locale_is_alone( $locale ) {
 	$tag = bogo_language_tag( $locale );
 
