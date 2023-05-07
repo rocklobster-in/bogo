@@ -436,6 +436,10 @@ function bogo_is_enus_deactivated() {
 	return (bool) bogo_get_prop( 'enus_deactivated' );
 }
 
+
+/**
+ * Retrieves locale codes active on this site.
+ */
 function bogo_available_locales( $args = '' ) {
 	$defaults = array(
 		'exclude' => array(),
@@ -485,6 +489,10 @@ function bogo_available_locales( $args = '' ) {
 	return array_unique( array_filter( $available_locales ) );
 }
 
+
+/**
+ * Retrieves languages active on this site.
+ */
 function bogo_available_languages( $args = '' ) {
 	$defaults = array(
 		'exclude' => array(),
@@ -531,6 +539,12 @@ function bogo_available_languages( $args = '' ) {
 	return $langs;
 }
 
+
+/**
+ * Returns true if the specified locale is active on this site.
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_is_available_locale( $locale ) {
 	if ( empty( $locale ) ) {
 		return false;
@@ -545,12 +559,21 @@ function bogo_is_available_locale( $locale ) {
 	return in_array( $locale, $available_locales );
 }
 
+
+/**
+ * Filters locales list.
+ */
 function bogo_filter_locales( $locales, $filter = 'available' ) {
 	return array_intersect( (array) $locales, bogo_available_locales() );
 }
 
+
 /**
- * @see http://www.ietf.org/rfc/bcp/bcp47.txt
+ * Retrieves the language tag for the specified locale.
+ *
+ * @link https://www.ietf.org/rfc/bcp/bcp47.txt
+ *
+ * @param string $locale Locale code.
  */
 function bogo_language_tag( $locale ) {
 	$tag = preg_replace( '/[^0-9a-zA-Z]+/', '-', $locale );
@@ -563,6 +586,12 @@ function bogo_language_tag( $locale ) {
 	return apply_filters( 'bogo_language_tag', $tag, $locale );
 }
 
+
+/**
+ * Retrieves the language slug for the specified locale.
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_lang_slug( $locale ) {
 	$tag = bogo_language_tag( $locale );
 	$slug = $tag;
@@ -582,6 +611,12 @@ function bogo_lang_slug( $locale ) {
 	return apply_filters( 'bogo_lang_slug', $slug, $locale );
 }
 
+
+/**
+ * Returns true if the specified locale has no sibling active on this site.
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_locale_is_alone( $locale ) {
 	$tag = bogo_language_tag( $locale );
 
@@ -594,6 +629,10 @@ function bogo_locale_is_alone( $locale ) {
 	return strlen( $slug ) < strlen( $tag );
 }
 
+
+/**
+ * Retrieves the short version of the specified language name.
+ */
 function bogo_get_short_name( $orig_name ) {
 	$short_name = $orig_name = (string) $orig_name;
 
@@ -620,6 +659,11 @@ function bogo_get_short_name( $orig_name ) {
 	return trim( $short_name );
 }
 
+
+/**
+ * Retrieves the regular expression pattern that matches
+ * all available language slugs on this site.
+ */
 function bogo_get_lang_regex() {
 	$langs = array_map( 'bogo_lang_slug', bogo_available_locales() );
 	$langs = array_filter( $langs );
@@ -631,6 +675,14 @@ function bogo_get_lang_regex() {
 	return '(' . implode( '|', $langs ) . ')';
 }
 
+
+/**
+ * Retrieves the locale that is active on this site and
+ * closest to the specified locale.
+ *
+ * @param string $locale_orig Locale code.
+ * @return string|bool Locale code. False if there is no close locale.
+ */
 function bogo_get_closest_locale( $locale_orig ) {
 	$locale_orig = strtolower( $locale_orig );
 	$locale_pattern = '/^([a-z]{2,3})(?:[_-]([a-z]{2})(?:[_-]([a-z0-9]+))?)?$/';
@@ -677,6 +729,13 @@ function bogo_get_closest_locale( $locale_orig ) {
 	return false;
 }
 
+
+/**
+ * Returns an ordered list of language tags based on the client
+ * language preference.
+ *
+ * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language
+ */
 function bogo_http_accept_languages() {
 	if ( ! isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
 		return false;
@@ -708,6 +767,10 @@ function bogo_http_accept_languages() {
 	return array_reverse( array_keys( $languages ) );
 }
 
+
+/**
+ * A wrapper function of bogo_get_url_with_lang().
+ */
 function bogo_url( $url = null, $lang = null ) {
 	if ( ! $lang ) {
 		$lang = determine_locale();
@@ -720,6 +783,15 @@ function bogo_url( $url = null, $lang = null ) {
 	return bogo_get_url_with_lang( $url, $lang, $args );
 }
 
+
+/**
+ * Returns a URL that is a different language version of the original URL.
+ *
+ * @param string $url The original URL.
+ * @param string $lang Locale code.
+ * @param string|array $args Options.
+ * @return string The result URL.
+ */
 function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 	global $wp_rewrite;
 
@@ -829,6 +901,12 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 	return $url;
 }
 
+
+/**
+ * Determines the language from the specified URL.
+ *
+ * @param string $url URL.
+ */
 function bogo_get_lang_from_url( $url = '' ) {
 	if ( ! $url ) {
 		$url = is_ssl() ? 'https://' : 'http://';
