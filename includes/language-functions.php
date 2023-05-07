@@ -771,16 +771,16 @@ function bogo_http_accept_languages() {
 /**
  * A wrapper function of bogo_get_url_with_lang().
  */
-function bogo_url( $url = null, $lang = null ) {
-	if ( ! $lang ) {
-		$lang = determine_locale();
+function bogo_url( $url = '', $locale = '' ) {
+	if ( ! $locale ) {
+		$locale = determine_locale();
 	}
 
 	$args = array(
 		'using_permalinks' => (bool) get_option( 'permalink_structure' ),
 	);
 
-	return bogo_get_url_with_lang( $url, $lang, $args );
+	return bogo_get_url_with_lang( $url, $locale, $args );
 }
 
 
@@ -788,11 +788,11 @@ function bogo_url( $url = null, $lang = null ) {
  * Returns a URL that is a different language version of the original URL.
  *
  * @param string $url The original URL.
- * @param string $lang Locale code.
+ * @param string $locale Locale code.
  * @param string|array $args Options.
  * @return string The result URL.
  */
-function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
+function bogo_get_url_with_lang( $url = '', $locale = '', $args = '' ) {
 	global $wp_rewrite;
 
 	$defaults = array(
@@ -825,15 +825,15 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 
 	$default_locale = bogo_get_default_locale();
 
-	if ( ! $lang ) {
-		$lang = $default_locale;
+	if ( ! $locale ) {
+		$locale = $default_locale;
 	}
 
 	$use_implicit_lang = apply_filters( 'bogo_use_implicit_lang', true );
 
-	$lang_slug = ( $use_implicit_lang && $lang == $default_locale )
+	$lang_slug = ( $use_implicit_lang && $locale === $default_locale )
 		? ''
-		: bogo_lang_slug( $lang );
+		: bogo_lang_slug( $locale );
 
 	$url = remove_query_arg( 'lang', $url );
 
@@ -845,7 +845,7 @@ function bogo_get_url_with_lang( $url = null, $lang = null, $args = '' ) {
 		return $url;
 	}
 
-	$tail_slashed = ( '/' == substr( $url, -1 ) );
+	$tail_slashed = ( '/' === substr( $url, -1 ) );
 
 	$home = set_url_scheme( get_option( 'home' ) );
 	$home = untrailingslashit( $home );
