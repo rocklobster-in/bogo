@@ -65,6 +65,17 @@ With the default configuration, this plugin, in itself, does not:
 
 == Changelog ==
 
+= 3.7 =
+
+* Language switcher: Adds the language suggestion view.
+* Improves `bogo_format_atts()`.
+* Updates the languages list in `bogo_languages()` based on translate.wordpress.org.
+* Uses a static list to retrieve language native names.
+* National flags: Drops famfamfam.com icons in favor of Unicode regional indicator symbols.
+* New filter hook: `bogo_get_language`
+* New filter hook: `bogo_get_language_native_name`
+* New filter hook: `bogo_get_country_code`
+
 = 3.6.1 =
 
 * Updates bundled JS libraries.
@@ -75,21 +86,3 @@ With the default configuration, this plugin, in itself, does not:
 * Introduces the language switcher block.
 * Fixes a bug that causes multiple serialization on post duplication.
 * Fixes a bug in jQuery code that makes the site language unable to switch.
-
-= 3.5.3 =
-
-* Enqueues the Block Editor script only in the post editor screens.
-
-= 3.5.2 =
-
-* Corrects regexp patterns in `bogo_get_url_with_lang()`.
-
-= 3.5.1 =
-
-* Fixes several rewrite rules-related bugs that 3.5 has introduced.
-
-= 3.5 =
-
-* Adds `auth_callback` to post meta definition.
-* Suppresses locale query for XML sitemap.
-* Corrects several rewrite rules-related issues.
