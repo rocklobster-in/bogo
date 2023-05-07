@@ -30,8 +30,24 @@ ul.bogo-language-switcher li {
  * https://en.wikipedia.org/wiki/Regional_indicator_symbol
  */
 
+.bogoflags-ad:before {
+	content: "\1F1E6\1F1E9";
+}
+
+.bogoflags-ae:before {
+	content: "\1F1E6\1F1EA";
+}
+
 .bogoflags-af:before {
 	content: "\1F1E6\1F1EB";
+}
+
+.bogoflags-ag:before {
+	content: "\1F1E6\1F1EC";
+}
+
+.bogoflags-ai:before {
+	content: "\1F1E6\1F1EE";
 }
 
 .bogoflags-al:before {
@@ -42,12 +58,24 @@ ul.bogo-language-switcher li {
 	content: "\1F1E6\1F1F2";
 }
 
+.bogoflags-an:before {
+	content: "\1F1E6\1F1F3";
+}
+
 .bogoflags-ao:before {
 	content: "\1F1E6\1F1F4";
 }
 
+.bogoflags-aq:before {
+	content: "\1F1E6\1F1F6";
+}
+
 .bogoflags-ar:before {
 	content: "\1F1E6\1F1F7";
+}
+
+.bogoflags-as:before {
+	content: "\1F1E6\1F1F8";
 }
 
 .bogoflags-at:before {
@@ -58,12 +86,24 @@ ul.bogo-language-switcher li {
 	content: "\1F1E6\1F1FA";
 }
 
+.bogoflags-aw:before {
+	content: "\1F1E6\1F1FC";
+}
+
+.bogoflags-ax:before {
+	content: "\1F1E6\1F1FD";
+}
+
 .bogoflags-az:before {
 	content: "\1F1E6\1F1FF";
 }
 
 .bogoflags-ba:before {
 	content: "\1F1E7\1F1E6";
+}
+
+.bogoflags-bb:before {
+	content: "\1F1E7\1F1E7";
 }
 
 .bogoflags-bd:before {
@@ -74,32 +114,108 @@ ul.bogo-language-switcher li {
 	content: "\1F1E7\1F1EA";
 }
 
+.bogoflags-bf:before {
+	content: "\1F1E7\1F1EB";
+}
+
 .bogoflags-bg:before {
 	content: "\1F1E7\1F1EC";
+}
+
+.bogoflags-bh:before {
+	content: "\1F1E7\1F1ED";
+}
+
+.bogoflags-bi:before {
+	content: "\1F1E7\1F1EE";
+}
+
+.bogoflags-bj:before {
+	content: "\1F1E7\1F1EF";
+}
+
+.bogoflags-bl:before {
+	content: "\1F1E7\1F1F1";
+}
+
+.bogoflags-bm:before {
+	content: "\1F1E7\1F1F2";
+}
+
+.bogoflags-bn:before {
+	content: "\1F1E7\1F1F3";
+}
+
+.bogoflags-bo:before {
+	content: "\1F1E7\1F1F4";
 }
 
 .bogoflags-br:before {
 	content: "\1F1E7\1F1F7";
 }
 
+.bogoflags-bs:before {
+	content: "\1F1E7\1F1F8";
+}
+
 .bogoflags-bt:before {
 	content: "\1F1E7\1F1F9";
+}
+
+.bogoflags-bv:before {
+	content: "\1F1E7\1F1FB";
+}
+
+.bogoflags-bw:before {
+	content: "\1F1E7\1F1FC";
 }
 
 .bogoflags-by:before {
 	content: "\1F1E7\1F1FE";
 }
 
+.bogoflags-bz:before {
+	content: "\1F1E7\1F1FF";
+}
+
 .bogoflags-ca:before {
 	content: "\1F1E8\1F1E6";
+}
+
+.bogoflags-cc:before {
+	content: "\1F1E8\1F1E8";
+}
+
+.bogoflags-cd:before {
+	content: "\1F1E8\1F1E9";
+}
+
+.bogoflags-cf:before {
+	content: "\1F1E8\1F1EB";
+}
+
+.bogoflags-cg:before {
+	content: "\1F1E8\1F1EC";
 }
 
 .bogoflags-ch:before {
 	content: "\1F1E8\1F1ED";
 }
 
+.bogoflags-ci:before {
+	content: "\1F1E8\1F1EE";
+}
+
+.bogoflags-ck:before {
+	content: "\1F1E8\1F1F0";
+}
+
 .bogoflags-cl:before {
 	content: "\1F1E8\1F1F1";
+}
+
+.bogoflags-cm:before {
+	content: "\1F1E8\1F1F2";
 }
 
 .bogoflags-cn:before {
@@ -114,6 +230,22 @@ ul.bogo-language-switcher li {
 	content: "\1F1E8\1F1F7";
 }
 
+.bogoflags-cu:before {
+	content: "\1F1E8\1F1FA";
+}
+
+.bogoflags-cv:before {
+	content: "\1F1E8\1F1FB";
+}
+
+.bogoflags-cx:before {
+	content: "\1F1E8\1F1FD";
+}
+
+.bogoflags-cy:before {
+	content: "\1F1E8\1F1FE";
+}
+
 .bogoflags-cz:before {
 	content: "\1F1E8\1F1FF";
 }
@@ -122,12 +254,24 @@ ul.bogo-language-switcher li {
 	content: "\1F1E9\1F1EA";
 }
 
+.bogoflags-dj:before {
+	content: "\1F1E9\1F1EF";
+}
+
 .bogoflags-dk:before {
 	content: "\1F1E9\1F1F0";
 }
 
+.bogoflags-dm:before {
+	content: "\1F1E9\1F1F2";
+}
+
 .bogoflags-do:before {
 	content: "\1F1E9\1F1F4";
+}
+
+.bogoflags-dz:before {
+	content: "\1F1E9\1F1FF";
 }
 
 .bogoflags-ec:before {
@@ -136,6 +280,18 @@ ul.bogo-language-switcher li {
 
 .bogoflags-ee:before {
 	content: "\1F1EA\1F1EA";
+}
+
+.bogoflags-eg:before {
+	content: "\1F1EA\1F1EC";
+}
+
+.bogoflags-eh:before {
+	content: "\1F1EA\1F1ED";
+}
+
+.bogoflags-er:before {
+	content: "\1F1EA\1F1F7";
 }
 
 .bogoflags-es:before {
@@ -150,32 +306,120 @@ ul.bogo-language-switcher li {
 	content: "\1F1EB\1F1EE";
 }
 
+.bogoflags-fj:before {
+	content: "\1F1EB\1F1EF";
+}
+
+.bogoflags-fk:before {
+	content: "\1F1EB\1F1F0";
+}
+
+.bogoflags-fm:before {
+	content: "\1F1EB\1F1F2";
+}
+
+.bogoflags-fo:before {
+	content: "\1F1EB\1F1F4";
+}
+
 .bogoflags-fr:before {
 	content: "\1F1EB\1F1F7";
+}
+
+.bogoflags-ga:before {
+	content: "\1F1EC\1F1E6";
 }
 
 .bogoflags-gb:before {
 	content: "\1F1EC\1F1E7";
 }
 
+.bogoflags-gd:before {
+	content: "\1F1EC\1F1E9";
+}
+
 .bogoflags-ge:before {
 	content: "\1F1EC\1F1EA";
+}
+
+.bogoflags-gf:before {
+	content: "\1F1EC\1F1EB";
+}
+
+.bogoflags-gg:before {
+	content: "\1F1EC\1F1EC";
+}
+
+.bogoflags-gh:before {
+	content: "\1F1EC\1F1ED";
+}
+
+.bogoflags-gi:before {
+	content: "\1F1EC\1F1EE";
+}
+
+.bogoflags-gl:before {
+	content: "\1F1EC\1F1F1";
+}
+
+.bogoflags-gm:before {
+	content: "\1F1EC\1F1F2";
+}
+
+.bogoflags-gn:before {
+	content: "\1F1EC\1F1F3";
+}
+
+.bogoflags-gp:before {
+	content: "\1F1EC\1F1F5";
+}
+
+.bogoflags-gq:before {
+	content: "\1F1EC\1F1F6";
 }
 
 .bogoflags-gr:before {
 	content: "\1F1EC\1F1F7";
 }
 
+.bogoflags-gs:before {
+	content: "\1F1EC\1F1F8";
+}
+
 .bogoflags-gt:before {
 	content: "\1F1EC\1F1F9";
+}
+
+.bogoflags-gu:before {
+	content: "\1F1EC\1F1FA";
+}
+
+.bogoflags-gw:before {
+	content: "\1F1EC\1F1FC";
+}
+
+.bogoflags-gy:before {
+	content: "\1F1EC\1F1FE";
 }
 
 .bogoflags-hk:before {
 	content: "\1F1ED\1F1F0";
 }
 
+.bogoflags-hm:before {
+	content: "\1F1ED\1F1F2";
+}
+
+.bogoflags-hn:before {
+	content: "\1F1ED\1F1F3";
+}
+
 .bogoflags-hr:before {
 	content: "\1F1ED\1F1F7";
+}
+
+.bogoflags-ht:before {
+	content: "\1F1ED\1F1F9";
 }
 
 .bogoflags-hu:before {
@@ -186,12 +430,28 @@ ul.bogo-language-switcher li {
 	content: "\1F1EE\1F1E9";
 }
 
+.bogoflags-ie:before {
+	content: "\1F1EE\1F1EA";
+}
+
 .bogoflags-il:before {
 	content: "\1F1EE\1F1F1";
 }
 
+.bogoflags-im:before {
+	content: "\1F1EE\1F1F2";
+}
+
 .bogoflags-in:before {
 	content: "\1F1EE\1F1F3";
+}
+
+.bogoflags-io:before {
+	content: "\1F1EE\1F1F4";
+}
+
+.bogoflags-iq:before {
+	content: "\1F1EE\1F1F6";
 }
 
 .bogoflags-ir:before {
@@ -206,16 +466,60 @@ ul.bogo-language-switcher li {
 	content: "\1F1EE\1F1F9";
 }
 
+.bogoflags-je:before {
+	content: "\1F1EF\1F1EA";
+}
+
+.bogoflags-jm:before {
+	content: "\1F1EF\1F1F2";
+}
+
+.bogoflags-jo:before {
+	content: "\1F1EF\1F1F4";
+}
+
 .bogoflags-jp:before {
 	content: "\1F1EF\1F1F5";
+}
+
+.bogoflags-ke:before {
+	content: "\1F1F0\1F1EA";
+}
+
+.bogoflags-kg:before {
+	content: "\1F1F0\1F1EC";
 }
 
 .bogoflags-kh:before {
 	content: "\1F1F0\1F1ED";
 }
 
+.bogoflags-ki:before {
+	content: "\1F1F0\1F1EE";
+}
+
+.bogoflags-km:before {
+	content: "\1F1F0\1F1F2";
+}
+
+.bogoflags-kn:before {
+	content: "\1F1F0\1F1F3";
+}
+
+.bogoflags-kp:before {
+	content: "\1F1F0\1F1F5";
+}
+
 .bogoflags-kr:before {
 	content: "\1F1F0\1F1F7";
+}
+
+.bogoflags-kw:before {
+	content: "\1F1F0\1F1FC";
+}
+
+.bogoflags-ky:before {
+	content: "\1F1F0\1F1FE";
 }
 
 .bogoflags-kz:before {
@@ -226,24 +530,80 @@ ul.bogo-language-switcher li {
 	content: "\1F1F1\1F1E6";
 }
 
+.bogoflags-lb:before {
+	content: "\1F1F1\1F1E7";
+}
+
+.bogoflags-lc:before {
+	content: "\1F1F1\1F1E8";
+}
+
+.bogoflags-li:before {
+	content: "\1F1F1\1F1EE";
+}
+
 .bogoflags-lk:before {
 	content: "\1F1F1\1F1F0";
+}
+
+.bogoflags-lr:before {
+	content: "\1F1F1\1F1F7";
+}
+
+.bogoflags-ls:before {
+	content: "\1F1F1\1F1F8";
 }
 
 .bogoflags-lt:before {
 	content: "\1F1F1\1F1F9";
 }
 
+.bogoflags-lu:before {
+	content: "\1F1F1\1F1FA";
+}
+
 .bogoflags-lv:before {
 	content: "\1F1F1\1F1FB";
+}
+
+.bogoflags-ly:before {
+	content: "\1F1F1\1F1FE";
 }
 
 .bogoflags-ma:before {
 	content: "\1F1F2\1F1E6";
 }
 
+.bogoflags-mc:before {
+	content: "\1F1F2\1F1E8";
+}
+
+.bogoflags-md:before {
+	content: "\1F1F2\1F1E9";
+}
+
+.bogoflags-me:before {
+	content: "\1F1F2\1F1EA";
+}
+
+.bogoflags-mf:before {
+	content: "\1F1F2\1F1EB";
+}
+
+.bogoflags-mg:before {
+	content: "\1F1F2\1F1EC";
+}
+
+.bogoflags-mh:before {
+	content: "\1F1F2\1F1ED";
+}
+
 .bogoflags-mk:before {
 	content: "\1F1F2\1F1F0";
+}
+
+.bogoflags-ml:before {
+	content: "\1F1F2\1F1F1";
 }
 
 .bogoflags-mm:before {
@@ -254,12 +614,76 @@ ul.bogo-language-switcher li {
 	content: "\1F1F2\1F1F3";
 }
 
+.bogoflags-mo:before {
+	content: "\1F1F2\1F1F4";
+}
+
+.bogoflags-mp:before {
+	content: "\1F1F2\1F1F5";
+}
+
+.bogoflags-mq:before {
+	content: "\1F1F2\1F1F6";
+}
+
+.bogoflags-mr:before {
+	content: "\1F1F2\1F1F7";
+}
+
+.bogoflags-ms:before {
+	content: "\1F1F2\1F1F8";
+}
+
+.bogoflags-mt:before {
+	content: "\1F1F2\1F1F9";
+}
+
+.bogoflags-mu:before {
+	content: "\1F1F2\1F1FA";
+}
+
+.bogoflags-mv:before {
+	content: "\1F1F2\1F1FB";
+}
+
+.bogoflags-mw:before {
+	content: "\1F1F2\1F1FC";
+}
+
 .bogoflags-mx:before {
 	content: "\1F1F2\1F1FD";
 }
 
 .bogoflags-my:before {
 	content: "\1F1F2\1F1FE";
+}
+
+.bogoflags-mz:before {
+	content: "\1F1F2\1F1FF";
+}
+
+.bogoflags-na:before {
+	content: "\1F1F3\1F1E6";
+}
+
+.bogoflags-nc:before {
+	content: "\1F1F3\1F1E8";
+}
+
+.bogoflags-ne:before {
+	content: "\1F1F3\1F1EA";
+}
+
+.bogoflags-nf:before {
+	content: "\1F1F3\1F1EB";
+}
+
+.bogoflags-ng:before {
+	content: "\1F1F3\1F1EC";
+}
+
+.bogoflags-ni:before {
+	content: "\1F1F3\1F1EE";
 }
 
 .bogoflags-nl:before {
@@ -274,12 +698,36 @@ ul.bogo-language-switcher li {
 	content: "\1F1F3\1F1F5";
 }
 
+.bogoflags-nr:before {
+	content: "\1F1F3\1F1F7";
+}
+
+.bogoflags-nu:before {
+	content: "\1F1F3\1F1FA";
+}
+
 .bogoflags-nz:before {
 	content: "\1F1F3\1F1FF";
 }
 
+.bogoflags-om:before {
+	content: "\1F1F4\1F1F2";
+}
+
+.bogoflags-pa:before {
+	content: "\1F1F5\1F1E6";
+}
+
 .bogoflags-pe:before {
 	content: "\1F1F5\1F1EA";
+}
+
+.bogoflags-pf:before {
+	content: "\1F1F5\1F1EB";
+}
+
+.bogoflags-pg:before {
+	content: "\1F1F5\1F1EC";
 }
 
 .bogoflags-ph:before {
@@ -294,12 +742,40 @@ ul.bogo-language-switcher li {
 	content: "\1F1F5\1F1F1";
 }
 
+.bogoflags-pm:before {
+	content: "\1F1F5\1F1F2";
+}
+
+.bogoflags-pn:before {
+	content: "\1F1F5\1F1F3";
+}
+
 .bogoflags-pr:before {
 	content: "\1F1F5\1F1F7";
 }
 
+.bogoflags-ps:before {
+	content: "\1F1F5\1F1F8";
+}
+
 .bogoflags-pt:before {
 	content: "\1F1F5\1F1F9";
+}
+
+.bogoflags-pw:before {
+	content: "\1F1F5\1F1FC";
+}
+
+.bogoflags-py:before {
+	content: "\1F1F5\1F1FE";
+}
+
+.bogoflags-qa:before {
+	content: "\1F1F6\1F1E6";
+}
+
+.bogoflags-re:before {
+	content: "\1F1F7\1F1EA";
 }
 
 .bogoflags-ro:before {
@@ -314,32 +790,160 @@ ul.bogo-language-switcher li {
 	content: "\1F1F7\1F1FA";
 }
 
+.bogoflags-rw:before {
+	content: "\1F1F7\1F1FC";
+}
+
+.bogoflags-sa:before {
+	content: "\1F1F8\1F1E6";
+}
+
+.bogoflags-sb:before {
+	content: "\1F1F8\1F1E7";
+}
+
+.bogoflags-sc:before {
+	content: "\1F1F8\1F1E8";
+}
+
+.bogoflags-sd:before {
+	content: "\1F1F8\1F1E9";
+}
+
 .bogoflags-se:before {
 	content: "\1F1F8\1F1EA";
+}
+
+.bogoflags-sg:before {
+	content: "\1F1F8\1F1EC";
+}
+
+.bogoflags-sh:before {
+	content: "\1F1F8\1F1ED";
 }
 
 .bogoflags-si:before {
 	content: "\1F1F8\1F1EE";
 }
 
+.bogoflags-sj:before {
+	content: "\1F1F8\1F1EF";
+}
+
 .bogoflags-sk:before {
 	content: "\1F1F8\1F1F0";
+}
+
+.bogoflags-sl:before {
+	content: "\1F1F8\1F1F1";
+}
+
+.bogoflags-sm:before {
+	content: "\1F1F8\1F1F2";
+}
+
+.bogoflags-sn:before {
+	content: "\1F1F8\1F1F3";
+}
+
+.bogoflags-so:before {
+	content: "\1F1F8\1F1F4";
+}
+
+.bogoflags-sr:before {
+	content: "\1F1F8\1F1F7";
+}
+
+.bogoflags-st:before {
+	content: "\1F1F8\1F1F9";
+}
+
+.bogoflags-sv:before {
+	content: "\1F1F8\1F1FB";
+}
+
+.bogoflags-sy:before {
+	content: "\1F1F8\1F1FE";
+}
+
+.bogoflags-sz:before {
+	content: "\1F1F8\1F1FF";
+}
+
+.bogoflags-tc:before {
+	content: "\1F1F9\1F1E8";
+}
+
+.bogoflags-td:before {
+	content: "\1F1F9\1F1E9";
+}
+
+.bogoflags-tf:before {
+	content: "\1F1F9\1F1EB";
+}
+
+.bogoflags-tg:before {
+	content: "\1F1F9\1F1EC";
 }
 
 .bogoflags-th:before {
 	content: "\1F1F9\1F1ED";
 }
 
+.bogoflags-tj:before {
+	content: "\1F1F9\1F1EF";
+}
+
+.bogoflags-tk:before {
+	content: "\1F1F9\1F1F0";
+}
+
+.bogoflags-tl:before {
+	content: "\1F1F9\1F1F1";
+}
+
+.bogoflags-tm:before {
+	content: "\1F1F9\1F1F2";
+}
+
+.bogoflags-tn:before {
+	content: "\1F1F9\1F1F3";
+}
+
+.bogoflags-to:before {
+	content: "\1F1F9\1F1F4";
+}
+
 .bogoflags-tr:before {
 	content: "\1F1F9\1F1F7";
+}
+
+.bogoflags-tt:before {
+	content: "\1F1F9\1F1F9";
+}
+
+.bogoflags-tv:before {
+	content: "\1F1F9\1F1FB";
 }
 
 .bogoflags-tw:before {
 	content: "\1F1F9\1F1FC";
 }
 
+.bogoflags-tz:before {
+	content: "\1F1F9\1F1FF";
+}
+
 .bogoflags-ua:before {
 	content: "\1F1FA\1F1E6";
+}
+
+.bogoflags-ug:before {
+	content: "\1F1FA\1F1EC";
+}
+
+.bogoflags-um:before {
+	content: "\1F1FA\1F1F2";
 }
 
 .bogoflags-us:before {
@@ -354,14 +958,58 @@ ul.bogo-language-switcher li {
 	content: "\1F1FA\1F1FF";
 }
 
+.bogoflags-va:before {
+	content: "\1F1FB\1F1E6";
+}
+
+.bogoflags-vc:before {
+	content: "\1F1FB\1F1E8";
+}
+
 .bogoflags-ve:before {
 	content: "\1F1FB\1F1EA";
+}
+
+.bogoflags-vg:before {
+	content: "\1F1FB\1F1EC";
+}
+
+.bogoflags-vi:before {
+	content: "\1F1FB\1F1EE";
 }
 
 .bogoflags-vn:before {
 	content: "\1F1FB\1F1F3";
 }
 
+.bogoflags-vu:before {
+	content: "\1F1FB\1F1FA";
+}
+
+.bogoflags-wf:before {
+	content: "\1F1FC\1F1EB";
+}
+
+.bogoflags-ws:before {
+	content: "\1F1FC\1F1F8";
+}
+
+.bogoflags-ye:before {
+	content: "\1F1FE\1F1EA";
+}
+
+.bogoflags-yt:before {
+	content: "\1F1FE\1F1F9";
+}
+
 .bogoflags-za:before {
 	content: "\1F1FF\1F1E6";
+}
+
+.bogoflags-zm:before {
+	content: "\1F1FF\1F1F2";
+}
+
+.bogoflags-zw:before {
+	content: "\1F1FF\1F1FC";
 }

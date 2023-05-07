@@ -373,6 +373,10 @@ function bogo_get_country_code( $locale ) {
 	return apply_filters( 'bogo_get_country_code', $country_code, $locale );
 }
 
+
+/**
+ * Retrieves the default locale for the site.
+ */
 function bogo_get_default_locale() {
 	static $locale = '';
 
@@ -408,12 +412,22 @@ function bogo_get_default_locale() {
 	return 'en_US';
 }
 
+
+/**
+ * Returns true if the specified locale is the default locale.
+ *
+ * @param string $locale Locale code.
+ */
 function bogo_is_default_locale( $locale ) {
 	$default_locale = bogo_get_default_locale();
 
 	return ! empty( $locale ) && $locale == bogo_get_default_locale();
 }
 
+
+/**
+ * Returns true if the en_US locale is deactivated on this site.
+ */
 function bogo_is_enus_deactivated() {
 	if ( bogo_is_default_locale( 'en_US' ) ) {
 		return false;
