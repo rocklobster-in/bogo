@@ -15,5 +15,5 @@
 		}
 	},
 	"editorScript": "file:./index.js",
-	"style": "file:../../css/style.css"
+	"editorStyle": "file:../../css/style.css"
 }
