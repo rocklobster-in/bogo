@@ -9,12 +9,12 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: bogo
  * Domain Path: /languages/
- * Version: 3.7-dev
+ * Version: 3.7
  * Requires at least: 6.1
  * Requires PHP: 7.4
  */
 
-define( 'BOGO_VERSION', '3.7-dev' );
+define( 'BOGO_VERSION', '3.7' );
 
 define( 'BOGO_PLUGIN', __FILE__ );
 
