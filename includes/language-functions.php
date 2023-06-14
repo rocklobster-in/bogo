@@ -906,9 +906,14 @@ function bogo_get_url_with_lang( $url = '', $locale = '', $args = '' ) {
  * Determines the language from the specified URL.
  *
  * @param string $url URL.
+ * @return string|false Locale string or false on failure.
  */
 function bogo_get_lang_from_url( $url = '' ) {
 	if ( ! $url ) {
+		if ( ! isset( $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'] ) ) {
+			// Failed to build URL from request.
+			return false;
+		}
 		$url = is_ssl() ? 'https://' : 'http://';
 		$url .= $_SERVER['HTTP_HOST'];
 		$url .= $_SERVER['REQUEST_URI'];
