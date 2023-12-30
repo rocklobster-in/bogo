@@ -28,6 +28,26 @@ function bogo_parse_query( $query ) {
 		}
 	}
 
+
+
+	/*
+	when search is using post_id, we'll pull the slug and use that instead
+	for searching.
+	*/
+	if (!empty($qv['post__in'])) {
+		$post_slugs = array();
+
+		foreach ($qv['post__in'] as $key => $post_id) {
+			$post = get_post($post_id);
+			if ($post) {
+				$post_slugs[] = $post->post_name;
+				unset($qv['post__in'][$key]);
+			}
+		}
+
+		$qv['post_name__in'] = $post_slugs;
+	}
+
 	$lang = isset( $qv['lang'] ) ? $qv['lang'] : '';
 
 	if ( is_admin() ) {
