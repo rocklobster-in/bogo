@@ -1,4 +1,4 @@
-Bogo WordPress Plugin, 2007-2023 Takayuki Miyoshi
+Bogo WordPress Plugin, 2007-2024 Takayuki Miyoshi
 Bogo is distributed under the terms of the GNU GPL
 
 This program is free software; you can redistribute it and/or modify

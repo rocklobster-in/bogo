@@ -1,7 +1,7 @@
 === Bogo ===
 Contributors: takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
-Requires at least: 6.1
+Requires at least: 6.4
 Tested up to: 6.2
 Stable tag: 3.6.1
 Requires PHP: 7.4
