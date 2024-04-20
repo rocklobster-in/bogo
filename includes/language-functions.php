@@ -735,13 +735,15 @@ function bogo_get_closest_locale( $locale_orig ) {
  * language preference.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language
+ *
+ * @return array Locale codes of languages the browser accepts.
  */
 function bogo_http_accept_languages() {
-	if ( ! isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
-		return false;
-	}
-
 	$languages = array();
+
+	if ( ! isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+		return $languages;
+	}
 
 	foreach ( explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) as $lang ) {
 		$lang = trim( strtolower( $lang ) );
