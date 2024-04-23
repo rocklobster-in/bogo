@@ -187,16 +187,14 @@ function bogo_posts_where( $where, $query ) {
 add_filter( 'option_sticky_posts', 'bogo_option_sticky_posts', 10, 1 );
 
 function bogo_option_sticky_posts( $posts ) {
-	if ( is_admin() ) {
-		return $posts;
-	}
+	if ( is_home() ) {
+		$locale = get_locale();
 
-	$locale = get_locale();
-
-	foreach ( $posts as $key => $post_id ) {
-		if ( $locale != bogo_get_post_locale( $post_id ) ) {
-			unset( $posts[$key] );
-		}
+		$posts = array_filter( $posts,
+			static function ( $post_id ) use ( $locale ) {
+				return bogo_get_post_locale( $post_id ) === $locale;
+			}
+		);
 	}
 
 	return $posts;
