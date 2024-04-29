@@ -71,7 +71,7 @@ function bogo_switch_user_locale() {
 
 	check_admin_referer( 'bogo-switch-locale' );
 
-	$locale = isset( $_REQUEST['locale'] ) ? $_REQUEST['locale'] : '';
+	$locale = $_REQUEST['locale'] ?? '';
 
 	if ( ! bogo_is_available_locale( $locale )
 	or $locale == bogo_get_user_locale() ) {
