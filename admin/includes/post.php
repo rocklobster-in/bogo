@@ -160,9 +160,8 @@ function bogo_add_translation() {
 
 	check_admin_referer( 'bogo-add-translation' );
 
-	$locale = isset( $_REQUEST['locale'] ) ? $_REQUEST['locale'] : '';
-	$original_post = isset( $_REQUEST['original_post'] )
-		? absint( $_REQUEST['original_post'] ) : 0;
+	$locale = trim( $_REQUEST['locale'] ?? '' );
+	$original_post = absint( $_REQUEST['original_post'] ?? 0 );
 
 	if ( ! bogo_is_available_locale( $locale ) ) {
 		return;
