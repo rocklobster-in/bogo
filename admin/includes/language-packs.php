@@ -29,9 +29,7 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 			? array()
 			: preg_split( '/[\s]+/', $_REQUEST['s'] );
 
-		$status = isset( $_REQUEST['status'] )
-			? trim( $_REQUEST['status'] )
-			: '';
+		$status = trim( $_REQUEST['status'] ?? '' );
 
 		$locales = array_keys( bogo_languages() );
 
@@ -95,9 +93,7 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 		$links = array();
 		$menu_page_url = menu_page_url( 'bogo', false );
 
-		$status = isset( $_REQUEST['status'] )
-			? trim( $_REQUEST['status'] )
-			: '';
+		$status = trim( $_REQUEST['status'] ?? '' );
 
 		// All
 		$count_all = $this->count_active + $this->count_inactive;
