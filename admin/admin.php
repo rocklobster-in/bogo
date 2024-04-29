@@ -76,7 +76,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		),
 		'availableLanguages' => $available_languages,
 		'defaultLocale' => bogo_get_default_locale(),
-		'pagenow' => isset( $_GET['page'] ) ? trim( $_GET['page'] ) : '',
+		'pagenow' => trim( $_GET['page'] ?? '' ),
 		'currentPost' => array(),
 		'localizablePostTypes' => bogo_localizable_post_types(),
 		'showFlags' => apply_filters( 'bogo_use_flags', true ),
@@ -196,8 +196,8 @@ function bogo_set_screen_options( $result, $option, $value ) {
 function bogo_load_tools_page() {
 	require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
-	$action = isset( $_GET['action'] ) ? $_GET['action'] : '';
-	$locale = isset( $_GET['locale'] ) ? $_GET['locale'] : null;
+	$action = $_GET['action'] ?? '';
+	$locale = $_GET['locale'] ?? null;
 
 	if ( 'activate' == $action ) {
 		check_admin_referer( 'bogo-tools' );
@@ -362,7 +362,7 @@ function bogo_tools_page() {
 }
 
 function bogo_load_texts_page() {
-	$action = isset( $_POST['action'] ) ? $_POST['action'] : '';
+	$action = $_POST['action'] ?? '';
 
 	if ( 'save' == $action ) {
 		check_admin_referer( 'bogo-edit-text-translation' );
@@ -371,7 +371,7 @@ function bogo_load_texts_page() {
 			wp_die( __( "You are not allowed to edit translations.", 'bogo' ) );
 		}
 
-		$locale = isset( $_POST['locale'] ) ? $_POST['locale'] : null;
+		$locale = $_POST['locale'] ?? null;
 
 		if ( ! bogo_is_available_locale( $locale ) ) {
 			return;
@@ -386,9 +386,7 @@ function bogo_load_texts_page() {
 		foreach ( (array) bogo_terms_translation( $locale ) as $item ) {
 			$translation = $item['translated'];
 
-			$cap = isset( $item['cap'] )
-				? $item['cap']
-				: 'bogo_edit_terms_translation';
+			$cap = $item['cap'] ?? 'bogo_edit_terms_translation';
 
 			if ( isset( $_POST[$item['name']] )
 			and current_user_can( $cap ) ) {
@@ -412,7 +410,7 @@ function bogo_load_texts_page() {
 			array(
 				'locale' => $locale,
 				'message' => $message,
-				'paged' => isset( $_POST['paged'] ) ? absint( $_POST['paged'] ) : 1,
+				'paged' => absint( $_POST['paged'] ?? 1 ),
 			),
 			menu_page_url( 'bogo-texts', false )
 		);
@@ -464,8 +462,8 @@ function bogo_texts_page() {
 <?php bogo_admin_notice(); ?>
 
 <form action="" method="get">
-<input type="hidden" name="page" value="<?php echo isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : ''; ?>" />
-<input type="hidden" name="locale" value="<?php echo isset( $_REQUEST['locale'] ) ? esc_attr( $_REQUEST['locale'] ) : ''; ?>" />
+<input type="hidden" name="page" value="<?php echo esc_attr( $_REQUEST['page'] ?? '' ); ?>" />
+<input type="hidden" name="locale" value="<?php echo esc_attr( $_REQUEST['locale'] ?? '' ); ?>" />
 <?php
 	$list_table->search_box(
 		__( 'Search Translation', 'bogo' ), 'bogo-terms-translation'
@@ -475,7 +473,7 @@ function bogo_texts_page() {
 
 <form action="" method="post" id="bogo-terms-translation">
 <input type="hidden" name="action" value="save" />
-<input type="hidden" name="paged" value="<?php echo isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : ''; ?>" />
+<input type="hidden" name="paged" value="<?php echo absint( $_GET['paged'] ?? '' ); ?>" />
 <?php
 	wp_nonce_field( 'bogo-edit-text-translation' );
 	$list_table->display();
