@@ -18,7 +18,7 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 	}
 
 	public function prepare_items() {
-		$this->locale_to_edit = isset( $_GET['locale'] ) ? $_GET['locale'] : '';
+		$this->locale_to_edit = trim( $_GET['locale'] ?? '' );
 
 		if ( ! bogo_is_available_locale( $this->locale_to_edit ) ) {
 			return;
