@@ -380,35 +380,41 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 }
 
 function bogo_delete_language_pack( $locale ) {
-	if ( 'en_US' == $locale
-	or ! bogo_is_available_locale( $locale )
-	or bogo_is_default_locale( $locale ) ) {
+	if (
+		'en_US' === $locale or
+		! bogo_is_available_locale( $locale ) or
+		bogo_is_default_locale( $locale ) or
+		! is_dir( WP_LANG_DIR ) or
+		! $files = scandir( WP_LANG_DIR )
+	) {
 		return false;
 	}
 
-	if ( ! is_dir( WP_LANG_DIR )
-	or ! $files = scandir( WP_LANG_DIR ) ) {
-		return false;
-	}
+	$prefixes = array(
+		'admin-',
+		'admin-network-',
+		'continents-cities-',
+	);
 
-	$target_files = array(
-		sprintf( '%s.mo', $locale ),
-		sprintf( '%s.po', $locale ),
-		sprintf( 'admin-%s.mo', $locale ),
-		sprintf( 'admin-%s.po', $locale ),
-		sprintf( 'admin-network-%s.mo', $locale ),
-		sprintf( 'admin-network-%s.po', $locale ),
-		sprintf( 'continents-cities-%s.mo', $locale ),
-		sprintf( 'continents-cities-%s.po', $locale ),
+	$suffixes = array(
+		'.mo',
+		'.po',
+		'.l10n.php',
+	);
+
+	$pattern = sprintf(
+		'/^(?:%1$s)?%2$s(?:%3$s)$/',
+		implode( '|', array_map( 'preg_quote', $prefixes ) ),
+		preg_quote( $locale ),
+		implode( '|', array_map( 'preg_quote', $suffixes ) )
 	);
 
 	foreach ( $files as $file ) {
-		if ( '.' === $file[0]
-		or is_dir( $file ) ) {
+		if ( '.' === $file[0] or is_dir( $file ) ) {
 			continue;
 		}
 
-		if ( in_array( $file, $target_files ) ) {
+		if ( preg_match( $pattern, $file ) ) {
 			$result = @unlink( path_join( WP_LANG_DIR, $file ) );
 
 			if ( ! $result ) {
