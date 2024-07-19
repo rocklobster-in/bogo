@@ -33,7 +33,7 @@ function bogo_init_block_editor_assets() {
 
 	$assets = wp_parse_args( $assets, array(
 		'dependencies' => array(
-			'react',
+			'react-jsx-runtime',
 			'wp-api-fetch',
 			'wp-components',
 			'wp-data',
