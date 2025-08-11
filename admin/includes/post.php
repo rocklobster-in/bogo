@@ -8,6 +8,7 @@ function bogo_pages_columns( $posts_columns ) {
 	return bogo_posts_columns( $posts_columns, 'page' );
 }
 
+
 add_filter( 'manage_posts_columns', 'bogo_posts_columns', 10, 2 );
 
 function bogo_posts_columns( $posts_columns, $post_type ) {
@@ -26,6 +27,7 @@ function bogo_posts_columns( $posts_columns, $post_type ) {
 	return $posts_columns;
 }
 
+
 add_action( 'manage_pages_custom_column',
 	'bogo_manage_posts_custom_column', 10, 2
 );
@@ -35,7 +37,7 @@ add_action( 'manage_posts_custom_column',
 );
 
 function bogo_manage_posts_custom_column( $column_name, $post_id ) {
-	if ( 'locale' != $column_name ) {
+	if ( 'locale' !== $column_name ) {
 		return;
 	}
 
@@ -68,6 +70,7 @@ function bogo_manage_posts_custom_column( $column_name, $post_id ) {
 	);
 }
 
+
 add_action( 'restrict_manage_posts', 'bogo_restrict_manage_posts', 10, 2 );
 
 function bogo_restrict_manage_posts( $post_type, $which ) {
@@ -80,13 +83,13 @@ function bogo_restrict_manage_posts( $post_type, $which ) {
 
 	echo '<select name="lang">';
 
-	$selected = ( '' == $current_locale ) ? ' selected="selected"' : '';
+	$selected = ( '' === $current_locale ) ? ' selected="selected"' : '';
 
 	echo '<option value=""' . $selected . '>'
 		. esc_html( __( 'Show all locales', 'bogo' ) ) . '</option>';
 
 	foreach ( $available_languages as $locale => $lang ) {
-		$selected = ( $locale == $current_locale ) ? ' selected="selected"' : '';
+		$selected = ( $locale === $current_locale ) ? ' selected="selected"' : '';
 
 		echo '<option value="' . esc_attr( $locale ) . '"' . $selected . '>'
 			. esc_html( $lang ) . '</option>';
@@ -95,12 +98,15 @@ function bogo_restrict_manage_posts( $post_type, $which ) {
 	echo '</select>' . "\n";
 }
 
+
 add_filter( 'post_row_actions', 'bogo_post_row_actions', 10, 2 );
 add_filter( 'page_row_actions', 'bogo_post_row_actions', 10, 2 );
 
 function bogo_post_row_actions( $actions, $post ) {
-	if ( ! bogo_is_localizable_post_type( $post->post_type )
-	or 'trash' === $post->post_status ) {
+	if (
+		! bogo_is_localizable_post_type( $post->post_type ) or
+		'trash' === $post->post_status
+	) {
 		return $actions;
 	}
 
@@ -113,25 +119,29 @@ function bogo_post_row_actions( $actions, $post ) {
 	$user_locale = bogo_get_user_locale();
 	$post_locale = bogo_get_post_locale( $post->ID );
 
-	if ( $user_locale == $post_locale ) {
+	if ( $user_locale === $post_locale ) {
 		return $actions;
 	}
 
 	if ( $translation = bogo_get_post_translation( $post, $user_locale ) ) {
-		if ( empty( $translation->ID )
-		or $translation->ID === $post->ID ) {
+		if ( empty( $translation->ID ) or $translation->ID === $post->ID ) {
 			return $actions;
 		}
 
+		/* translators: %s: Language name */
 		$text = __( 'Edit %s translation', 'bogo' );
+
 		$edit_link = get_edit_post_link( $translation->ID );
 	} else {
+		/* translators: %s: Language name */
 		$text = __( 'Translate into %s', 'bogo' );
+
 		$edit_link = admin_url( 'post-new.php?post_type=' . $post->post_type
 			. '&action=bogo-add-translation'
 			. '&locale=' . $user_locale
 			. '&original_post=' . $post->ID
 		);
+
 		$edit_link = wp_nonce_url( $edit_link, 'bogo-add-translation' );
 	}
 
@@ -150,11 +160,14 @@ function bogo_post_row_actions( $actions, $post ) {
 	return $actions;
 }
 
+
 add_action( 'admin_init', 'bogo_add_translation', 10, 0 );
 
 function bogo_add_translation() {
-	if ( empty( $_REQUEST['action'] )
-	or 'bogo-add-translation' != $_REQUEST['action'] ) {
+	if (
+		empty( $_REQUEST['action'] ) or
+		'bogo-add-translation' !== $_REQUEST['action']
+	) {
 		return;
 	}
 
@@ -167,15 +180,16 @@ function bogo_add_translation() {
 		return;
 	}
 
-	if ( ! $original_post
-	or ! $original_post = get_post( $original_post ) ) {
+	if ( ! $original_post or ! $original_post = get_post( $original_post ) ) {
 		return;
 	}
 
 	$post_type_object = get_post_type_object( $original_post->post_type );
 
-	if ( $post_type_object
-	and current_user_can( $post_type_object->cap->edit_posts ) ) {
+	if (
+		$post_type_object and
+		current_user_can( $post_type_object->cap->edit_posts )
+	) {
 		$new_post_id = bogo_duplicate_post( $original_post, $locale );
 
 		if ( $new_post_id ) {
@@ -185,6 +199,7 @@ function bogo_add_translation() {
 		}
 	}
 }
+
 
 /* Single Post */
 
@@ -207,8 +222,9 @@ function bogo_add_l10n_meta_boxes( $post_type, $post ) {
 	);
 }
 
+
 function bogo_l10n_meta_box( $post ) {
-	$initial = ( 'auto-draft' == $post->post_status );
+	$initial = ( 'auto-draft' === $post->post_status );
 
 	if ( $initial ) {
 		$post_locale = bogo_get_user_locale();
@@ -217,6 +233,7 @@ function bogo_l10n_meta_box( $post ) {
 	}
 
 	$translations = bogo_get_post_translations( $post->ID );
+
 	$available_languages = bogo_available_languages( array(
 		'current_user_can_access' => true,
 	) );
@@ -241,6 +258,7 @@ function bogo_l10n_meta_box( $post ) {
 
 <?php
 	echo '<div class="descriptions">';
+
 	echo sprintf( '<p><strong>%s:</strong></p>',
 		esc_html( __( 'Translations', 'bogo' ) )
 	);
