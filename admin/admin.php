@@ -488,39 +488,31 @@ function bogo_admin_notice( $reason = '' ) {
 		$reason = $_GET['message'];
 	}
 
-	if ( 'install_success' == $reason ) {
-		$message = __( "Translation installed successfully.", 'bogo' );
-	} elseif ( 'install_failed' == $reason ) {
-		$message = __( "Translation install failed.", 'bogo' );
-	} elseif ( 'promote_success' == $reason ) {
-		$message = __( "Site language set successfully.", 'bogo' );
-	} elseif ( 'promote_failed' == $reason ) {
-		$message = __( "Setting site language failed.", 'bogo' );
-	} elseif ( 'delete_success' == $reason ) {
-		$message = __( "Translation uninstalled successfully.", 'bogo' );
-	} elseif ( 'delete_failed' == $reason ) {
-		$message = __( "Translation uninstall failed.", 'bogo' );
-	} elseif ( 'enus_deactivated' == $reason ) {
-		$message = __( "English (United States) deactivated.", 'bogo' );
-	} elseif ( 'enus_activated' == $reason ) {
-		$message = __( "English (United States) activated.", 'bogo' );
-	} elseif ( 'translation_saved' == $reason ) {
-		$message = __( "Translation saved.", 'bogo' );
-	} elseif ( 'translation_failed' == $reason ) {
-		$message = __( "Saving translation failed.", 'bogo' );
+	if ( 'install_success' === $reason ) {
+		$message = __( 'Translation installed successfully.', 'bogo' );
+	} elseif ( 'install_failed' === $reason ) {
+		$message = __( 'Translation install failed.', 'bogo' );
+	} elseif ( 'promote_success' === $reason ) {
+		$message = __( 'Site language set successfully.', 'bogo' );
+	} elseif ( 'promote_failed' === $reason ) {
+		$message = __( 'Setting site language failed.', 'bogo' );
+	} elseif ( 'delete_success' === $reason ) {
+		$message = __( 'Translation uninstalled successfully.', 'bogo' );
+	} elseif ( 'delete_failed' === $reason ) {
+		$message = __( 'Translation uninstall failed.', 'bogo' );
+	} elseif ( 'enus_deactivated' === $reason ) {
+		$message = __( 'English (United States) deactivated.', 'bogo' );
+	} elseif ( 'enus_activated' === $reason ) {
+		$message = __( 'English (United States) activated.', 'bogo' );
+	} elseif ( 'translation_saved' === $reason ) {
+		$message = __( 'Translation saved.', 'bogo' );
+	} elseif ( 'translation_failed' === $reason ) {
+		$message = __( 'Saving translation failed.', 'bogo' );
 	} else {
 		return false;
 	}
 
-	if ( '_failed' == substr( $reason, -7 ) ) {
-		echo sprintf(
-			'<div class="error notice notice-error is-dismissible"><p>%s</p></div>',
-			esc_html( $message )
-		);
-	} else {
-		echo sprintf(
-			'<div class="updated notice notice-success is-dismissible"><p>%s</p></div>',
-			esc_html( $message )
-		);
-	}
+	wp_admin_notice( $message, array(
+		'type' => str_ends_with( $reason, '_failed' ) ? 'error' : 'success',
+	) );
 }
