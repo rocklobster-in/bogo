@@ -7,14 +7,12 @@
  * Author URI: https://ideasilo.wordpress.com/
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: bogo
- * Domain Path: /languages/
- * Version: 3.8.2
- * Requires at least: 6.4
+ * Version: 3.9-dev
+ * Requires at least: 6.7
  * Requires PHP: 7.4
  */
 
-define( 'BOGO_VERSION', '3.8.2' );
+define( 'BOGO_VERSION', '3.9-dev' );
 
 define( 'BOGO_PLUGIN', __FILE__ );
 
