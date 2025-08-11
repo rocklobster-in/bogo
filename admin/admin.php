@@ -13,7 +13,7 @@ function bogo_upgrade() {
 	$old_ver = bogo_get_prop( 'version' );
 	$new_ver = BOGO_VERSION;
 
-	if ( $old_ver != $new_ver ) {
+	if ( $old_ver !== $new_ver ) {
 		require_once BOGO_PLUGIN_DIR . '/admin/includes/upgrade.php';
 		do_action( 'bogo_upgrade', $new_ver, $old_ver );
 		bogo_set_prop( 'version', $new_ver );
@@ -66,7 +66,7 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		'l10n' => array(
 			/* translators: accessibility text */
 			'targetBlank' => __( '(opens in a new window)', 'bogo' ),
-			'saveAlert' => __( "The changes you made will be lost if you navigate away from this page.", 'bogo' ),
+			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.', 'bogo' ),
 		),
 		'apiSettings' => array(
 			'root' => esc_url_raw( rest_url( 'bogo/v1' ) ),
@@ -199,14 +199,14 @@ function bogo_load_tools_page() {
 	$action = $_GET['action'] ?? '';
 	$locale = $_GET['locale'] ?? null;
 
-	if ( 'activate' == $action ) {
+	if ( 'activate' === $action ) {
 		check_admin_referer( 'bogo-tools' );
 
 		if ( ! current_user_can( 'bogo_manage_language_packs' ) ) {
-			wp_die( __( "You are not allowed to manage translations.", 'bogo' ) );
+			wp_die( __( 'You are not allowed to manage translations.', 'bogo' ) );
 		}
 
-		if ( 'en_US' == $locale ) {
+		if ( 'en_US' === $locale ) {
 			bogo_set_prop( 'enus_deactivated', false );
 
 			$redirect_to = add_query_arg(
@@ -231,14 +231,14 @@ function bogo_load_tools_page() {
 		exit();
 	}
 
-	if ( 'deactivate' == $action ) {
+	if ( 'deactivate' === $action ) {
 		check_admin_referer( 'bogo-tools' );
 
 		if ( ! current_user_can( 'bogo_manage_language_packs' ) ) {
-			wp_die( __( "You are not allowed to manage translations.", 'bogo' ) );
+			wp_die( __( 'You are not allowed to manage translations.', 'bogo' ) );
 		}
 
-		if ( 'en_US' == $locale ) {
+		if ( 'en_US' === $locale ) {
 			bogo_set_prop( 'enus_deactivated', true );
 
 			$redirect_to = add_query_arg(
@@ -263,15 +263,14 @@ function bogo_load_tools_page() {
 		exit();
 	}
 
-	if ( 'promote' == $action ) {
+	if ( 'promote' === $action ) {
 		check_admin_referer( 'bogo-tools' );
 
 		if ( ! current_user_can( 'bogo_manage_language_packs' ) ) {
-			wp_die( __( "You are not allowed to manage translations.", 'bogo' ) );
+			wp_die( __( 'You are not allowed to manage translations.', 'bogo' ) );
 		}
 
-		if ( 'en_US' == $locale
-		or ! bogo_is_available_locale( $locale ) ) {
+		if ( 'en_US' === $locale or ! bogo_is_available_locale( $locale ) ) {
 			$locale = '';
 		}
 
@@ -291,19 +290,18 @@ function bogo_load_tools_page() {
 		exit();
 	}
 
-	if ( 'translate' == $action ) {
+	if ( 'translate' === $action ) {
 		check_admin_referer( 'bogo-tools' );
 
 		if ( ! current_user_can( 'bogo_edit_terms_translation', $locale ) ) {
-			wp_die( __( "You are not allowed to edit translations.", 'bogo' ) );
+			wp_die( __( 'You are not allowed to edit translations.', 'bogo' ) );
 		}
 
-		$is_active = ( 'en_US' == $locale )
+		$is_active = ( 'en_US' === $locale )
 			? ! bogo_is_enus_deactivated()
 			: bogo_is_available_locale( $locale );
 
-		if ( ! bogo_is_default_locale( $locale )
-		and $is_active ) {
+		if ( ! bogo_is_default_locale( $locale ) and $is_active ) {
 			$redirect_to = add_query_arg(
 				array( 'locale' => $locale ),
 				menu_page_url( 'bogo-texts', false ) );
@@ -364,11 +362,11 @@ function bogo_tools_page() {
 function bogo_load_texts_page() {
 	$action = $_POST['action'] ?? '';
 
-	if ( 'save' == $action ) {
+	if ( 'save' === $action ) {
 		check_admin_referer( 'bogo-edit-text-translation' );
 
 		if ( ! current_user_can( 'bogo_edit_terms_translation' ) ) {
-			wp_die( __( "You are not allowed to edit translations.", 'bogo' ) );
+			wp_die( __( 'You are not allowed to edit translations.', 'bogo' ) );
 		}
 
 		$locale = $_POST['locale'] ?? null;
@@ -378,7 +376,7 @@ function bogo_load_texts_page() {
 		}
 
 		if ( ! current_user_can( 'bogo_access_locale', $locale ) ) {
-			wp_die( __( "You are not allowed to edit terms in this locale.", 'bogo' ) );
+			wp_die( __( 'You are not allowed to edit terms in this locale.', 'bogo' ) );
 		}
 
 		$entries = array();
@@ -388,8 +386,7 @@ function bogo_load_texts_page() {
 
 			$cap = $item['cap'] ?? 'bogo_edit_terms_translation';
 
-			if ( isset( $_POST[$item['name']] )
-			and current_user_can( $cap ) ) {
+			if ( isset( $_POST[$item['name']] ) and current_user_can( $cap ) ) {
 				$translation = $_POST[$item['name']];
 			}
 
