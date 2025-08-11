@@ -123,10 +123,14 @@ function bogo_post_row_actions( $actions, $post ) {
 			return $actions;
 		}
 
+		/* translators: %s: Language name */
 		$text = __( 'Edit %s translation', 'bogo' );
+
 		$edit_link = get_edit_post_link( $translation->ID );
 	} else {
+		/* translators: %s: Language name */
 		$text = __( 'Translate into %s', 'bogo' );
+
 		$edit_link = admin_url( 'post-new.php?post_type=' . $post->post_type
 			. '&action=bogo-add-translation'
 			. '&locale=' . $user_locale
