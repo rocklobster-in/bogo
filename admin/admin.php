@@ -203,7 +203,7 @@ function bogo_load_tools_page() {
 		check_admin_referer( 'bogo-tools' );
 
 		if ( ! current_user_can( 'bogo_manage_language_packs' ) ) {
-			wp_die( __( 'You are not allowed to manage translations.', 'bogo' ) );
+			wp_die( wp_kses_data( __( 'You are not allowed to manage translations.', 'bogo' ) ) );
 		}
 
 		if ( 'en_US' === $locale ) {
@@ -235,7 +235,7 @@ function bogo_load_tools_page() {
 		check_admin_referer( 'bogo-tools' );
 
 		if ( ! current_user_can( 'bogo_manage_language_packs' ) ) {
-			wp_die( __( 'You are not allowed to manage translations.', 'bogo' ) );
+			wp_die( wp_kses_data( __( 'You are not allowed to manage translations.', 'bogo' ) ) );
 		}
 
 		if ( 'en_US' === $locale ) {
@@ -267,7 +267,7 @@ function bogo_load_tools_page() {
 		check_admin_referer( 'bogo-tools' );
 
 		if ( ! current_user_can( 'bogo_manage_language_packs' ) ) {
-			wp_die( __( 'You are not allowed to manage translations.', 'bogo' ) );
+			wp_die( wp_kses_data( __( 'You are not allowed to manage translations.', 'bogo' ) ) );
 		}
 
 		if ( 'en_US' === $locale or ! bogo_is_available_locale( $locale ) ) {
@@ -294,7 +294,7 @@ function bogo_load_tools_page() {
 		check_admin_referer( 'bogo-tools' );
 
 		if ( ! current_user_can( 'bogo_edit_terms_translation', $locale ) ) {
-			wp_die( __( 'You are not allowed to edit translations.', 'bogo' ) );
+			wp_die( wp_kses_data( __( 'You are not allowed to edit translations.', 'bogo' ) ) );
 		}
 
 		$is_active = ( 'en_US' === $locale )
@@ -334,11 +334,11 @@ function bogo_tools_page() {
 	if ( ! empty( $_REQUEST['s'] ) ) {
 		echo sprintf(
 			'<span class="subtitle">%s</span>',
-			sprintf(
+			wp_kses_data( sprintf(
 				/* translators: %s: search query */
-				__( 'Search results for &#8220;%s&#8221;', 'bogo' ),
+				__( 'Search results for: <strong>%s</strong>', 'bogo' ),
 				esc_html( $_REQUEST['s'] )
-			)
+			) )
 		);
 	}
 ?>
@@ -366,7 +366,7 @@ function bogo_load_texts_page() {
 		check_admin_referer( 'bogo-edit-text-translation' );
 
 		if ( ! current_user_can( 'bogo_edit_terms_translation' ) ) {
-			wp_die( __( 'You are not allowed to edit translations.', 'bogo' ) );
+			wp_die( wp_kses_data( __( 'You are not allowed to edit translations.', 'bogo' ) ) );
 		}
 
 		$locale = $_POST['locale'] ?? null;
@@ -376,7 +376,7 @@ function bogo_load_texts_page() {
 		}
 
 		if ( ! current_user_can( 'bogo_access_locale', $locale ) ) {
-			wp_die( __( 'You are not allowed to edit terms in this locale.', 'bogo' ) );
+			wp_die( wp_kses_data( __( 'You are not allowed to edit terms in this locale.', 'bogo' ) ) );
 		}
 
 		$entries = array();
@@ -445,11 +445,11 @@ function bogo_texts_page() {
 	if ( ! empty( $_REQUEST['s'] ) ) {
 		echo sprintf(
 			'<span class="subtitle">%s</span>',
-			sprintf(
+			wp_kses_data( sprintf(
 				/* translators: %s: search query */
-				__( 'Search results for &#8220;%s&#8221;', 'bogo' ),
+				__( 'Search results for: <strong>%s</strong>', 'bogo' ),
 				esc_html( $_REQUEST['s'] )
-			)
+			) )
 		);
 	}
 ?>
