@@ -44,7 +44,7 @@ class Bogo_Widget_Language_Switcher extends WP_Widget {
 
 	function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
-		$title = strip_tags( $instance['title'] );
+		$title = wp_strip_all_tags( $instance['title'] );
 
 		echo '<p><label for="' . $this->get_field_id( 'title' ) . '">' . esc_html( __( 'Title:', 'bogo' ) ) . '</label> <input class="widefat" id="' . $this->get_field_id( 'title' ) . '" name="' . $this->get_field_name( 'title' ) . '" type="text" value="' . esc_attr( $title ) . '" /></p>';
 	}
@@ -57,7 +57,7 @@ class Bogo_Widget_Language_Switcher extends WP_Widget {
 			array( 'title' => '' )
 		);
 
-		$instance['title'] = strip_tags( $new_instance['title'] );
+		$instance['title'] = wp_strip_all_tags( $new_instance['title'] );
 
 		return $instance;
 	}
