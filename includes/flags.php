@@ -7,7 +7,8 @@
  */
 function bogo_get_flag( $locale ) {
 	if ( WP_DEBUG ) {
-		trigger_error(
+		wp_trigger_error(
+			__FUNCTION__,
 			sprintf(
 				/* translators: 1: PHP function name, 2: version number */
 				__( 'Function %1$s is <strong>deprecated</strong> since Bogo version %2$s with no alternative available.', 'bogo' ),
