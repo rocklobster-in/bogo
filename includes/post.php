@@ -103,17 +103,25 @@ function bogo_count_posts( $locale, $post_type = 'post' ) {
 		return false;
 	}
 
-	$q = "SELECT COUNT(1) FROM $wpdb->posts";
-	$q .= " LEFT JOIN $wpdb->postmeta ON ID = $wpdb->postmeta.post_id AND meta_key = '_locale'";
-	$q .= " WHERE 1=1";
-	$q .= $wpdb->prepare( " AND post_type = %s", $post_type );
-	$q .= " AND post_status = 'publish'";
-	$q .= " AND (1=0";
-	$q .= $wpdb->prepare( " OR meta_value LIKE %s", $locale );
-	$q .= bogo_is_default_locale( $locale ) ? " OR meta_id IS NULL" : "";
-	$q .= ")";
+	if ( bogo_is_default_locale( $locale ) ) {
+		$count = $wpdb->get_var( $wpdb->prepare(
+			"SELECT COUNT(1) FROM %i LEFT JOIN %i AS postmeta ON ID = postmeta.post_id AND meta_key = '_locale' WHERE post_type = %s AND post_status = 'publish' AND (meta_value LIKE %s OR meta_id IS NULL)",
+			$wpdb->posts,
+			$wpdb->postmeta,
+			$post_type,
+			$locale
+		) );
+	} else {
+		$count = $wpdb->get_var( $wpdb->prepare(
+			"SELECT COUNT(1) FROM %i LEFT JOIN %i AS postmeta ON ID = postmeta.post_id AND meta_key = '_locale' WHERE post_type = %s AND post_status = 'publish' AND meta_value LIKE %s",
+			$wpdb->posts,
+			$wpdb->postmeta,
+			$post_type,
+			$locale
+		) );
+	}
 
-	return (int) $wpdb->get_var( $q );
+	return (int) $count;
 }
 
 function bogo_get_post_translations( $post_id = 0 ) {
