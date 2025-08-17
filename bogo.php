@@ -44,12 +44,14 @@ if ( is_admin() ) {
 	require_once BOGO_PLUGIN_DIR . '/admin/admin.php';
 }
 
+
 add_action( 'init', 'bogo_init', 10, 0 );
 
 function bogo_init() {
 	bogo_languages();
 	Bogo_POMO::import( determine_locale() );
 }
+
 
 add_filter( 'pre_determine_locale', 'bogo_pre_determine_locale', 10, 1 );
 
@@ -58,13 +60,16 @@ function bogo_pre_determine_locale( $locale ) {
 		return $locale;
 	}
 
-	if ( isset( $_GET['lang'] )
-	and $closest = bogo_get_closest_locale( $_GET['lang'] ) ) {
+	if (
+		isset( $_GET['lang'] ) and
+		$closest = bogo_get_closest_locale( $_GET['lang'] )
+	) {
 		$locale = $closest;
 	}
 
 	return $locale;
 }
+
 
 add_filter( 'locale', 'bogo_locale', 10, 1 );
 
@@ -84,16 +89,17 @@ function bogo_locale( $locale ) {
 	$default_locale = bogo_get_default_locale();
 
 	if ( ! empty( $wp_query->query_vars ) ) {
-		if ( $lang = get_query_var( 'lang' )
-		and $closest = bogo_get_closest_locale( $lang ) ) {
+		if (
+			$lang = get_query_var( 'lang' ) and
+			$closest = bogo_get_closest_locale( $lang )
+		) {
 			return $bogo_locale = $closest;
 		} else {
 			return $bogo_locale = $default_locale;
 		}
 	}
 
-	if ( isset( $wp_rewrite )
-	and $wp_rewrite->using_permalinks() ) {
+	if ( isset( $wp_rewrite ) and $wp_rewrite->using_permalinks() ) {
 		$url = is_ssl() ? 'https://' : 'http://';
 		$url .= $_SERVER['HTTP_HOST'];
 		$url .= $_SERVER['REQUEST_URI'];
@@ -107,21 +113,23 @@ function bogo_locale( $locale ) {
 			. bogo_get_lang_regex()
 			. '(/|$)#';
 
-		if ( preg_match( $pattern, $url, $matches )
-		and $closest = bogo_get_closest_locale( $matches[1] ) ) {
+		if (
+			preg_match( $pattern, $url, $matches ) and
+			$closest = bogo_get_closest_locale( $matches[1] )
+		) {
 			return $bogo_locale = $closest;
 		}
 	}
 
 	$lang = bogo_get_lang_from_url();
 
-	if ( $lang
-	and $closest = bogo_get_closest_locale( $lang ) ) {
+	if ( $lang and $closest = bogo_get_closest_locale( $lang ) ) {
 		return $bogo_locale = $closest;
 	}
 
 	return $bogo_locale = $default_locale;
 }
+
 
 add_filter( 'query_vars', 'bogo_query_vars', 10, 1 );
 
@@ -130,6 +138,7 @@ function bogo_query_vars( $query_vars ) {
 
 	return $query_vars;
 }
+
 
 add_action( 'wp_enqueue_scripts', 'bogo_enqueue_scripts', 10, 0 );
 
@@ -146,6 +155,7 @@ function bogo_enqueue_scripts() {
 		);
 	}
 }
+
 
 add_action( 'deactivate_' . BOGO_PLUGIN_BASENAME, 'bogo_deactivate', 10, 0 );
 
