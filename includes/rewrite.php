@@ -13,7 +13,7 @@ function bogo_add_rewrite_tags() {
 
 	$old_regex = bogo_get_prop( 'lang_rewrite_regex' );
 
-	if ( $regex != $old_regex ) {
+	if ( $regex !== $old_regex ) {
 		bogo_set_prop( 'lang_rewrite_regex', $regex );
 		flush_rewrite_rules();
 	}
@@ -45,8 +45,10 @@ function bogo_rewrite_rules_array( $rules ) {
 	$localizable_post_types = bogo_localizable_post_types();
 
 	foreach ( $localizable_post_types as $post_type ) {
-		if ( ! $post_type_obj = get_post_type_object( $post_type )
-		or false === $post_type_obj->rewrite ) {
+		if (
+			! $post_type_obj = get_post_type_object( $post_type ) or
+			false === $post_type_obj->rewrite
+		) {
 			continue;
 		}
 
@@ -218,7 +220,7 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 		'endpoints' => true,
 	) );
 
-	if ( strpos( $permalink_structure, '%lang%' ) === false ) {
+	if ( ! str_contains( $permalink_structure, '%lang%' ) ) {
 		return array();
 	}
 
@@ -299,8 +301,7 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 
 		$num_toks = preg_match_all( '/%.+?%/', $struct, $toks );
 
-		if ( $num_toks < count( $tokens[0] )
-		and $toks[0] === array( '%lang%' ) ) {
+		if ( $num_toks < count( $tokens[0] ) and $toks[0] === array( '%lang%' ) ) {
 			continue;
 		}
 
@@ -370,14 +371,12 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 			);
 		}
 
-		if ( EP_PAGES & $args['ep_mask']
-		or EP_PERMALINK & $args['ep_mask'] ) {
+		if ( EP_PAGES & $args['ep_mask'] or EP_PERMALINK & $args['ep_mask'] ) {
 			$rewrite = array_merge(
 				$rewrite,
 				array( $commentmatch => $commentquery )
 			);
-		} elseif ( EP_ROOT & $args['ep_mask']
-		and get_option( 'page_on_front' ) ) {
+		} elseif ( EP_ROOT & $args['ep_mask'] and get_option( 'page_on_front' ) ) {
 			$rewrite = array_merge(
 				$rewrite,
 				array( $rootcommentmatch => $rootcommentquery )
@@ -386,8 +385,7 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 
 		if ( $args['endpoints'] ) {
 			foreach ( (array) $ep_query_append as $regex => $ep ) {
-				if ( $ep[0] & $args['ep_mask']
-				or $ep[0] & $ep_mask_specific ) {
+				if ( $ep[0] & $args['ep_mask'] or $ep[0] & $ep_mask_specific ) {
 					$rewrite[$match . $regex] = $index . '?' . $query
 						. $ep[1] . $wp_rewrite->preg_index( $num_toks + 2 );
 				}
@@ -398,25 +396,27 @@ function bogo_generate_rewrite_rules( $permalink_structure, $args = '' ) {
 			$post = false;
 			$page = false;
 
-			if ( strpos( $struct, '%postname%' ) !== false
-			or strpos( $struct, '%post_id%' ) !== false
-			or strpos( $struct, '%pagename%' ) !== false
-			or ( strpos( $struct, '%year%' ) !== false
-				and strpos( $struct, '%monthnum%' ) !== false
-				and strpos( $struct, '%day%' ) !== false
-				and strpos( $struct, '%hour%' ) !== false
-				and strpos( $struct, '%minute%' ) !== false
-				and strpos( $struct, '%second%' ) !== false ) ) {
+			if (
+				str_contains( $struct, '%postname%' ) or
+				str_contains( $struct, '%post_id%' ) or
+				str_contains( $struct, '%pagename%' ) or
+				str_contains( $struct, '%year%' ) and
+				str_contains( $struct, '%monthnum%' ) and
+				str_contains( $struct, '%day%' ) and
+				str_contains( $struct, '%hour%' ) and
+				str_contains( $struct, '%minute%' ) and
+				str_contains( $struct, '%second%' )
+			) {
 				$post = true;
 
-				if ( strpos( $struct, '%pagename%' ) !== false ) {
+				if ( str_contains( $struct, '%pagename%' ) ) {
 					$page = true;
 				}
 			}
 
 			if ( ! $post ) {
 				foreach ( get_post_types( array( '_builtin' => false ) ) as $ptype ) {
-					if ( strpos( $struct, "%$ptype%" ) !== false ) {
+					if ( str_contains( $struct, "%$ptype%" ) ) {
 						$post = true;
 						$page = is_post_type_hierarchical( $ptype );
 						break;
