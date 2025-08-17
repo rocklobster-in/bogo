@@ -7,14 +7,15 @@ function bogo_bloginfo_filter( $output, $show ) {
 		return $output;
 	}
 
-	if ( 'name' == $show ) {
+	if ( 'name' === $show ) {
 		$output = bogo_translate( 'blogname', 'blogname', $output );
-	} elseif ( 'description' == $show ) {
+	} elseif ( 'description' === $show ) {
 		$output = bogo_translate( 'blogdescription', 'blogdescription', $output );
 	}
 
 	return $output;
 }
+
 
 add_filter( 'get_term', 'bogo_get_term_filter', 10, 2 );
 
@@ -30,11 +31,13 @@ function bogo_get_term_filter( $term, $taxonomy ) {
 	return $term;
 }
 
+
 add_action( 'load-edit-tags.php', 'bogo_remove_get_term_filter', 10, 0 );
 
 function bogo_remove_get_term_filter() {
 	remove_filter( 'get_term', 'bogo_get_term_filter' );
 }
+
 
 function bogo_translate_term( WP_Term $term ) {
 	$term->name = bogo_translate(
@@ -46,9 +49,11 @@ function bogo_translate_term( WP_Term $term ) {
 	return $term;
 }
 
+
 function bogo_translate( $singular, $context = '', $default = '' ) {
 	return Bogo_POMO::translate( $singular, $context, $default );
 }
+
 
 class Bogo_POMO {
 
@@ -61,8 +66,7 @@ class Bogo_POMO {
 
 		$translated = self::$mo->translate( $singular, $context );
 
-		if ( $translated == $singular
-		and '' !== $default ) {
+		if ( $translated === $singular and '' !== $default ) {
 			return $default;
 		} else {
 			return $translated;
