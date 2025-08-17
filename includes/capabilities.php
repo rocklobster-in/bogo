@@ -20,15 +20,19 @@ function bogo_map_meta_cap( $caps, $cap, $user_id, $args ) {
 
 	static $accessible_locales = array();
 
-	if ( 'bogo_access_all_locales' !== $cap
-	and ! isset( $accessible_locales[$user_id] ) ) {
+	if (
+		'bogo_access_all_locales' !== $cap and
+		! isset( $accessible_locales[$user_id] )
+	) {
 		$accessible_locales[$user_id] = bogo_get_user_accessible_locales(
 			$user_id
 		);
 	}
 
-	if ( 'bogo_access_locale' === $cap
-	and ! user_can( $user_id, 'bogo_access_all_locales' ) ) {
+	if (
+		'bogo_access_locale' === $cap and
+		! user_can( $user_id, 'bogo_access_all_locales' )
+	) {
 		$locale = $args[0];
 
 		if ( ! in_array( $locale, $accessible_locales[$user_id] ) ) {
@@ -36,10 +40,12 @@ function bogo_map_meta_cap( $caps, $cap, $user_id, $args ) {
 		}
 	}
 
-	if ( in_array( $cap, array( 'edit_post', 'delete_post' ), true )
-	and $post = get_post( $args[0] )
-	and $user_id !== $post->post_author
-	and ! user_can( $user_id, 'bogo_access_all_locales' ) ) {
+	if (
+		in_array( $cap, array( 'edit_post', 'delete_post' ), true ) and
+		$post = get_post( $args[0] ) and
+		$user_id !== $post->post_author and
+		! user_can( $user_id, 'bogo_access_all_locales' )
+	) {
 		$locale = bogo_get_post_locale( $post->ID );
 
 		if ( ! in_array( $locale, $accessible_locales[$user_id] ) ) {
