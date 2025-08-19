@@ -28,14 +28,14 @@ function bogo_rest_api_init() {
 		array(
 			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => 'bogo_rest_create_post_translation',
-			'permission_callback' => function( WP_REST_Request $request ) {
+			'permission_callback' => static function( WP_REST_Request $request ) {
 				$locale = $request->get_param( 'locale' );
 
 				if ( current_user_can( 'bogo_access_locale', $locale ) ) {
 					return true;
 				} else {
 					return new WP_Error( 'bogo_locale_forbidden',
-						__( "You are not allowed to access posts in the requested locale.", 'bogo' ),
+						__( 'You are not allowed to access posts in the requested locale.', 'bogo' ),
 						array( 'status' => 403 )
 					);
 				}
@@ -43,6 +43,7 @@ function bogo_rest_api_init() {
 		)
 	);
 }
+
 
 function bogo_rest_languages( WP_REST_Request $request ) {
 	if ( ! function_exists( 'wp_get_available_translations' ) ) {
@@ -61,6 +62,7 @@ function bogo_rest_languages( WP_REST_Request $request ) {
 	return rest_ensure_response( $available_translations );
 }
 
+
 function bogo_rest_post_translations( WP_REST_Request $request ) {
 	$post_id = $request->get_param( 'id' );
 
@@ -68,14 +70,14 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 
 	if ( ! $post ) {
 		return new WP_Error( 'bogo_post_not_found',
-			__( "The requested post was not found.", 'bogo' ),
+			__( 'The requested post was not found.', 'bogo' ),
 			array( 'status' => 404 )
 		);
 	}
 
 	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
 		return new WP_Error( 'bogo_post_type_invalid',
-			__( "The requested post type is not localizable.", 'bogo' ),
+			__( 'The requested post type is not localizable.', 'bogo' ),
 			array( 'status' => 400 )
 		);
 	}
@@ -83,10 +85,12 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 	$post_type_object = get_post_type_object( $post->post_type );
 	$edit_post_cap = $post_type_object->cap->edit_post;
 
-	if ( ! current_user_can( $edit_post_cap, $post->ID )
-	and 'publish' !== get_post_status( $post ) ) {
+	if (
+		! current_user_can( $edit_post_cap, $post->ID ) and
+		'publish' !== get_post_status( $post )
+	) {
 		return new WP_Error( 'bogo_post_not_found',
-			__( "The requested post was not found.", 'bogo' ),
+			__( 'The requested post was not found.', 'bogo' ),
 			array( 'status' => 404 )
 		);
 	}
@@ -95,8 +99,10 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 	$translations = bogo_get_post_translations( $post );
 
 	foreach ( $translations as $locale => $translation ) {
-		if ( ! current_user_can( 'edit_post', $translation->ID )
-		and 'publish' !== get_post_status( $translation ) ) {
+		if (
+			! current_user_can( 'edit_post', $translation->ID ) and
+			'publish' !== get_post_status( $translation )
+		) {
 			continue;
 		}
 
@@ -164,6 +170,7 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 	return rest_ensure_response( $response );
 }
 
+
 function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 	$post_id = $request->get_param( 'id' );
 
@@ -171,14 +178,14 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 
 	if ( ! $post ) {
 		return new WP_Error( 'bogo_post_not_found',
-			__( "The requested post was not found.", 'bogo' ),
+			__( 'The requested post was not found.', 'bogo' ),
 			array( 'status' => 404 )
 		);
 	}
 
 	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
 		return new WP_Error( 'bogo_post_type_invalid',
-			__( "The requested post type is not localizable.", 'bogo' ),
+			__( 'The requested post type is not localizable.', 'bogo' ),
 			array( 'status' => 400 )
 		);
 	}
@@ -187,7 +194,7 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 
 	if ( ! bogo_is_available_locale( $locale ) ) {
 		return new WP_Error( 'bogo_locale_invalid',
-			__( "The requested locale is not available.", 'bogo' ),
+			__( 'The requested locale is not available.', 'bogo' ),
 			array( 'status' => 400 )
 		);
 	}
@@ -196,7 +203,7 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 
 	if ( ! $new_post_id ) {
 		return new WP_Error( 'bogo_post_duplication_failed',
-			__( "Failed to duplicate a post.", 'bogo' ),
+			__( 'Failed to duplicate a post.', 'bogo' ),
 			array( 'status' => 500 )
 		);
 	}
@@ -241,8 +248,10 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 	}
 
 	if ( ! empty( $new_post->post_excerpt ) ) {
-		$response[$locale]['excerpt']['rendered'] = apply_filters( 'the_excerpt',
-			apply_filters( 'get_the_excerpt', $new_post->post_excerpt ) );
+		$response[$locale]['excerpt']['rendered'] = apply_filters(
+			'the_excerpt',
+			apply_filters( 'get_the_excerpt', $new_post->post_excerpt )
+		);
 	}
 
 	return rest_ensure_response( $response );

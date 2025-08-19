@@ -389,8 +389,7 @@ function bogo_get_default_locale() {
 	}
 
 	if ( is_multisite() ) {
-		if ( wp_installing()
-		or false === $ms_locale = get_option( 'WPLANG' ) ) {
+		if ( wp_installing() or false === $ms_locale = get_option( 'WPLANG' ) ) {
 			$ms_locale = get_site_option( 'WPLANG' );
 		}
 
@@ -421,7 +420,7 @@ function bogo_get_default_locale() {
 function bogo_is_default_locale( $locale ) {
 	$default_locale = bogo_get_default_locale();
 
-	return ! empty( $locale ) && $locale == bogo_get_default_locale();
+	return ! empty( $locale ) && $locale === bogo_get_default_locale();
 }
 
 
@@ -459,8 +458,10 @@ function bogo_available_locales( $args = '' ) {
 
 	$available_locales = $installed_locales;
 
-	if ( $args['current_user_can_access']
-	and ! current_user_can( 'bogo_access_all_locales' ) ) {
+	if (
+		$args['current_user_can_access'] and
+		! current_user_can( 'bogo_access_all_locales' )
+	) {
 		$user_accessible_locales = bogo_get_user_accessible_locales(
 			get_current_user_id()
 		);
@@ -478,8 +479,7 @@ function bogo_available_locales( $args = '' ) {
 		);
 	}
 
-	if ( $args['exclude_enus_if_inactive']
-	and bogo_is_enus_deactivated() ) {
+	if ( $args['exclude_enus_if_inactive'] and bogo_is_enus_deactivated() ) {
 		$available_locales = array_diff(
 			$available_locales,
 			array( 'en_US' )
@@ -520,14 +520,14 @@ function bogo_available_languages( $args = '' ) {
 		$langs[$locale] = empty( $lang ) ? "[$locale]" : $lang;
 	}
 
-	if ( 'value' == $args['orderby'] ) {
+	if ( 'value' === $args['orderby'] ) {
 		natcasesort( $langs );
 
-		if ( 'DESC' == $args['order'] ) {
+		if ( 'DESC' === $args['order'] ) {
 			$langs = array_reverse( $langs );
 		}
 	} else {
-		if ( 'DESC' == $args['order'] ) {
+		if ( 'DESC' === $args['order'] ) {
 			krsort( $langs );
 		} else {
 			ksort( $langs );
@@ -752,7 +752,9 @@ function bogo_http_accept_languages() {
 			$language_tag = $matches[1];
 			$qvalue = isset( $matches[2] ) ? 0 + $matches[2] : 1;
 
-			if ( preg_match( '/^([a-z]{2})(?:-([a-z]{2}))?$/', $language_tag, $matches ) ) {
+			if (
+				preg_match( '/^([a-z]{2})(?:-([a-z]{2}))?$/', $language_tag, $matches )
+			) {
 				$language_tag = $matches[1];
 
 				if ( isset( $matches[2] ) ) {
@@ -847,7 +849,7 @@ function bogo_get_url_with_lang( $url = '', $locale = '', $args = '' ) {
 		return $url;
 	}
 
-	$tail_slashed = ( '/' === substr( $url, -1 ) );
+	$tail_slashed = str_ends_with( $url, '/' );
 
 	$home = set_url_scheme( get_option( 'home' ) );
 	$home = untrailingslashit( $home );
@@ -939,8 +941,10 @@ function bogo_get_lang_from_url( $url = '' ) {
 	if ( $query = wp_parse_url( $url, PHP_URL_QUERY ) ) {
 		parse_str( $query, $query_vars );
 
-		if ( isset( $query_vars['lang'] )
-		and in_array( $query_vars['lang'], $available_languages ) ) {
+		if (
+			isset( $query_vars['lang'] ) and
+			in_array( $query_vars['lang'], $available_languages, true )
+		) {
 			return $query_vars['lang'];
 		}
 	}

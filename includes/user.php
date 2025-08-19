@@ -8,6 +8,7 @@ function bogo_admin_bar_init( $wp_admin_bar ) {
 	switch_to_locale( bogo_get_user_locale() );
 }
 
+
 add_action( 'wp_after_admin_bar_render', 'bogo_after_admin_bar_render', 10, 0 );
 
 function bogo_after_admin_bar_render() {
@@ -15,6 +16,7 @@ function bogo_after_admin_bar_render() {
 		restore_current_locale();
 	}
 }
+
 
 add_action( 'admin_bar_menu', 'bogo_admin_bar_menu', 10, 1 );
 
@@ -37,7 +39,8 @@ function bogo_admin_bar_menu( $wp_admin_bar ) {
 		'id' => 'bogo-user-locale',
 		'title' => sprintf(
 			'<span class="ab-icon"></span><span class="ab-label">%s</span>',
-			esc_html( $current_language ) ),
+			esc_html( $current_language )
+		),
 	) );
 
 	foreach ( $available_languages as $locale => $lang ) {
@@ -61,11 +64,14 @@ function bogo_admin_bar_menu( $wp_admin_bar ) {
 	}
 }
 
+
 add_action( 'admin_init', 'bogo_switch_user_locale', 10, 0 );
 
 function bogo_switch_user_locale() {
-	if ( empty( $_REQUEST['action'] )
-	or 'bogo-switch-locale' != $_REQUEST['action'] ) {
+	if (
+		empty( $_REQUEST['action'] ) or
+		'bogo-switch-locale' !== $_REQUEST['action']
+	) {
 		return;
 	}
 
@@ -73,8 +79,10 @@ function bogo_switch_user_locale() {
 
 	$locale = $_REQUEST['locale'] ?? '';
 
-	if ( ! bogo_is_available_locale( $locale )
-	or $locale == bogo_get_user_locale() ) {
+	if (
+		! bogo_is_available_locale( $locale ) or
+		$locale === bogo_get_user_locale()
+	) {
 		return;
 	}
 
@@ -85,6 +93,7 @@ function bogo_switch_user_locale() {
 		exit();
 	}
 }
+
 
 function bogo_get_user_locale( $user_id = 0 ) {
 	$default_locale = bogo_get_default_locale();
@@ -111,6 +120,7 @@ function bogo_get_user_locale( $user_id = 0 ) {
 
 	return $default_locale;
 }
+
 
 function bogo_get_user_accessible_locales( $user_id ) {
 	global $wpdb;
@@ -139,6 +149,7 @@ function bogo_get_user_accessible_locales( $user_id ) {
 
 	return $locales;
 }
+
 
 add_filter( 'insert_user_meta', 'bogo_user_meta_filter', 10, 3 );
 

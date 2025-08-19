@@ -7,8 +7,9 @@ function bogo_get_prop( $prop ) {
 		$option = array();
 	}
 
-	return isset( $option[$prop] ) ? $option[$prop] : '';
+	return $option[$prop] ?? '';
 }
+
 
 function bogo_set_prop( $prop, $value ) {
 	$option = get_option( 'bogo' );
@@ -21,6 +22,7 @@ function bogo_set_prop( $prop, $value ) {
 
 	update_option( 'bogo', $option );
 }
+
 
 function bogo_delete_prop( $prop ) {
 	$option = get_option( 'bogo' );
@@ -36,10 +38,11 @@ function bogo_delete_prop( $prop ) {
 	update_option( 'bogo', $option );
 }
 
+
 function bogo_plugin_url( $path = '' ) {
 	$url = plugins_url( $path, BOGO_PLUGIN );
 
-	if ( is_ssl() and 'http:' == substr( $url, 0, 5 ) ) {
+	if ( is_ssl() and 'http:' === substr( $url, 0, 5 ) ) {
 		$url = 'https:' . substr( $url, 5 );
 	}
 
