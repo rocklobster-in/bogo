@@ -941,7 +941,10 @@ function bogo_get_lang_from_url( $url = '' ) {
 	if ( $query = wp_parse_url( $url, PHP_URL_QUERY ) ) {
 		parse_str( $query, $query_vars );
 
-		if ( in_array( $query_vars['lang'], $available_languages, true ) ) {
+		if (
+			isset( $query_vars['lang'] ) and
+			in_array( $query_vars['lang'], $available_languages, true )
+		) {
 			return $query_vars['lang'];
 		}
 	}
