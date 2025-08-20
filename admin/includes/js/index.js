@@ -1,0 +1,1 @@
+(()=>{"use strict";window.wp.i18n,document.addEventListener("DOMContentLoaded",(e=>{var o;const n=null!==(o=bogo.defaultLocale)&&void 0!==o?o:"en_US";document.querySelectorAll("body.options-general-php select#WPLANG option").forEach((e=>{e.selected="en_US"===n?""===e.value:n===e.value}))}))})();
