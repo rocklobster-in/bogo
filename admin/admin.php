@@ -35,7 +35,18 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 		);
 	}
 
+	$assets = include BOGO_PLUGIN_DIR . '/admin/includes/js/index.asset.php';
+
 	wp_enqueue_script( 'bogo-admin',
+		plugins_url( 'admin/includes/js/index.js', BOGO_PLUGIN_BASENAME ),
+		$assets['dependencies'],
+		$assets['version'],
+		array( 'in_footer' => true )
+	);
+
+	wp_set_script_translations( 'bogo-admin', 'bogo' );
+
+	wp_enqueue_script( 'bogo-admin-old',
 		plugins_url( 'admin/includes/js/admin.js', BOGO_PLUGIN_BASENAME ),
 		array( 'jquery' ), BOGO_VERSION, true
 	);
