@@ -238,22 +238,22 @@ function bogo_l10n_meta_box( $post ) {
 		'current_user_can_access' => true,
 	) );
 
+	$post_language = $available_languages[$post_locale] ?? $post_locale;
+
+	unset( $available_languages[$post_locale] );
+
 ?>
 
 <div class="descriptions">
-<?php
-	if ( isset( $available_languages[$post_locale] ) ) {
-		$lang = $available_languages[$post_locale];
-	} else {
-		$lang = $post_locale;
-	}
+<p><?php
 
-	unset( $available_languages[$post_locale] );
-?>
-<p>
-	<strong><?php echo esc_html( __( 'Language', 'bogo' ) ); ?>:</strong>
-	<?php echo esc_html( $lang ); ?>
-</p>
+	echo wp_kses_data( sprintf(
+		'<strong>%1$s</strong> %2$s',
+		__( 'Language:', 'bogo' ),
+		$post_language
+	) );
+
+?></p>
 </div>
 
 <?php
