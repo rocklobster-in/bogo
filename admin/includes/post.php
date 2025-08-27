@@ -287,8 +287,6 @@ function bogo_l10n_meta_box( $post ) {
 		);
 
 		echo sprintf( '<li>%s</li>', $li_content );
-
-		unset( $available_languages[$locale] );
 	}
 
 ?>
@@ -297,35 +295,38 @@ function bogo_l10n_meta_box( $post ) {
 
 <?php
 
-	if ( $initial or empty( $available_languages ) ) {
-		return;
-	}
+	$available_languages = array_diff_key( $available_languages, $translations );
 
-	echo '<div id="bogo-add-translation-actions" class="descriptions">';
-	echo sprintf( '<p><strong>%s:</strong></p>',
-		esc_html( __( 'Add Translation', 'bogo' ) )
-	);
-	echo '<select id="bogo-translations-to-add">';
+	if ( ! $initial and $available_languages ) {
 
-	foreach ( $available_languages as $locale => $lang ) {
-		if ( isset( $translations[$locale] ) ) {
-			continue;
+?>
+
+<div class="descriptions" id="bogo-add-translation-actions">
+<p>
+	<strong><?php echo wp_kses_data( __( 'Add Translation:', 'bogo' ) ); ?></strong>
+</p>
+
+<?php
+
+		foreach ( $available_languages as $locale => $lang ) {
+			echo sprintf(
+				'<p><button %1$s>%2$s</button> <span class="spinner"></span></p>',
+				bogo_format_atts( array(
+					'type' => 'button',
+					'class' => 'button',
+				) ),
+				sprintf(
+					/* translators: %s: Language name. */
+					__( 'Add %s translation', 'bogo' ),
+					esc_html( $lang )
+				)
+			);
 		}
 
-		echo sprintf( '<option value="%1$s">%2$s</option>',
-			esc_attr( $locale ), esc_html( $lang )
-		);
-	}
+?>
+<div class="clear"></div>
+</div>
+<?php
 
-	echo '</select>';
-	echo '<p>';
-	echo sprintf(
-		'<button type="button" class="button" id="%1$s">%2$s</button>',
-		'bogo-add-translation',
-		esc_html( __( 'Add Translation', 'bogo' ) )
-	);
-	echo '<span class="spinner"></span>';
-	echo '</p>';
-	echo '<div class="clear"></div>';
-	echo '</div>';
+	}
 }
