@@ -256,46 +256,46 @@ function bogo_l10n_meta_box( $post ) {
 ?></p>
 </div>
 
+<div class="descriptions">
+<p>
+	<strong><?php echo wp_kses_data( __( 'Translations:', 'bogo' ) ); ?></strong>
+</p>
+
+<ul id="bogo-translations">
 <?php
-	echo '<div class="descriptions">';
-
-	echo sprintf( '<p><strong>%s:</strong></p>',
-		esc_html( __( 'Translations', 'bogo' ) )
-	);
-
-	echo '<ul id="bogo-translations">';
 
 	foreach ( $translations as $locale => $translation ) {
-		$edit_link = get_edit_post_link( $translation->ID );
-		echo '<li>';
+		$li_content = get_the_title( $translation->ID );
 
-		if ( $edit_link ) {
-			echo sprintf(
-				'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span></a>',
-				esc_url( $edit_link ),
-				get_the_title( $translation->ID ),
+		if ( $edit_link = get_edit_post_link( $translation->ID ) ) {
+			$li_content = sprintf(
+				'<a %1$s>%2$s<span class="screen-reader-text">%3$s</span></a>',
+				bogo_format_atts( array(
+					'href' => esc_url( $edit_link ),
+					'target' => '_blank',
+					'rel' => 'noopener noreferrer',
+				) ),
+				$li_content,
 				/* translators: accessibility text */
 				esc_html( __( '(opens in a new window)', 'bogo' ) )
 			);
-		} else {
-			echo get_the_title( $translation->ID );
 		}
 
-		if ( isset( $available_languages[$locale] ) ) {
-			$lang = $available_languages[$locale];
-		} else {
-			$lang = $locale;
-		}
+		$li_content .= sprintf(
+			' [%s]',
+			$available_languages[$locale] ?? $locale
+		);
 
-		echo ' [' . $lang . ']';
-		echo '</li>';
+		echo sprintf( '<li>%s</li>', $li_content );
 
-		// make it unavailable for select options
 		unset( $available_languages[$locale] );
 	}
 
-	echo '</ul>';
-	echo '</div>';
+?>
+</ul>
+</div>
+
+<?php
 
 	if ( $initial or empty( $available_languages ) ) {
 		return;
