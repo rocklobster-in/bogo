@@ -273,7 +273,6 @@ function bogo_l10n_meta_box( $post ) {
 				bogo_format_atts( array(
 					'href' => esc_url( $edit_link ),
 					'target' => '_blank',
-					'rel' => 'noopener noreferrer',
 				) ),
 				$li_content,
 				/* translators: accessibility text */
