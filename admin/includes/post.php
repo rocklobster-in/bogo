@@ -314,6 +314,7 @@ function bogo_l10n_meta_box( $post ) {
 				bogo_format_atts( array(
 					'type' => 'button',
 					'class' => 'button',
+					'data-locale' => $locale,
 				) ),
 				sprintf(
 					/* translators: %s: Language name. */
