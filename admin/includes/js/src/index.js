@@ -5,8 +5,6 @@ document.addEventListener( 'DOMContentLoaded', event => {
 
 	const langName = locale => bogo.availableLanguages[ locale ]?.name ?? locale;
 
-	const defaultLocale = bogo.defaultLocale ?? 'en_US';
-
 	document.querySelectorAll(
 		'#bogo-add-translation-actions button'
 	).forEach( button => {
@@ -65,3 +63,29 @@ document.addEventListener( 'DOMContentLoaded', event => {
 	} );
 
 } );
+
+const termsTranslationForm = document.querySelector(
+	'#bogo-terms-translation'
+);
+
+if ( termsTranslationForm ) {
+	const beforeUnloadHandler = event => {
+		const translations = termsTranslationForm.querySelectorAll(
+			'input.translation-text'
+		);
+
+		const changed = Array.from( translations ).some( elm => {
+			return elm.defaultValue !== elm.value;
+		} );
+
+		if ( changed ) {
+			event.preventDefault();
+		}
+	};
+
+	window.addEventListener( 'beforeunload', beforeUnloadHandler );
+
+	termsTranslationForm.addEventListener( 'submit', event => {
+		window.removeEventListener( 'beforeunload', beforeUnloadHandler );
+	} );
+}
