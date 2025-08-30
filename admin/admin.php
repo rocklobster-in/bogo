@@ -46,11 +46,6 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 
 	wp_set_script_translations( 'bogo-admin', 'bogo' );
 
-	wp_enqueue_script( 'bogo-admin-old',
-		plugins_url( 'admin/includes/js/admin.js', BOGO_PLUGIN_BASENAME ),
-		array( 'jquery' ), BOGO_VERSION, true
-	);
-
 	$available_languages = array();
 
 	foreach ( bogo_available_languages() as $locale => $language ) {
@@ -60,34 +55,22 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 			$native_name = bogo_get_short_name( $native_name );
 		}
 
+		$tags = array(
+			bogo_language_tag( $locale ),
+			bogo_lang_slug( $locale ),
+		);
+
 		$available_languages[$locale] = array(
 			'name' => $language,
 			'nativename' => trim( $native_name ),
 			'country' => bogo_get_country_code( $locale ),
-			'tags' => array_unique( array_filter(
-				array(
-					bogo_language_tag( $locale ),
-					bogo_lang_slug( $locale ),
-				)
-			) ),
+			'tags' => array_unique( array_filter( $tags ) ),
 		);
 	}
 
-	$local_args = array(
-		'l10n' => array(
-			/* translators: accessibility text */
-			'targetBlank' => __( '(opens in a new window)', 'bogo' ),
-			'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.', 'bogo' ),
-		),
-		'apiSettings' => array(
-			'root' => esc_url_raw( rest_url( 'bogo/v1' ) ),
-			'namespace' => 'bogo/v1',
-			'nonce' => ( wp_installing() && ! is_multisite() )
-				? '' : wp_create_nonce( 'wp_rest' ),
-		),
+	$bogo_obj = array(
 		'availableLanguages' => $available_languages,
 		'defaultLocale' => bogo_get_default_locale(),
-		'pagenow' => trim( $_GET['page'] ?? '' ),
 		'currentPost' => array(),
 		'localizablePostTypes' => bogo_localizable_post_types(),
 		'showFlags' => apply_filters( 'bogo_use_flags', true ),
@@ -137,10 +120,16 @@ function bogo_admin_enqueue_scripts( $hook_suffix ) {
 			}
 		}
 
-		$local_args['currentPost'] = $current_post;
+		$bogo_obj['currentPost'] = $current_post;
 	}
 
-	wp_localize_script( 'bogo-admin', 'bogo', $local_args );
+	wp_add_inline_script( 'bogo-admin',
+		sprintf(
+			'var bogo = %s;',
+			wp_json_encode( $bogo_obj, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE )
+		),
+		'before'
+	);
 }
 
 add_action( 'admin_menu', 'bogo_admin_menu', 10, 0 );
