@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { addQueryArgs } from '@wordpress/url';
 import apiFetch from '@wordpress/api-fetch';
 
 document.addEventListener( 'DOMContentLoaded', event => {
@@ -69,6 +70,14 @@ const termsTranslationForm = document.querySelector(
 );
 
 if ( termsTranslationForm ) {
+	termsTranslationForm.querySelector(
+		'#select-locale'
+	)?.addEventListener( 'change', event => {
+		location = addQueryArgs( location.href, {
+			locale: event.target.value,
+		} );
+	} );
+
 	const beforeUnloadHandler = event => {
 		const translations = termsTranslationForm.querySelectorAll(
 			'input.translation-text'
