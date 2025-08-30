@@ -127,15 +127,6 @@ ul#bogo-translations li {
 	margin-left: 1.4em;
 }
 
-#bogo-translations-to-add {
-	width: 100%;
-}
-
-#bogo-add-translation-actions span.spinner,
-#bogo-add-translation-actions button {
-	float: left;
-}
-
 /* Admin Bar */
 
 #wpadminbar #wp-admin-bar-bogo-user-locale .ab-icon::before {

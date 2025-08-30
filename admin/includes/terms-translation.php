@@ -85,7 +85,7 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 				'name' => $item['name'],
 				'id' => $item['name'],
 				'value' => $item['translated'],
-				'class' => 'large-text',
+				'class' => 'translation-text large-text',
 			) )
 		);
 	}
