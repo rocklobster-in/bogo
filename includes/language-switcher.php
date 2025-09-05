@@ -21,11 +21,11 @@ function bogo_language_switcher( $args = '' ) {
 			$class[] = 'current';
 		}
 
-		if ( 1 == $count ) {
+		if ( 1 === $count ) {
 			$class[] = 'first';
 		}
 
-		if ( $total == $count ) {
+		if ( $total === $count ) {
 			$class[] = 'last';
 		}
 
@@ -116,7 +116,7 @@ function bogo_language_suggestion( $args = '' ) {
 	if ( $locale_to_suggest ) {
 		$translations = array_filter(
 			bogo_language_switcher_links( $args ),
-			function ( $link ) use ( $locale_to_suggest ) {
+			static function ( $link ) use ( $locale_to_suggest ) {
 				return $link['locale'] === $locale_to_suggest && '' !== $link['href'];
 			}
 		);
