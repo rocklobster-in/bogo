@@ -24,6 +24,7 @@ define( 'BOGO_PLUGIN_DIR', untrailingslashit( dirname( BOGO_PLUGIN ) ) );
 
 require_once BOGO_PLUGIN_DIR . '/includes/functions.php';
 require_once BOGO_PLUGIN_DIR . '/includes/language-functions.php';
+require_once BOGO_PLUGIN_DIR . '/includes/kses.php';
 require_once BOGO_PLUGIN_DIR . '/includes/formatting.php';
 require_once BOGO_PLUGIN_DIR . '/includes/pomo.php';
 require_once BOGO_PLUGIN_DIR . '/includes/rewrite.php';
