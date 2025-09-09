@@ -31,22 +31,37 @@ class Bogo_Widget_Language_Switcher extends WP_Widget {
 			$instance, $this->id_base
 		);
 
-		echo $args['before_widget'];
+		echo wp_kses_post( $args['before_widget'] );
 
 		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title'];
+			echo wp_kses_post(
+				$args['before_title'] . $title . $args['after_title']
+			);
 		}
 
-		echo bogo_language_switcher();
+		echo wp_kses_post( bogo_language_switcher() );
 
-		echo $args['after_widget'];
+		echo wp_kses_post( $args['after_widget'] );
 	}
 
 	function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = wp_strip_all_tags( $instance['title'] );
 
-		echo '<p><label for="' . $this->get_field_id( 'title' ) . '">' . esc_html( __( 'Title:', 'bogo' ) ) . '</label> <input class="widefat" id="' . $this->get_field_id( 'title' ) . '" name="' . $this->get_field_name( 'title' ) . '" type="text" value="' . esc_attr( $title ) . '" /></p>';
+		echo sprintf(
+			'<p><label %1$s>%2$s</label> <input %3$s /></p>',
+			bogo_format_atts( array(
+				'for' => $this->get_field_id( 'title' ),
+			) ),
+			__( 'Title:', 'bogo' ),
+			bogo_format_atts( array(
+				'class' => 'widefat',
+				'id' => $this->get_field_id( 'title' ),
+				'name' => $this->get_field_name( 'title' ),
+				'type' => 'text',
+				'value' => $title,
+			) )
+		);
 	}
 
 	function update( $new_instance, $old_instance ) {
