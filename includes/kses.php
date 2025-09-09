@@ -6,6 +6,74 @@ add_filter( 'wp_kses_allowed_html', 'bogo_kses_allowed_html', 10, 2 );
  * Callback function dedicated for the wp_kses_allowed_html filter hook.
  */
 function bogo_kses_allowed_html( $html, $context ) {
+	global $allowedposttags;
+
+	if ( 'form' === $context ) {
+		$html = array_merge( $allowedposttags, array(
+			'button' => array(
+				'disabled' => true,
+				'name' => true,
+				'type' => true,
+				'value' => true,
+			),
+			'datalist' => array(),
+			'fieldset' => array(
+				'disabled' => true,
+				'name' => true,
+			),
+			'input' => array(
+				'accept' => true,
+				'checked' => true,
+				'disabled' => true,
+				'list' => true,
+				'max' => true,
+				'maxlength' => true,
+				'min' => true,
+				'minlength' => true,
+				'multiple' => true,
+				'name' => true,
+				'pattern' => true,
+				'placeholder' => true,
+				'readonly' => true,
+				'required' => true,
+				'step' => true,
+				'type' => true,
+				'value' => true,
+			),
+			'label' => array(
+				'for' => true,
+			),
+			'legend' => array(),
+			'option' => array(
+				'disabled' => true,
+				'label' => true,
+				'selected' => true,
+				'value' => true,
+			),
+			'output' => array(
+				'for' => true,
+				'name' => true,
+			),
+			'select' => array(
+				'disabled' => true,
+				'multiple' => true,
+				'name' => true,
+				'required' => true,
+			),
+			'textarea' => array(
+				'cols' => true,
+				'rows' => true,
+				'disabled' => true,
+				'maxlength' => true,
+				'minlength' => true,
+				'name' => true,
+				'placeholder' => true,
+				'readonly' => true,
+				'required' => true,
+			),
+		) );
+	}
+
 	// Support the `hreflang` attribute.
 	if (
 		! empty( $html['a']['href'] ) and
