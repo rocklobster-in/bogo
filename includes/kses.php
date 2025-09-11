@@ -8,7 +8,7 @@ add_filter( 'wp_kses_allowed_html', 'bogo_kses_allowed_html', 10, 2 );
 function bogo_kses_allowed_html( $html, $context ) {
 	global $allowedposttags;
 
-	if ( 'form' === $context ) {
+	if ( 'bogo_form_inside' === $context ) {
 		$html = array_merge( $allowedposttags, array(
 			'button' => array(
 				'disabled' => true,
@@ -88,6 +88,23 @@ function bogo_kses_allowed_html( $html, $context ) {
 	) {
 		$html['link']['hreflang'] = true;
 	}
+
+	$html = array_map( static function ( $atts ) {
+		static $global_attributes = array(
+			'class' => true,
+			'data-*' => true,
+			'id' => true,
+			'lang' => true,
+			'role' => true,
+			'title' => true,
+		);
+
+		if ( is_array( $atts ) ) {
+			$atts = array_merge( $global_attributes, $atts );
+		}
+
+		return $atts;
+	}, $html );
 
 	return $html;
 }

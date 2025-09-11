@@ -48,7 +48,7 @@ class Bogo_Widget_Language_Switcher extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = wp_strip_all_tags( $instance['title'] );
 
-		echo sprintf(
+		$html = sprintf(
 			'<p><label %1$s>%2$s</label> <input %3$s /></p>',
 			bogo_format_atts( array(
 				'for' => $this->get_field_id( 'title' ),
@@ -62,6 +62,8 @@ class Bogo_Widget_Language_Switcher extends WP_Widget {
 				'value' => $title,
 			) )
 		);
+
+		echo wp_kses( $html, 'bogo_form_inside' );
 	}
 
 	function update( $new_instance, $old_instance ) {
