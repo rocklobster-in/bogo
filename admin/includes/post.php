@@ -298,7 +298,7 @@ function bogo_l10n_meta_box( $post ) {
 			$available_languages[$locale] ?? $locale
 		);
 
-		echo sprintf( '<li>%s</li>', $li_content );
+		echo wp_kses_post( sprintf( '<li>%s</li>', $li_content ) );
 	}
 
 ?>
@@ -321,7 +321,7 @@ function bogo_l10n_meta_box( $post ) {
 <?php
 
 		foreach ( $available_languages as $locale => $lang ) {
-			echo sprintf(
+			echo wp_kses_post( sprintf(
 				'<p><button %1$s>%2$s</button> <span class="spinner"></span></p>',
 				bogo_format_atts( array(
 					'type' => 'button',
@@ -331,9 +331,9 @@ function bogo_l10n_meta_box( $post ) {
 				sprintf(
 					/* translators: %s: Language name. */
 					__( 'Add %s translation', 'bogo' ),
-					esc_html( $lang )
+					$lang
 				)
-			);
+			) );
 		}
 
 ?>
