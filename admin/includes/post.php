@@ -79,23 +79,36 @@ function bogo_restrict_manage_posts( $post_type, $which ) {
 	}
 
 	$available_languages = bogo_available_languages();
-	$current_locale = empty( $_GET['lang'] ) ? '' : $_GET['lang'];
+	$current_locale = $_GET['lang'] ?? '';
 
-	echo '<select name="lang">';
-
-	$selected = ( '' === $current_locale ) ? ' selected="selected"' : '';
-
-	echo '<option value=""' . $selected . '>'
-		. esc_html( __( 'Show all locales', 'bogo' ) ) . '</option>';
+	$options = array(
+		sprintf(
+			'<option %1$s>%2$s</option>',
+			bogo_format_atts( array(
+				'value' => '',
+				'selected' => '' === $current_locale,
+			) ),
+			__( 'Show all locales', 'bogo' )
+		),
+	);
 
 	foreach ( $available_languages as $locale => $lang ) {
-		$selected = ( $locale === $current_locale ) ? ' selected="selected"' : '';
-
-		echo '<option value="' . esc_attr( $locale ) . '"' . $selected . '>'
-			. esc_html( $lang ) . '</option>';
+		$options[] = sprintf(
+			'<option %1$s>%2$s</option>',
+			bogo_format_atts( array(
+				'value' => $locale,
+				'selected' => $locale === $current_locale,
+			) ),
+			$lang
+		);
 	}
 
-	echo '</select>' . "\n";
+	$dropdown = sprintf(
+		'<select name="lang">%s</select>',
+		implode( $options )
+	);
+
+	echo wp_kses( $dropdown, 'bogo_form_inside' );
 }
 
 
