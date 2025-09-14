@@ -204,12 +204,24 @@ function bogo_m17n_headers() {
 
 		if ( $hreflang and $href ) {
 			$link = sprintf(
-				'<link rel="alternate" hreflang="%1$s" href="%2$s" />',
-				esc_attr( $hreflang ),
-				esc_url( $href )
+				'<link %s />',
+				bogo_format_atts( array(
+					'rel' => 'alternate',
+					'href' => esc_url( $href ),
+					'hreflang' => $hreflang,
+				) )
 			);
 
-			echo $link . "\n";
+			echo wp_kses(
+				$link,
+				array(
+					'link' => array(
+						'rel' => true,
+						'href' => true,
+						'hreflang' => true,
+					),
+				)
+			) . "\n";
 		}
 	}
 }
