@@ -79,23 +79,36 @@ function bogo_restrict_manage_posts( $post_type, $which ) {
 	}
 
 	$available_languages = bogo_available_languages();
-	$current_locale = empty( $_GET['lang'] ) ? '' : $_GET['lang'];
+	$current_locale = $_GET['lang'] ?? '';
 
-	echo '<select name="lang">';
-
-	$selected = ( '' === $current_locale ) ? ' selected="selected"' : '';
-
-	echo '<option value=""' . $selected . '>'
-		. esc_html( __( 'Show all locales', 'bogo' ) ) . '</option>';
+	$options = array(
+		sprintf(
+			'<option %1$s>%2$s</option>',
+			bogo_format_atts( array(
+				'value' => '',
+				'selected' => '' === $current_locale,
+			) ),
+			__( 'Show all locales', 'bogo' )
+		),
+	);
 
 	foreach ( $available_languages as $locale => $lang ) {
-		$selected = ( $locale === $current_locale ) ? ' selected="selected"' : '';
-
-		echo '<option value="' . esc_attr( $locale ) . '"' . $selected . '>'
-			. esc_html( $lang ) . '</option>';
+		$options[] = sprintf(
+			'<option %1$s>%2$s</option>',
+			bogo_format_atts( array(
+				'value' => $locale,
+				'selected' => $locale === $current_locale,
+			) ),
+			$lang
+		);
 	}
 
-	echo '</select>' . "\n";
+	$dropdown = sprintf(
+		'<select name="lang">%s</select>',
+		implode( $options )
+	);
+
+	echo wp_kses( $dropdown, 'bogo_form_inside' );
 }
 
 
@@ -285,7 +298,7 @@ function bogo_l10n_meta_box( $post ) {
 			$available_languages[$locale] ?? $locale
 		);
 
-		echo sprintf( '<li>%s</li>', $li_content );
+		echo wp_kses_post( sprintf( '<li>%s</li>', $li_content ) );
 	}
 
 ?>
@@ -308,7 +321,7 @@ function bogo_l10n_meta_box( $post ) {
 <?php
 
 		foreach ( $available_languages as $locale => $lang ) {
-			echo sprintf(
+			echo wp_kses_post( sprintf(
 				'<p><button %1$s>%2$s</button> <span class="spinner"></span></p>',
 				bogo_format_atts( array(
 					'type' => 'button',
@@ -318,9 +331,9 @@ function bogo_l10n_meta_box( $post ) {
 				sprintf(
 					/* translators: %s: Language name. */
 					__( 'Add %s translation', 'bogo' ),
-					esc_html( $lang )
+					$lang
 				)
-			);
+			) );
 		}
 
 ?>

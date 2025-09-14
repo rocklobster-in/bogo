@@ -35,6 +35,7 @@ function bogo_update_user_option( $user_id ) {
 	}
 }
 
+
 add_action( 'personal_options', 'bogo_set_locale_options', 10, 1 );
 
 function bogo_set_locale_options( $profileuser ) {
@@ -46,6 +47,7 @@ function bogo_set_locale_options( $profileuser ) {
 		bogo_set_accessible_locales( $profileuser );
 	}
 }
+
 
 function bogo_set_accessible_locales( $profileuser ) {
 	$available_languages = bogo_available_languages( array(
@@ -65,15 +67,30 @@ function bogo_set_accessible_locales( $profileuser ) {
 <fieldset class="bogo-locale-options">
 
 <?php
-	foreach ( $available_languages as $locale => $language ) :
+
+	foreach ( $available_languages as $locale => $language ) {
 		$checked = in_array( $locale, $accessible_locales );
-		$id_attr = 'bogo_accessible_locale-' . $locale;
-?>
-<label class="bogo-locale-option<?php echo $checked ? ' checked' : ''; ?>" for="<?php echo $id_attr; ?>">
-<input type="checkbox" id="<?php echo $id_attr; ?>" name="bogo_accessible_locales[]" value="<?php echo esc_attr( $locale ); ?>"<?php echo $checked ? ' checked="checked"' : ''; ?> /><?php echo esc_html( $language ); ?>
-</label>
-<?php
-	endforeach;
+		$id_attr = sprintf( 'bogo_accessible_locale-%s', $locale );
+
+		$checkbox = sprintf(
+			'<label %1$s><input %2$s />%3$s</label>',
+			bogo_format_atts( array(
+				'class' => 'bogo-locale-option' . ( $checked ? ' checked' : '' ),
+				'for' => $id_attr,
+			) ),
+			bogo_format_atts( array(
+				'type' => 'checkbox',
+				'id' => $id_attr,
+				'name' => 'bogo_accessible_locales[]',
+				'value' => $locale,
+				'checked' => $checked,
+			) ),
+			$language
+		);
+
+		echo wp_kses( $checkbox, 'bogo_form_inside' ) . "\n";
+	}
+
 ?>
 </fieldset>
 </td>

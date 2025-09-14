@@ -87,7 +87,7 @@ function bogo_language_switcher( $args = '' ) {
 	$output = apply_filters( 'bogo_language_switcher', $output, $args );
 
 	if ( $args['echo'] ) {
-		echo $output;
+		echo wp_kses_post( $output );
 	} else {
 		return $output;
 	}
@@ -163,7 +163,7 @@ function bogo_language_suggestion( $args = '' ) {
 	$output = apply_filters( 'bogo_language_suggestion', $output, $args );
 
 	if ( $args['echo'] ) {
-		echo $output;
+		echo wp_kses_post( $output );
 	} else {
 		return $output;
 	}
