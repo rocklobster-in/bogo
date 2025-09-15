@@ -52,6 +52,7 @@ function bogo_body_class( $classes, $classes_to_add ) {
 	return $classes;
 }
 
+
 add_filter( 'post_class', 'bogo_post_class', 10, 3 );
 
 function bogo_post_class( $classes, $classes_to_add, $post_id ) {
@@ -66,6 +67,7 @@ function bogo_post_class( $classes, $classes_to_add, $post_id ) {
 	return $classes;
 }
 
+
 function bogo_get_post_locale( $post_id ) {
 	$locale = get_post_meta( $post_id, '_locale', true );
 
@@ -75,6 +77,7 @@ function bogo_get_post_locale( $post_id ) {
 
 	return $locale;
 }
+
 
 function bogo_localizable_post_types() {
 	$localizable = apply_filters( 'bogo_localizable_post_types',
@@ -89,9 +92,11 @@ function bogo_localizable_post_types() {
 	return $localizable;
 }
 
+
 function bogo_is_localizable_post_type( $post_type ) {
 	return in_array( $post_type, bogo_localizable_post_types(), true );
 }
+
 
 function bogo_count_posts( $locale, $post_type = 'post' ) {
 	global $wpdb;
@@ -123,6 +128,7 @@ function bogo_count_posts( $locale, $post_type = 'post' ) {
 
 	return (int) $count;
 }
+
 
 function bogo_get_post_translations( $post_id = 0 ) {
 	$post = get_post( $post_id );
@@ -188,6 +194,7 @@ function bogo_get_post_translations( $post_id = 0 ) {
 	return $translations[$post->ID];
 }
 
+
 function bogo_get_post_translation( $post_id, $locale ) {
 	$translations = bogo_get_post_translations( $post_id );
 
@@ -197,6 +204,7 @@ function bogo_get_post_translation( $post_id, $locale ) {
 
 	return false;
 }
+
 
 function bogo_get_page_by_path( $page_path, $locale = null, $post_type = 'page' ) {
 	global $wpdb;
@@ -241,7 +249,7 @@ function bogo_get_page_by_path( $page_path, $locale = null, $post_type = 'page' 
 		$count = 0;
 		$p = $page;
 
-		while ( $p->post_parent != 0 and isset( $pages[$p->post_parent] ) ) {
+		while ( ! empty( $p->post_parent ) and isset( $pages[$p->post_parent] ) ) {
 			$count++;
 			$parent = $pages[$p->post_parent];
 
@@ -256,8 +264,8 @@ function bogo_get_page_by_path( $page_path, $locale = null, $post_type = 'page' 
 		}
 
 		if (
-			$p->post_parent == 0 and
-			$count + 1 == count( $revparts ) and
+			empty( $p->post_parent ) and
+			$count + 1 === count( $revparts ) and
 			$p->post_name === $revparts[$count]
 		) {
 			$foundid = $page->ID;
@@ -272,20 +280,21 @@ function bogo_get_page_by_path( $page_path, $locale = null, $post_type = 'page' 
 	return null;
 }
 
+
 function bogo_duplicate_post( $original_post, $locale ) {
 	$original_post = get_post( $original_post );
 
 	if (
 		! $original_post or
 		! bogo_is_localizable_post_type( get_post_type( $original_post ) ) or
-		'auto-draft' == get_post_status( $original_post )
+		'auto-draft' === get_post_status( $original_post )
 	) {
 		return false;
 	}
 
 	if (
 		! bogo_is_available_locale( $locale ) or
-		bogo_get_post_locale( $original_post->ID ) == $locale
+		bogo_get_post_locale( $original_post->ID ) === $locale
 	) {
 		return false;
 	}
@@ -416,6 +425,7 @@ function bogo_duplicate_post( $original_post, $locale ) {
 	return $new_post_id;
 }
 
+
 add_filter( 'get_pages', 'bogo_get_pages', 10, 2 );
 
 function bogo_get_pages( $pages, $args ) {
@@ -438,13 +448,14 @@ function bogo_get_pages( $pages, $args ) {
 	foreach ( (array) $pages as $page ) {
 		$post_locale = bogo_get_post_locale( $page->ID );
 
-		if ( $post_locale == $locale ) {
+		if ( $post_locale === $locale ) {
 			$new_pages[] = $page;
 		}
 	}
 
 	return $new_pages;
 }
+
 
 add_action( 'save_post', 'bogo_save_post', 10, 2 );
 
@@ -483,7 +494,7 @@ function bogo_save_post( $post_id, $post ) {
 			bogo_is_available_locale( $_REQUEST['locale'] )
 		) {
 			$locale = $_REQUEST['locale'];
-		} elseif ( 'auto-draft' == get_post_status( $post_id ) ) {
+		} elseif ( 'auto-draft' === get_post_status( $post_id ) ) {
 			$locale = bogo_get_user_locale();
 		} else {
 			$locale = bogo_get_default_locale();
@@ -512,6 +523,7 @@ function bogo_save_post( $post_id, $post ) {
 		}
 	}
 }
+
 
 add_filter( 'pre_wp_unique_post_slug', 'bogo_unique_post_slug', 10, 6 );
 
@@ -545,10 +557,10 @@ function bogo_unique_post_slug( $override_slug, $slug, $post_id, $post_status, $
 			'posts_per_page' => 1,
 		);
 
-		$is_bad_slug = in_array( $slug, $feeds )
-			|| 'embed' === $slug
-			|| preg_match( "@^($wp_rewrite->pagination_base)?\d+$@", $slug )
-			|| apply_filters(
+		$is_bad_slug = in_array( $slug, $feeds ) ||
+			'embed' === $slug ||
+			preg_match( "@^($wp_rewrite->pagination_base)?\d+$@", $slug ) ||
+			apply_filters(
 				'wp_unique_post_slug_is_bad_hierarchical_slug', false,
 				$slug, $post_type, $post_parent
 			);
@@ -588,9 +600,9 @@ function bogo_unique_post_slug( $override_slug, $slug, $post_id, $post_status, $
 			'posts_per_page' => 1,
 		);
 
-		$is_bad_slug = in_array( $slug, $feeds )
-			|| 'embed' === $slug
-			|| apply_filters(
+		$is_bad_slug = in_array( $slug, $feeds ) ||
+			'embed' === $slug ||
+			apply_filters(
 				'wp_unique_post_slug_is_bad_flat_slug', false,
 				$slug, $post_type
 			);
@@ -611,14 +623,17 @@ function bogo_unique_post_slug( $override_slug, $slug, $post_id, $post_status, $
 					) );
 					$postname_index = array_search( '%postname%', $permastructs );
 
-					$is_bad_slug = false
-						|| 0 === $postname_index
-						|| ( $postname_index
-							&& '%year%' === $permastructs[$postname_index - 1]
-							&& 13 > $slug_num )
-						|| ( $postname_index
-							&& '%monthnum%' === $permastructs[$postname_index - 1]
-							&& 32 > $slug_num );
+					$is_bad_slug = 0 === $postname_index ||
+						(
+							$postname_index &&
+							'%year%' === $permastructs[$postname_index - 1] &&
+							13 > $slug_num
+						) ||
+						(
+							$postname_index &&
+							'%monthnum%' === $permastructs[$postname_index - 1] &&
+							32 > $slug_num
+						);
 				}
 			}
 		}
@@ -652,6 +667,7 @@ function bogo_unique_post_slug( $override_slug, $slug, $post_id, $post_status, $
 
 	return $override_slug;
 }
+
 
 function bogo_truncate_post_slug( $slug, $length = 200 ) {
 	if ( strlen( $slug ) > $length ) {
