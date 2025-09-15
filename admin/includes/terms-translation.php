@@ -103,7 +103,7 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 	}
 
 	protected function extra_tablenav( $which ) {
-		if ( 'top' == $which ) {
+		if ( 'top' === $which ) {
 			echo '<div class="alignleft">';
 			echo '<select name="locale" id="select-locale">';
 			echo sprintf(
@@ -134,7 +134,7 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 			echo '</div>';
 		}
 
-		if ( 'bottom' == $which ) {
+		if ( 'bottom' === $which ) {
 			echo '<div class="alignleft">';
 			submit_button();
 			echo '</div>';
@@ -142,12 +142,15 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 	}
 }
 
+
 function bogo_terms_translation( $locale_to_edit ) {
 	static $items = array();
 	static $locale = null;
 
-	if ( ! empty( $items )
-	and $locale === $locale_to_edit ) {
+	if (
+		! empty( $items ) and
+		$locale === $locale_to_edit
+	) {
 		return $items;
 	}
 
