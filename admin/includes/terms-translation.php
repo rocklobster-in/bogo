@@ -103,12 +103,12 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 	}
 
 	protected function extra_tablenav( $which ) {
-		if ( 'top' == $which ) {
-			echo '<div class="alignleft">';
-			echo '<select name="locale" id="select-locale">';
-			echo sprintf(
-				'<option value="">%1$s</option>',
-				esc_html( __( '-- Select Language to Edit --', 'bogo' ) )
+		if ( 'top' === $which ) {
+			$options = array(
+				sprintf(
+					'<option value="">%1$s</option>',
+					__( '-- Select Language to Edit --', 'bogo' )
+				)
 			);
 
 			$available_locales = bogo_available_locales( array(
@@ -120,21 +120,26 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 					continue;
 				}
 
-				echo sprintf(
+				$options[] = sprintf(
 					'<option %1$s>%2$s</option>',
 					bogo_format_atts( array(
 						'value' => $locale,
 						'selected' => $locale === $this->locale_to_edit,
 					) ),
-					esc_html( bogo_get_language( $locale ) )
+					bogo_get_language( $locale )
 				);
 			}
+
+			echo '<div class="alignleft">';
+			echo '<select name="locale" id="select-locale">';
+
+			echo wp_kses( implode( $options ), 'bogo_form_inside' );
 
 			echo '</select>';
 			echo '</div>';
 		}
 
-		if ( 'bottom' == $which ) {
+		if ( 'bottom' === $which ) {
 			echo '<div class="alignleft">';
 			submit_button();
 			echo '</div>';
@@ -142,12 +147,15 @@ class Bogo_Terms_Translation_List_Table extends WP_List_Table {
 	}
 }
 
+
 function bogo_terms_translation( $locale_to_edit ) {
 	static $items = array();
 	static $locale = null;
 
-	if ( ! empty( $items )
-	and $locale === $locale_to_edit ) {
+	if (
+		! empty( $items ) and
+		$locale === $locale_to_edit
+	) {
 		return $items;
 	}
 
