@@ -222,15 +222,13 @@ function bogo_get_page_by_path( $page_path, $locale = null, $post_type = 'page' 
 	$parts = array_map( 'sanitize_title_for_query', $parts );
 
 	$in_string = "'" . implode( "','", $parts ) . "'";
-	$post_type_sql = $post_type;
-	$wpdb->escape_by_ref( $post_type_sql );
 
 	if ( bogo_is_default_locale( $locale ) ) {
 		$pages = $wpdb->get_results( $wpdb->prepare(
 			"SELECT ID, post_name, post_parent FROM %i LEFT JOIN %i AS postmeta ON ID = postmeta.post_id AND meta_key = '_locale' WHERE post_name IN ($in_string) AND (post_type = %s OR post_type = 'attachment') AND (meta_value LIKE %s OR meta_id IS NULL)",
 			$wpdb->posts,
 			$wpdb->postmeta,
-			$post_type_sql,
+			$post_type,
 			$locale
 		), OBJECT_K );
 	} else {
@@ -238,7 +236,7 @@ function bogo_get_page_by_path( $page_path, $locale = null, $post_type = 'page' 
 			"SELECT ID, post_name, post_parent FROM %i LEFT JOIN %i AS postmeta ON ID = postmeta.post_id AND meta_key = '_locale' WHERE post_name IN ($in_string) AND (post_type = %s OR post_type = 'attachment') AND (meta_value LIKE %s)",
 			$wpdb->posts,
 			$wpdb->postmeta,
-			$post_type_sql,
+			$post_type,
 			$locale
 		), OBJECT_K );
 	}
