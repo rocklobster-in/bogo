@@ -221,7 +221,12 @@ function bogo_get_page_by_path( $page_path, $locale = null, $post_type = 'page' 
 	$parts = array_map( 'esc_sql', $parts );
 	$parts = array_map( 'sanitize_title_for_query', $parts );
 
-	$in_string = "'" . implode( "','", $parts ) . "'";
+	$in_string = implode( ',', array_map(
+		static function ( $p ) use ( $wpdb ) {
+			return $wpdb->prepare( '%s', $p );
+		},
+		$parts
+	) );
 
 	if ( bogo_is_default_locale( $locale ) ) {
 		$pages = $wpdb->get_results( $wpdb->prepare(
