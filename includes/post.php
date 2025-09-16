@@ -225,17 +225,23 @@ function bogo_get_page_by_path( $page_path, $locale = null, $post_type = 'page' 
 	$post_type_sql = $post_type;
 	$wpdb->escape_by_ref( $post_type_sql );
 
-	$q = "SELECT ID, post_name, post_parent FROM $wpdb->posts";
-	$q .= " LEFT JOIN $wpdb->postmeta ON ID = $wpdb->postmeta.post_id AND meta_key = '_locale'";
-	$q .= " WHERE 1=1";
-	$q .= " AND post_name IN ($in_string)";
-	$q .= " AND (post_type = '$post_type_sql' OR post_type = 'attachment')";
-	$q .= " AND (1=0";
-	$q .= $wpdb->prepare( " OR meta_value LIKE %s", $locale );
-	$q .= bogo_is_default_locale( $locale ) ? " OR meta_id IS NULL" : "";
-	$q .= ")";
-
-	$pages = $wpdb->get_results( $q, OBJECT_K );
+	if ( bogo_is_default_locale( $locale ) ) {
+		$pages = $wpdb->get_results( $wpdb->prepare(
+			"SELECT ID, post_name, post_parent FROM %i LEFT JOIN %i AS postmeta ON ID = postmeta.post_id AND meta_key = '_locale' WHERE post_name IN ($in_string) AND (post_type = %s OR post_type = 'attachment') AND (meta_value LIKE %s OR meta_id IS NULL)",
+			$wpdb->posts,
+			$wpdb->postmeta,
+			$post_type_sql,
+			$locale
+		), OBJECT_K );
+	} else {
+		$pages = $wpdb->get_results( $wpdb->prepare(
+			"SELECT ID, post_name, post_parent FROM %i LEFT JOIN %i AS postmeta ON ID = postmeta.post_id AND meta_key = '_locale' WHERE post_name IN ($in_string) AND (post_type = %s OR post_type = 'attachment') AND (meta_value LIKE %s)",
+			$wpdb->posts,
+			$wpdb->postmeta,
+			$post_type_sql,
+			$locale
+		), OBJECT_K );
+	}
 
 	$revparts = array_reverse( $parts );
 
