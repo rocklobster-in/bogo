@@ -101,7 +101,7 @@ function bogo_parse_query( $query ) {
 		isset( $qv['post_type'] ) and
 		'any' !== $qv['post_type'] and
 		! is_array( $qv['post_type'] ) and
-		'' != $qv['name']
+		! empty( $qv['name'] )
 	) {
 		$query->queried_object = bogo_get_page_by_path(
 			$qv['name'], $locale, $qv['post_type']
@@ -141,7 +141,7 @@ function bogo_posts_join( $join, $query ) {
 		return $join;
 	}
 
-	$locale = empty( $qv['lang'] ) ? '' : $qv['lang'];
+	$locale = $qv['lang'] ?? '';
 
 	if ( ! bogo_is_available_locale( $locale ) ) {
 		return $join;
@@ -168,7 +168,7 @@ function bogo_posts_where( $where, $query ) {
 		return $where;
 	}
 
-	$locale = empty( $qv['lang'] ) ? '' : $qv['lang'];
+	$locale = $qv['lang'] ?? '';
 
 	if ( ! bogo_is_available_locale( $locale ) ) {
 		return $where;
