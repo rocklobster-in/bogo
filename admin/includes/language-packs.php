@@ -71,8 +71,10 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 				}
 			}
 
-			if ( 'active' == $status and ! $is_active
-			or 'inactive' == $status and $is_active ) {
+			if (
+				'active' === $status and ! $is_active or
+				'inactive' === $status and $is_active
+			) {
 				continue;
 			}
 
@@ -103,7 +105,8 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 			_nx(
 				'All <span class="count">(%s)</span>',
 				'All <span class="count">(%s)</span>',
-				$count_all, 'language status', 'bogo' ),
+				$count_all, 'language status', 'bogo'
+			),
 			number_format_i18n( $count_all )
 		);
 
@@ -120,14 +123,15 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 			_nx(
 				'Active <span class="count">(%s)</span>',
 				'Active <span class="count">(%s)</span>',
-				$this->count_active, 'language status', 'bogo' ),
+				$this->count_active, 'language status', 'bogo'
+			),
 			number_format_i18n( $this->count_active )
 		);
 
 		$links['active'] = sprintf(
 			'<a href="%1$s"%2$s>%3$s</a>',
 			esc_url( add_query_arg( 'status', 'active', $menu_page_url ) ),
-			'active' == $status ? ' class="current"' : '',
+			'active' === $status ? ' class="current"' : '',
 			$active
 		);
 
@@ -137,14 +141,15 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 			_nx(
 				'Inactive <span class="count">(%s)</span>',
 				'Inactive <span class="count">(%s)</span>',
-				$this->count_inactive, 'language status', 'bogo' ),
+				$this->count_inactive, 'language status', 'bogo'
+			),
 			number_format_i18n( $this->count_inactive )
 		);
 
 		$links['inactive'] = sprintf(
 			'<a href="%1$s"%2$s>%3$s</a>',
 			esc_url( add_query_arg( 'status', 'inactive', $menu_page_url ) ),
-			'inactive' == $status ? ' class="current"' : '',
+			'inactive' === $status ? ' class="current"' : '',
 			$inactive
 		);
 
@@ -250,8 +255,7 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 
 		$actions = array();
 
-		if ( 'en_US' == $item->locale
-		or $this->can_install_language_pack() ) {
+		if ( 'en_US' === $item->locale or $this->can_install_language_pack() ) {
 			if ( bogo_is_default_locale( $item->locale ) ) {
 				// nothing
 			} elseif ( $item->active ) {
@@ -266,12 +270,11 @@ class Bogo_Language_Packs_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( $item->active
-		and ! bogo_is_default_locale( $item->locale ) ) {
+		if ( $item->active and ! bogo_is_default_locale( $item->locale ) ) {
 			$actions['translate'] = $this->action_link( $item, 'translate' );
 		}
 
-		if ( 'en_US' != $item->locale ) {
+		if ( 'en_US' !== $item->locale ) {
 			$actions['meet'] = $this->meet_the_team_link( $item );
 		}
 
@@ -415,7 +418,7 @@ function bogo_delete_language_pack( $locale ) {
 		}
 
 		if ( preg_match( $pattern, $file ) ) {
-			$result = @unlink( path_join( WP_LANG_DIR, $file ) );
+			$result = wp_delete_file( path_join( WP_LANG_DIR, $file ) );
 
 			if ( ! $result ) {
 				return false;
