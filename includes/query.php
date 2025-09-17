@@ -234,6 +234,18 @@ function bogo_get_local_post( $post_id ) {
 		return $post_id;
 	}
 
+	$locale_query = $wpdb->prepare(
+		"pm2.meta_value LIKE %s",
+		$locale
+	);
+
+	if ( bogo_is_default_locale( $locale ) ) {
+		$locale_query = $wpdb->prepare(
+			"(pm2.meta_value LIKE %s OR pm2.meta_id IS NULL)",
+			$locale
+		);
+	}
+
 	$original_post = get_post_meta( $post_id, '_original_post', true );
 
 	// For back-compat
@@ -241,33 +253,29 @@ function bogo_get_local_post( $post_id ) {
 		$original_post = $post_id;
 	}
 
-	$q = "SELECT ID FROM $wpdb->posts AS posts";
-	$q .= " LEFT JOIN $wpdb->postmeta AS pm1";
-	$q .= " ON posts.ID = pm1.post_id AND pm1.meta_key = '_original_post'";
-	$q .= " LEFT JOIN $wpdb->postmeta AS pm2";
-	$q .= " ON posts.ID = pm2.post_id AND pm2.meta_key = '_locale'";
-	$q .= " WHERE 1=1";
-	$q .= " AND post_status = 'publish'";
-	$q .= $wpdb->prepare( " AND post_type = %s", $post_type );
+	$original_post_query = $wpdb->prepare(
+		"pm1.meta_value = %s",
+		$original_post
+	);
 
-	if ( is_int( $original_post ) ) { // For back-compat
-		$q .= $wpdb->prepare( " AND (ID = %d OR pm1.meta_value = %d)",
-			$original_post, $original_post
+	// For back-compat
+	if ( is_int( $original_post ) ) {
+		$original_post_query = $wpdb->prepare(
+			"(ID = %d OR pm1.meta_value = %d)",
+			$original_post,
+			$original_post
 		);
-	} else {
-		$q .= $wpdb->prepare( " AND pm1.meta_value = %s", $original_post );
 	}
 
-	$q .= " AND (1=0";
-	$q .= $wpdb->prepare( " OR pm2.meta_value LIKE %s", $locale );
+	$translation = $wpdb->get_var( $wpdb->prepare(
+		"SELECT ID FROM %i AS posts LEFT JOIN %i AS pm1 ON posts.ID = pm1.post_id AND pm1.meta_key = '_original_post' LEFT JOIN %i AS pm2 ON posts.ID = pm2.post_id AND pm2.meta_key = '_locale' WHERE post_status = 'publish' AND post_type = %s AND $locale_query AND $original_post_query",
+		$wpdb->posts,
+		$wpdb->postmeta,
+		$wpdb->postmeta,
+		$post_type,
+	) );
 
-	if ( bogo_is_default_locale( $locale ) ) {
-		$q .= " OR pm2.meta_id IS NULL";
-	}
-
-	$q .= ")";
-
-	$translation = absint( $wpdb->get_var( $q ) );
+	$translation = absint( $translation );
 
 	if ( $translation ) {
 		return $translation;
