@@ -418,7 +418,7 @@ function bogo_delete_language_pack( $locale ) {
 		}
 
 		if ( preg_match( $pattern, $file ) ) {
-			$result = @unlink( path_join( WP_LANG_DIR, $file ) );
+			$result = wp_delete_file( path_join( WP_LANG_DIR, $file ) );
 
 			if ( ! $result ) {
 				return false;
