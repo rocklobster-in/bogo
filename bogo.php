@@ -2,9 +2,9 @@
 /*
  * Plugin Name: Bogo
  * Description: A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.
- * Plugin URI: https://ideasilo.wordpress.com/bogo/
- * Author: Takayuki Miyoshi
- * Author URI: https://ideasilo.wordpress.com/
+ * Plugin URI: https://github.com/rocklobster-in/bogo
+ * Author: Rock Lobster Inc.
+ * Author URI: https://github.com/rocklobster-in/
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Version: 3.9-dev
