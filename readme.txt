@@ -2,7 +2,7 @@
 Contributors: rocklobsterinc, takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 6.7
-Tested up to: 6.8.2
+Tested up to: 6.8
 Stable tag: 3.8.2
 Requires PHP: 7.4
 License: GPL v2 or later
@@ -65,6 +65,11 @@ With the default configuration, this plugin, in itself, does not:
 
 == Changelog ==
 
+= 3.9 =
+
+* Overhauls the JavaScript used in the admin screens.
+* Fixes a lot of errors that the Plugin Check plugin (PCP) has reported.
+
 = 3.8.2 =
 
 * Fixes a bug that prevents block editor from working correctly on 6.4-6.5 versions of WordPress.
@@ -78,14 +83,3 @@ With the default configuration, this plugin, in itself, does not:
 * Language switcher: Updates `apiVersion` to `3` in the `block.json` file.
 * Lets `bogo_http_accept_languages()` always return an array.
 * Fixes a bug that makes it impossible to have two sticky posts or more.
-
-= 3.7 =
-
-* Language switcher: Adds the language suggestion view.
-* Improves `bogo_format_atts()`.
-* Updates the languages list in `bogo_languages()` based on translate.wordpress.org.
-* Uses a static list to retrieve language native names.
-* National flags: Drops famfamfam.com icons in favor of Unicode regional indicator symbols.
-* New filter hook: `bogo_get_language`
-* New filter hook: `bogo_get_language_native_name`
-* New filter hook: `bogo_get_country_code`
