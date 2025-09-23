@@ -3,7 +3,7 @@ Contributors: rocklobsterinc, takayukister, itpixelz
 Tags: multilingual, localization, language, locale, admin
 Requires at least: 6.7
 Tested up to: 6.8
-Stable tag: 3.8.2
+Stable tag: 3.9
 Requires PHP: 7.4
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -12,8 +12,6 @@ Donate link: https://contactform7.com/donate/
 A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.
 
 == Description ==
-
-https://ideasilo.wordpress.com/bogo/
 
 Bogo is a straight-forward multilingual plugin for WordPress.
 
