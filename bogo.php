@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Bogo
  * Description: A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.
- * Plugin URI: https://github.com/rocklobster-in/bogo
+ * Plugin URI: https://contactform7.com/2025/09/23/multi-language-wordpress-without-vendor-lock-in-risks/
  * Author: Rock Lobster Inc.
  * Author URI: https://github.com/rocklobster-in/
  * License: GPL v2 or later
