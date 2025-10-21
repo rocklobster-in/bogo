@@ -6,13 +6,15 @@ import { sprintf, __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 
 export default function LanguagePanel() {
-	const { currentPost, currentLocale } = useSelect( ( select ) => {
+	const { currentPost, currentLocale, postId, postStatus } = useSelect( ( select ) => {
 		const post = select( 'core/editor' ).getCurrentPost();
 		const meta = select( 'core/editor' ).getEditedPostAttribute( 'meta' );
 		
 		return {
 			currentPost: Object.assign( {}, post, bogo.currentPost ),
 			currentLocale: meta?._locale || bogo.currentPost.locale || '',
+			postId: post.id,
+			postStatus: post.status,
 		};
 	} );
 
@@ -32,10 +34,17 @@ export default function LanguagePanel() {
 		} );
 
 		const handleLanguageChange = ( newLocale ) => {
+			// Don't update if post is auto-draft or doesn't have an ID
+			if ( ! postId || 'auto-draft' === postStatus ) {
+				return;
+			}
+			
 			dispatch( 'core/editor' ).editPost( {
 				meta: { _locale: newLocale }
 			} );
 		};
+
+		const isDisabled = ! postId || 'auto-draft' === postStatus;
 
 		return(
 			<PanelRow>
@@ -44,6 +53,7 @@ export default function LanguagePanel() {
 					value={ currentLocale }
 					options={ languageOptions }
 					onChange={ handleLanguageChange }
+					disabled={ isDisabled }
 					__nextHasNoMarginBottom
 				/>
 			</PanelRow>
