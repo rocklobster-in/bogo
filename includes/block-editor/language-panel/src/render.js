@@ -1,16 +1,19 @@
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
-import { PanelRow, Button, ExternalLink, Spinner } from '@wordpress/components';
+import { PanelRow, Button, ExternalLink, Spinner, SelectControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { dispatch, useSelect } from '@wordpress/data';
 import { sprintf, __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 
 export default function LanguagePanel() {
-	const currentPost = useSelect( ( select ) => {
-		return Object.assign( {},
-			select( 'core/editor' ).getCurrentPost(),
-			bogo.currentPost
-		);
+	const { currentPost, currentLocale } = useSelect( ( select ) => {
+		const post = select( 'core/editor' ).getCurrentPost();
+		const meta = select( 'core/editor' ).getEditedPostAttribute( 'meta' );
+		
+		return {
+			currentPost: Object.assign( {}, post, bogo.currentPost ),
+			currentLocale: meta?._locale || bogo.currentPost.locale || '',
+		};
 	} );
 
 	if ( -1 == bogo.localizablePostTypes.indexOf( currentPost.type ) ) {
@@ -21,10 +24,28 @@ export default function LanguagePanel() {
 		= useState( currentPost.translations );
 
 	const PostLanguage = () => {
+		const languageOptions = Object.entries( bogo.availableLanguages ).map( ( [ locale, lang ] ) => {
+			return {
+				value: locale,
+				label: lang.name || locale,
+			};
+		} );
+
+		const handleLanguageChange = ( newLocale ) => {
+			dispatch( 'core/editor' ).editPost( {
+				meta: { _locale: newLocale }
+			} );
+		};
+
 		return(
 			<PanelRow>
 				<span>{ __( 'Language', 'bogo' ) }</span>
-				<div>{ getLanguage( currentPost.locale ) }</div>
+				<SelectControl
+					value={ currentLocale }
+					options={ languageOptions }
+					onChange={ handleLanguageChange }
+					__nextHasNoMarginBottom
+				/>
 			</PanelRow>
 		);
 	}
