@@ -1,16 +1,21 @@
 import { PluginDocumentSettingPanel } from '@wordpress/edit-post';
-import { PanelRow, Button, ExternalLink, Spinner } from '@wordpress/components';
+import { PanelRow, Button, ExternalLink, Spinner, SelectControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { dispatch, useSelect } from '@wordpress/data';
 import { sprintf, __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 
 export default function LanguagePanel() {
-	const currentPost = useSelect( ( select ) => {
-		return Object.assign( {},
-			select( 'core/editor' ).getCurrentPost(),
-			bogo.currentPost
-		);
+	const { currentPost, currentLocale, postId, postStatus } = useSelect( ( select ) => {
+		const post = select( 'core/editor' ).getCurrentPost();
+		const meta = select( 'core/editor' ).getEditedPostAttribute( 'meta' );
+		
+		return {
+			currentPost: Object.assign( {}, post, bogo.currentPost ),
+			currentLocale: meta?._locale || bogo.currentPost.locale || '',
+			postId: post.id,
+			postStatus: post.status,
+		};
 	} );
 
 	if ( -1 == bogo.localizablePostTypes.indexOf( currentPost.type ) ) {
@@ -21,10 +26,41 @@ export default function LanguagePanel() {
 		= useState( currentPost.translations );
 
 	const PostLanguage = () => {
+		const languageOptions = Object.entries( bogo.availableLanguages ).map( ( [ locale, lang ] ) => {
+			return {
+				value: locale,
+				label: lang.name || locale,
+			};
+		} );
+
+		const handleLanguageChange = ( newLocale ) => {
+			// Don't update if post is auto-draft or doesn't have an ID
+			if ( ! postId || 'auto-draft' === postStatus ) {
+				return;
+			}
+			
+			dispatch( 'core/editor' ).editPost( {
+				meta: { _locale: newLocale }
+			} );
+		};
+
+		// Check if post has translation connections.
+		const hasTranslations = Object.values( translations ).some( 
+			( translation ) => translation.postId 
+		);
+
+		const isDisabled = ! postId || 'auto-draft' === postStatus || hasTranslations;
+
 		return(
 			<PanelRow>
 				<span>{ __( 'Language', 'bogo' ) }</span>
-				<div>{ getLanguage( currentPost.locale ) }</div>
+				<SelectControl
+					value={ currentLocale }
+					options={ languageOptions }
+					onChange={ handleLanguageChange }
+					disabled={ isDisabled }
+					__nextHasNoMarginBottom
+				/>
 			</PanelRow>
 		);
 	}
