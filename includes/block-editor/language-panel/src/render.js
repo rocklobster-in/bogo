@@ -44,7 +44,12 @@ export default function LanguagePanel() {
 			} );
 		};
 
-		const isDisabled = ! postId || 'auto-draft' === postStatus;
+		// Check if post has translation connections.
+		const hasTranslations = Object.values( translations ).some( 
+			( translation ) => translation.postId 
+		);
+
+		const isDisabled = ! postId || 'auto-draft' === postStatus || hasTranslations;
 
 		return(
 			<PanelRow>
