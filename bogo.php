@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name: Bogo
  * Description: A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.
  * Plugin URI: https://contactform7.com/2025/09/23/multi-language-wordpress-without-vendor-lock-in-risks/
@@ -10,6 +10,8 @@
  * Version: 3.9.1
  * Requires at least: 6.7
  * Requires PHP: 7.4
+ * Text Domain: bogo
+ * Domain Path: /languages
  */
 
 define( 'BOGO_VERSION', '3.9.1' );
@@ -104,7 +106,7 @@ function bogo_locale( $locale ) {
 		$url = is_ssl() ? 'https://' : 'http://';
 
 		// fix for CLI requests
-		$url .= isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+		$url .= isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '';
 		$url .= $_SERVER['REQUEST_URI'];
 
 		$home = set_url_scheme( get_option( 'home' ) );
@@ -146,15 +148,21 @@ function bogo_query_vars( $query_vars ) {
 add_action( 'wp_enqueue_scripts', 'bogo_enqueue_scripts', 10, 0 );
 
 function bogo_enqueue_scripts() {
-	wp_enqueue_style( 'bogo',
+	wp_enqueue_style(
+		'bogo',
 		plugins_url( 'includes/css/style.css', BOGO_PLUGIN_BASENAME ),
-		array(), BOGO_VERSION, 'all'
+		[],
+		BOGO_VERSION,
+		'all'
 	);
 
 	if ( is_rtl() ) {
-		wp_enqueue_style( 'bogo-rtl',
+		wp_enqueue_style(
+			'bogo-rtl',
 			plugins_url( 'includes/css/style-rtl.css', BOGO_PLUGIN_BASENAME ),
-			array(), BOGO_VERSION, 'all'
+			[],
+			BOGO_VERSION,
+			'all'
 		);
 	}
 }
