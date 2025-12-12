@@ -3,7 +3,8 @@
 add_action(
 	'init',
 	'bogo_register_language_switcher_block',
-	10, 0
+	10,
+	0
 );
 
 function bogo_register_language_switcher_block() {
@@ -16,7 +17,8 @@ function bogo_register_language_switcher_block() {
 add_action(
 	'enqueue_block_editor_assets',
 	'bogo_init_block_editor_assets',
-	10, 0
+	10,
+	0
 );
 
 function bogo_init_block_editor_assets() {
@@ -28,24 +30,28 @@ function bogo_init_block_editor_assets() {
 	);
 
 	if ( file_exists( $asset_file ) ) {
-		$assets = include( $asset_file );
+		$assets = include $asset_file;
 	}
 
-	$assets = wp_parse_args( $assets, array(
-		'dependencies' => array(
-			'react',
-			'wp-api-fetch',
-			'wp-components',
-			'wp-data',
-			'wp-edit-post',
-			'wp-element',
-			'wp-i18n',
-			'wp-plugins',
-			'wp-url',
-		),
-		'version' => BOGO_VERSION,
-	) );
+	$assets = wp_parse_args(
+		$assets,
+		array(
+			'dependencies' => array(
+				'react',
+				'wp-api-fetch',
+				'wp-components',
+				'wp-data',
+				'wp-edit-post',
+				'wp-element',
+				'wp-i18n',
+				'wp-plugins',
+				'wp-url',
+			),
+			'version'      => BOGO_VERSION,
+		)
+	);
 
+	//phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 	wp_register_script(
 		'bogo-block-editor',
 		plugins_url(
