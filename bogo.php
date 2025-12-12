@@ -102,7 +102,9 @@ function bogo_locale( $locale ) {
 
 	if ( isset( $wp_rewrite ) and $wp_rewrite->using_permalinks() ) {
 		$url = is_ssl() ? 'https://' : 'http://';
-		$url .= $_SERVER['HTTP_HOST'];
+
+		// fix for CLI requests
+		$url .= isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 		$url .= $_SERVER['REQUEST_URI'];
 
 		$home = set_url_scheme( get_option( 'home' ) );
