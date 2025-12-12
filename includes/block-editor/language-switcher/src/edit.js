@@ -49,7 +49,6 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 	};
 
 	const blockProps = {
-		className: 'components-placeholder',
 		style: {
 			minHeight: '100px',
 			marginTop: '28px',
