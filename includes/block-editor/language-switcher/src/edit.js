@@ -1,11 +1,12 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockControls } from '@wordpress/block-editor';
-import { ToolbarDropdownMenu, Dashicon } from '@wordpress/components';
+import { ToolbarDropdownMenu } from '@wordpress/components';
 
 import { formatListBullets, tip } from '@wordpress/icons';
 
 export default function LanguageSwitcher( { attributes, setAttributes } ) {
 	const ListPreview = () => {
+		/* eslint-disable no-undef */
 		const listItems = Object.entries( bogo?.availableLanguages ?? {} ).map(
 			( [ locale, language ] ) => {
 				const flag = ( ( country ) => {
@@ -32,19 +33,11 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 		);
 
 		return <ul className="bogo-language-switcher">{ listItems }</ul>;
+		/* eslint-enable no-undef */
 	};
 
 	const SuggestionPreview = () => {
 		return __( 'This page is also available in XXX.', 'bogo' );
-	};
-
-	const blockProps = {
-		style: {
-			minHeight: '100px',
-			marginTop: '28px',
-			marginBottom: '28px',
-			paddingLeft: '28px',
-		},
 	};
 
 	return (
@@ -77,11 +70,7 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 					] }
 				/>
 			</BlockControls>
-			<div { ...useBlockProps( blockProps ) }>
-				<label className="components-placeholder__label">
-					<Dashicon icon="translation" />
-					{ __( 'Language Switcher', 'bogo' ) }
-				</label>
+			<div { ...useBlockProps() }>
 				{ attributes.view === 'suggestion' ? (
 					<SuggestionPreview />
 				) : (
