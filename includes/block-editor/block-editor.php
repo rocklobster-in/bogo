@@ -9,7 +9,7 @@ add_action(
 
 function bogo_register_language_switcher_block() {
 	register_block_type(
-		path_join( BOGO_PLUGIN_DIR, 'includes/block-editor/language-switcher' )
+		path_join( BOGO_PLUGIN_DIR, 'includes/block-editor/language-switcher/build' )
 	);
 }
 

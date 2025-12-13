@@ -4,6 +4,8 @@ import { __ } from '@wordpress/i18n';
 
 import edit from './edit';
 
+import './style.scss';
+
 registerBlockType( 'bogo/language-switcher', {
 	edit,
 
