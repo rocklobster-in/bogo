@@ -4,6 +4,8 @@ import { ToolbarDropdownMenu } from '@wordpress/components';
 
 import { formatListBullets, tip } from '@wordpress/icons';
 
+import './editor.scss';
+
 export default function LanguageSwitcher( { attributes, setAttributes } ) {
 	const ListPreview = () => {
 		/* eslint-disable no-undef */
