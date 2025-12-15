@@ -1,61 +1,45 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockControls } from '@wordpress/block-editor';
-import { ToolbarDropdownMenu, Dashicon } from '@wordpress/components';
+import { ToolbarDropdownMenu } from '@wordpress/components';
 
 import { formatListBullets, tip } from '@wordpress/icons';
 
+import './editor.scss';
+
 export default function LanguageSwitcher( { attributes, setAttributes } ) {
-
 	const ListPreview = () => {
-		const listItems = Object.entries(
-			bogo?.availableLanguages ?? {}
-		).map( ( [ locale, language ] ) => {
-			const flag = ( country => {
-				if ( country ) {
-					country = country.toLowerCase();
-				} else {
-					country = 'zz';
-				}
+		/* eslint-disable no-undef */
+		const listItems = Object.entries( bogo?.availableLanguages ?? {} ).map(
+			( [ locale, language ] ) => {
+				const flag = ( ( country ) => {
+					if ( country ) {
+						country = country.toLowerCase();
+					} else {
+						country = 'zz';
+					}
 
-				const classes = [
-					'bogoflags',
-					`bogoflags-${ country }`,
-				];
+					const classes = [ 'bogoflags', `bogoflags-${ country }` ];
+
+					return <span className={ classes.join( ' ' ) }></span>;
+				} )( language.country );
 
 				return (
-					<span className={ classes.join( ' ' ) }></span>
+					<li key={ locale } className={ language.tags.join( ' ' ) }>
+						{ bogo.showFlags && flag }
+						<span className="bogo-language-name">
+							{ language.nativename ?? locale }
+						</span>
+					</li>
 				);
-			} )( language.country );
-
-			return (
-				<li key={ locale } className={ language.tags.join( ' ' ) }>
-					{ bogo.showFlags && flag }
-					<span className="bogo-language-name">
-						{ language.nativename ?? locale }
-					</span>
-				</li>
-			);
-		} );
-
-		return (
-			<ul className="bogo-language-switcher">
-				{ listItems }
-			</ul>
+			}
 		);
+
+		return <ul className="bogo-language-switcher">{ listItems }</ul>;
+		/* eslint-enable no-undef */
 	};
 
 	const SuggestionPreview = () => {
-		return __( "This page is also available in XXX.", 'bogo' );
-	};
-
-	const blockProps = {
-		className: 'components-placeholder',
-		style: {
-			minHeight: '100px',
-			marginTop: '28px',
-			marginBottom: '28px',
-			paddingLeft: '28px',
-		},
+		return __( 'This page is also available in XXX.', 'bogo' );
 	};
 
 	return (
@@ -72,30 +56,28 @@ export default function LanguageSwitcher( { attributes, setAttributes } ) {
 						{
 							title: __( 'List view', 'bogo' ),
 							icon: formatListBullets,
-							onClick: () => setAttributes( {
-								view: 'list',
-							} ),
+							onClick: () =>
+								setAttributes( {
+									view: 'list',
+								} ),
 						},
 						{
 							title: __( 'Suggestion view', 'bogo' ),
 							icon: tip,
-							onClick: () => setAttributes( {
-								view: 'suggestion',
-							} ),
+							onClick: () =>
+								setAttributes( {
+									view: 'suggestion',
+								} ),
 						},
 					] }
 				/>
 			</BlockControls>
-			<div { ...useBlockProps( blockProps ) }>
-				<label className="components-placeholder__label">
-					<Dashicon icon="translation" />
-					{ __( 'Language Switcher', 'bogo' ) }
-				</label>
-				{
-					attributes.view === 'suggestion'
-						? <SuggestionPreview />
-						: <ListPreview />
-				}
+			<div { ...useBlockProps() }>
+				{ attributes.view === 'suggestion' ? (
+					<SuggestionPreview />
+				) : (
+					<ListPreview />
+				) }
 			</div>
 		</>
 	);
