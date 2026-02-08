@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My Adjusted Standard" xsi:noNamespaceSchemaLocation="https://schema.phpcodesniffer.com/phpcs.xsd">
+
+<description>A custom set of rules to check for a WPized WordPress project</description>
+
+<!-- Exclude WP Core folders and files from being checked. -->
+<exclude-pattern>/docroot/wp-admin/*</exclude-pattern>
+<exclude-pattern>/docroot/wp-includes/*</exclude-pattern>
+<exclude-pattern>/docroot/wp-*.php</exclude-pattern>
+<exclude-pattern>/docroot/index.php</exclude-pattern>
+<exclude-pattern>/docroot/xmlrpc.php</exclude-pattern>
+<exclude-pattern>/docroot/wp-content/plugins/*</exclude-pattern>
+
+<!-- Exclude the Composer Vendor directory. -->
+<exclude-pattern>/vendor/*</exclude-pattern>
+
+<!-- Exclude the Node Modules directory. -->
+<exclude-pattern>/node_modules/*</exclude-pattern>
+
+<!-- Exclude minified Javascript files. -->
+<exclude-pattern>*.min.js</exclude-pattern>
+
+<rule ref="WordPress-Extra" />
+
+<!-- Let's also check that everything is properly documented.
+<rule ref="WordPress-Docs"/>-->
+
+<!--
+#############################################################################
+I18n SPECIFIC CONFIGURATION
+#############################################################################
+-->
+<config name="minimum_wp_version" value="6.6"/>
+
+<rule ref="WordPress.WP.I18n">
+	<properties>
+		<property name="text_domain" type="array">
+			<element value="bogo"/>
+		</property>
+	</properties>
+</rule>
+
+<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+	<properties>
+		<property name="prefixes" type="array">
+			<element value="bogo_"/>
+		</property>
+	</properties>
+</rule>
+
+<!--
+#############################################################################
+SELECTIVE EXCLUSIONS
+Exclude specific files for specific sniffs and/or exclude sub-groups in sniffs.
+#############################################################################
+-->
+
+<!--
+Sometimes, you may want to exclude a certain directory, like your tests,
+for select sniffs.
+The below examples demonstrate how to do this.
+
+In the example, the `GlobalVariablesOverride` rule is excluded for test files
+as it is sometimes necessary to overwrite WP globals in test situations (just
+don't forget to restore them after the test!).
+
+Along the same lines, PHPUnit is getting stricter about using PSR-4 file names,
+so excluding test files from the `WordPress.Files.Filename` sniff can be a
+legitimate exclusion.
+
+For more information on ruleset configuration options, check out the PHPCS wiki:
+https://github.com/PHPCSStandards/PHP_CodeSniffer/wiki/Annotated-Ruleset
+-->
+<rule ref="WordPress.WP.GlobalVariablesOverride">
+	<exclude-pattern>/path/to/Tests/*Test\.php</exclude-pattern>
+</rule>
+<rule ref="WordPress.Files.FileName">
+	<exclude-pattern>/path/to/Tests/*Test\.php</exclude-pattern>
+</rule>
+
+</ruleset>

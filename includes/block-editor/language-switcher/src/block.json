@@ -6,14 +6,16 @@
 	"category": "widgets",
 	"icon": "translation",
 	"description": "Language switcher widget by Bogo.",
-	"keywords": [ "Bogo", "locale" ],
+	"keywords": ["Bogo", "locale"],
 	"textdomain": "bogo",
 	"attributes": {
 		"view": {
-			"enum": [ "list", "suggestion" ],
+			"enum": ["list", "suggestion"],
 			"default": "list"
 		}
 	},
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:../../css/style.css"
+	"style": "file:./style-index.css",
+	"editorStyle": "file:./index.css",
+	"render": "file:./render.php"
 }

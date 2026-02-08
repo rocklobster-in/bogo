@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name: Bogo
  * Description: A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.
  * Plugin URI: https://contactform7.com/2025/09/23/multi-language-wordpress-without-vendor-lock-in-risks/
@@ -10,7 +10,11 @@
  * Version: 3.9.1
  * Requires at least: 6.7
  * Requires PHP: 7.4
+ * Text Domain: bogo
+ * Domain Path: /languages
  */
+
+//phpcs:disable Generic.CodeAnalysis.AssignmentInCondition.Found, Squiz.PHP.DisallowMultipleAssignments.FoundInControlStructure, Squiz.Operators.ValidLogicalOperators.NotAllowed, WordPress.Security.NonceVerification.Recommended, Squiz.PHP.DisallowMultipleAssignments.Found
 
 define( 'BOGO_VERSION', '3.9.1' );
 
@@ -77,7 +81,7 @@ add_filter( 'locale', 'bogo_locale', 10, 1 );
 function bogo_locale( $locale ) {
 	global $wp_rewrite, $wp_query;
 
-	if ( ! did_action( 'plugins_loaded' ) or is_admin() ) {
+	if ( ! did_action( 'plugins_loaded' ) || is_admin() ) {
 		return $locale;
 	}
 
@@ -100,19 +104,23 @@ function bogo_locale( $locale ) {
 		}
 	}
 
-	if ( isset( $wp_rewrite ) and $wp_rewrite->using_permalinks() ) {
+	if ( isset( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
 		$url = is_ssl() ? 'https://' : 'http://';
-		$url .= $_SERVER['HTTP_HOST'];
+
+		// fix for CLI requests
+		$url .= isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : '';
 		$url .= $_SERVER['REQUEST_URI'];
 
 		$home = set_url_scheme( get_option( 'home' ) );
 		$home = trailingslashit( $home );
 
+		// phpcs:disable WordPress.PHP.PregQuoteDelimiter.Missing
 		$pattern = '#^'
 			. preg_quote( $home )
 			. '(?:' . preg_quote( trailingslashit( $wp_rewrite->index ) ) . ')?'
 			. bogo_get_lang_regex()
 			. '(/|$)#';
+		// phpcs:enable WordPress.PHP.PregQuoteDelimiter.Missing
 
 		if (
 			preg_match( $pattern, $url, $matches ) and
@@ -144,15 +152,21 @@ function bogo_query_vars( $query_vars ) {
 add_action( 'wp_enqueue_scripts', 'bogo_enqueue_scripts', 10, 0 );
 
 function bogo_enqueue_scripts() {
-	wp_enqueue_style( 'bogo',
+	wp_enqueue_style(
+		'bogo',
 		plugins_url( 'includes/css/style.css', BOGO_PLUGIN_BASENAME ),
-		array(), BOGO_VERSION, 'all'
+		array(),
+		BOGO_VERSION,
+		'all'
 	);
 
 	if ( is_rtl() ) {
-		wp_enqueue_style( 'bogo-rtl',
+		wp_enqueue_style(
+			'bogo-rtl',
 			plugins_url( 'includes/css/style-rtl.css', BOGO_PLUGIN_BASENAME ),
-			array(), BOGO_VERSION, 'all'
+			array(),
+			BOGO_VERSION,
+			'all'
 		);
 	}
 }

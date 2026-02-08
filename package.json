@@ -1,32 +1,32 @@
 {
-  "name": "bogo",
-  "version": "3.9.1",
-  "description": "A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.",
-  "private": true,
-  "scripts": {
-    "build:all": "npm run build:admin && npm run build:panel && npm run build:switcher",
-    "start:admin": "wp-scripts start admin/includes/js/src/index.js --output-path=admin/includes/js",
-    "build:admin": "wp-scripts build admin/includes/js/src/index.js --output-path=admin/includes/js",
-    "start:panel": "wp-scripts start includes/block-editor/language-panel/src/index.js --output-path=includes/block-editor/language-panel",
-    "build:panel": "wp-scripts build includes/block-editor/language-panel/src/index.js --output-path=includes/block-editor/language-panel",
-    "start:switcher": "wp-scripts start includes/block-editor/language-switcher/src/index.js --output-path=includes/block-editor/language-switcher",
-    "build:switcher": "wp-scripts build includes/block-editor/language-switcher/src/index.js --output-path=includes/block-editor/language-switcher",
-    "packages-update": "wp-scripts packages-update"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/takayukister/bogo.git"
-  },
-  "author": "takayukister",
-  "license": "GPL-2.0-only",
-  "bugs": {
-    "url": "https://github.com/takayukister/bogo/issues"
-  },
-  "homepage": "https://github.com/takayukister/bogo#readme",
-  "devDependencies": {
-    "@wordpress/scripts": "^31.1.0"
-  },
-  "dependencies": {
-    "@wordpress/icons": "^11.3.0"
-  }
+	"name": "bogo",
+	"version": "3.9.1",
+	"description": "A straight-forward multilingual plugin. No more double-digit custom DB tables or hidden HTML comments that could cause you headaches later on.",
+	"private": true,
+	"scripts": {
+		"build:all": "npm run build:admin && npm run build:panel && npm run build:switcher",
+		"start:admin": "wp-scripts start admin/includes/js/src/index.js --output-path=admin/includes/js",
+		"build:admin": "wp-scripts build admin/includes/js/src/index.js --output-path=admin/includes/js",
+		"start:panel": "wp-scripts start includes/block-editor/language-panel/src/index.js --output-path=includes/block-editor/language-panel",
+		"build:panel": "wp-scripts build includes/block-editor/language-panel/src/index.js --output-path=includes/block-editor/language-panel",
+		"start:switcher": "wp-scripts start --source-path=includes/block-editor/language-switcher/src --output-path=includes/block-editor/language-switcher/build",
+		"build:switcher": "wp-scripts build --source-path=includes/block-editor/language-switcher/src --output-path=includes/block-editor/language-switcher/build",
+		"packages-update": "wp-scripts packages-update"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/takayukister/bogo.git"
+	},
+	"author": "takayukister",
+	"license": "GPL-2.0-only",
+	"bugs": {
+		"url": "https://github.com/takayukister/bogo/issues"
+	},
+	"homepage": "https://github.com/takayukister/bogo#readme",
+	"devDependencies": {
+		"@wordpress/scripts": "^31.1.0"
+	},
+	"dependencies": {
+		"@wordpress/icons": "^11.3.0"
+	}
 }
