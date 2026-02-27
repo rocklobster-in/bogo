@@ -1,18 +1,21 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 import edit from './edit';
-import { createShortcode } from './helpers';
+
+import './style.scss';
 
 registerBlockType( 'bogo/language-switcher', {
 	edit,
 
-	save: ( { attributes } ) => {
-		const shortcode = createShortcode( attributes );
-
-		return(
+	save: () => {
+		return (
 			<div { ...useBlockProps.save() }>
-				{ shortcode }
+				{ __(
+					'Language Switcher Block – dynamic content rendered on the server.',
+					'bogo'
+				) }
 			</div>
 		);
 	},
