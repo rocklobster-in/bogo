@@ -31,14 +31,28 @@ function bogo_rest_api_init() {
 			'permission_callback' => static function( WP_REST_Request $request ) {
 				$locale = $request->get_param( 'locale' );
 
-				if ( current_user_can( 'bogo_access_locale', $locale ) ) {
-					return true;
-				} else {
+				if ( ! current_user_can( 'bogo_access_locale', $locale ) ) {
 					return new WP_Error( 'bogo_locale_forbidden',
 						__( 'You are not allowed to access posts in the requested locale.', 'bogo' ),
-						array( 'status' => 403 )
+						array( 'status' => rest_authorization_required_code() )
 					);
 				}
+
+				$post_id = $request->get_param( 'id' );
+
+				if ( $post = get_post( $post_id ) ) {
+					if (
+						! $post_type_object = get_post_type_object( $post->post_type ) or
+						! current_user_can( $post_type_object->cap->create_posts )
+					) {
+						return new WP_Error( 'bogo_post_cannot_create',
+							__( 'You are not allowed to create posts as this user.', 'bogo' ),
+							array( 'status' => rest_authorization_required_code() )
+						);
+					}
+				}
+
+				return true;
 			},
 		)
 	);
