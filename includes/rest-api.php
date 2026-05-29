@@ -89,13 +89,6 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 		);
 	}
 
-	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
-		return new WP_Error( 'bogo_post_type_invalid',
-			__( 'The requested post type is not localizable.', 'bogo' ),
-			array( 'status' => 400 )
-		);
-	}
-
 	$post_type_object = get_post_type_object( $post->post_type );
 	$edit_post_cap = $post_type_object->cap->edit_post;
 
@@ -106,6 +99,13 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 		return new WP_Error( 'bogo_post_not_found',
 			__( 'The requested post was not found.', 'bogo' ),
 			array( 'status' => 404 )
+		);
+	}
+
+	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
+		return new WP_Error( 'bogo_post_type_invalid',
+			__( 'The requested post type is not localizable.', 'bogo' ),
+			array( 'status' => 400 )
 		);
 	}
 
