@@ -31,14 +31,28 @@ function bogo_rest_api_init() {
 			'permission_callback' => static function( WP_REST_Request $request ) {
 				$locale = $request->get_param( 'locale' );
 
-				if ( current_user_can( 'bogo_access_locale', $locale ) ) {
-					return true;
-				} else {
+				if ( ! current_user_can( 'bogo_access_locale', $locale ) ) {
 					return new WP_Error( 'bogo_locale_forbidden',
 						__( 'You are not allowed to access posts in the requested locale.', 'bogo' ),
-						array( 'status' => 403 )
+						array( 'status' => rest_authorization_required_code() )
 					);
 				}
+
+				$post_id = $request->get_param( 'id' );
+
+				if ( $post = get_post( $post_id ) ) {
+					if (
+						! $post_type_object = get_post_type_object( $post->post_type ) or
+						! current_user_can( $post_type_object->cap->create_posts )
+					) {
+						return new WP_Error( 'bogo_post_cannot_create',
+							__( 'You are not allowed to create posts as this user.', 'bogo' ),
+							array( 'status' => rest_authorization_required_code() )
+						);
+					}
+				}
+
+				return true;
 			},
 		)
 	);
@@ -75,13 +89,6 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 		);
 	}
 
-	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
-		return new WP_Error( 'bogo_post_type_invalid',
-			__( 'The requested post type is not localizable.', 'bogo' ),
-			array( 'status' => 400 )
-		);
-	}
-
 	$post_type_object = get_post_type_object( $post->post_type );
 	$edit_post_cap = $post_type_object->cap->edit_post;
 
@@ -92,6 +99,13 @@ function bogo_rest_post_translations( WP_REST_Request $request ) {
 		return new WP_Error( 'bogo_post_not_found',
 			__( 'The requested post was not found.', 'bogo' ),
 			array( 'status' => 404 )
+		);
+	}
+
+	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
+		return new WP_Error( 'bogo_post_type_invalid',
+			__( 'The requested post type is not localizable.', 'bogo' ),
+			array( 'status' => 400 )
 		);
 	}
 
@@ -183,6 +197,19 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 		);
 	}
 
+	$post_type_object = get_post_type_object( $post->post_type );
+	$edit_post_cap = $post_type_object->cap->edit_post;
+
+	if (
+		! current_user_can( $edit_post_cap, $post->ID ) and
+		'publish' !== get_post_status( $post )
+	) {
+		return new WP_Error( 'bogo_post_not_found',
+			__( 'The requested post was not found.', 'bogo' ),
+			array( 'status' => 404 )
+		);
+	}
+
 	if ( ! bogo_is_localizable_post_type( $post->post_type ) ) {
 		return new WP_Error( 'bogo_post_type_invalid',
 			__( 'The requested post type is not localizable.', 'bogo' ),
@@ -222,10 +249,10 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 		'date_gmt' => mysql_to_rfc3339( $new_post->post_date_gmt ),
 		'modified' => mysql_to_rfc3339( $new_post->post_modified ),
 		'modified_gmt' => mysql_to_rfc3339( $new_post->post_modified_gmt ),
-		'guid' => array( 'rendered' => '', 'raw' => $new_post->guid ),
-		'title' => array( 'rendered' => '', 'raw' => $new_post->post_title ),
-		'content' => array( 'rendered' => '', 'raw' => $new_post->post_content ),
-		'excerpt' => array( 'rendered' => '', 'raw' => $new_post->post_excerpt ),
+		'guid' => array( 'rendered' => '', 'raw' => '' ),
+		'title' => array( 'rendered' => '', 'raw' => '' ),
+		'content' => array( 'rendered' => '', 'raw' => '' ),
+		'excerpt' => array( 'rendered' => '', 'raw' => '' ),
 	);
 
 	$lang = bogo_get_language( $locale );
@@ -235,16 +262,28 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 	if ( ! empty( $new_post->guid ) ) {
 		$response[$locale]['guid']['rendered'] =
 			apply_filters( 'get_the_guid', $new_post->guid );
+
+		if ( current_user_can( $edit_post_cap, $new_post->ID ) ) {
+			$response[$locale]['guid']['raw'] = $new_post->guid;
+		}
 	}
 
 	if ( ! empty( $new_post->post_title ) ) {
 		$response[$locale]['title']['rendered'] =
 			get_the_title( $new_post->ID );
+
+		if ( current_user_can( $edit_post_cap, $new_post->ID ) ) {
+			$response[$locale]['title']['raw'] = $new_post->post_title;
+		}
 	}
 
 	if ( ! empty( $new_post->post_content ) ) {
 		$response[$locale]['content']['rendered'] =
 			apply_filters( 'the_content', $new_post->post_content );
+
+		if ( current_user_can( $edit_post_cap, $new_post->ID ) ) {
+			$response[$locale]['content']['raw'] = $new_post->post_content;
+		}
 	}
 
 	if ( ! empty( $new_post->post_excerpt ) ) {
@@ -252,6 +291,10 @@ function bogo_rest_create_post_translation( WP_REST_Request $request ) {
 			'the_excerpt',
 			apply_filters( 'get_the_excerpt', $new_post->post_excerpt )
 		);
+
+		if ( current_user_can( $edit_post_cap, $new_post->ID ) ) {
+			$response[$locale]['excerpt']['raw'] = $new_post->post_excerpt;
+		}
 	}
 
 	return rest_ensure_response( $response );
