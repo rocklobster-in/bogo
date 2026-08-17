@@ -33,20 +33,26 @@ export default function LanguagePanel() {
 		const listItems = [];
 
 		Object.entries( translations ).forEach( ( [ key, value ] ) => {
-			if ( value.editLink && value.postTitle ) {
+			if ( ! value.postId ) {
+				return;
+			}
+
+			const title = value.postTitle || __( '(no title)' );
+
+			if ( value.editLink ) {
 				listItems.push(
 					<li key={ key }>
 						<ExternalLink href={ value.editLink }>
-							{ value.postTitle }
+							{ title }
 						</ExternalLink>
 						<br />
 						<em>{ getLanguage( key ) }</em>
 					</li>
 				);
-			} else if ( value.postTitle ) {
+			} else {
 				listItems.push(
 					<li key={ key }>
-						{ value.postTitle }
+						{ title }
 						<br />
 						<em>{ getLanguage( key ) }</em>
 					</li>
@@ -92,7 +98,9 @@ export default function LanguagePanel() {
 
 				translationsAlt[ locale ] = {
 					postId: response[ locale ].id,
-					postTitle: response[ locale ].title.raw,
+					postTitle: response[ locale ].title?.raw
+						|| response[ locale ].title?.rendered
+						|| '',
 					editLink: response[ locale ].edit_link,
 					creating: false,
 				};
