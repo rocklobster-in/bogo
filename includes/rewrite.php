@@ -109,6 +109,10 @@ function bogo_rewrite_rules_array( $rules ) {
 		}
 
 		$permastruct = $wp_rewrite->get_extra_permastruct( $taxonomy->name );
+		if ( 'category' === $taxonomy->name && '%category%' === $permastruct ) {
+			$extra_rules += bogo_generate_category_rewrite_rules( $lang_regex );
+			continue;
+		}
 		$permastruct = bogo_add_lang_to_permastruct( $permastruct );
 
 		$extra_rules += bogo_generate_rewrite_rules(
@@ -190,6 +194,30 @@ function bogo_rewrite_rules_array( $rules ) {
 			$page_rules,
 			$rules
 		);
+	}
+
+	return $rules;
+}
+
+function bogo_generate_category_rewrite_rules( $lang_regex ) {
+	global $wp_rewrite;
+
+	$rules = array();
+
+	foreach ( get_categories( array( 'hide_empty' => false ) ) as $category ) {
+		$path = $category->slug;
+
+		if ( $category->parent ) {
+			$parents = get_category_parents( $category->parent, false, '/', true );
+			if ( ! is_wp_error( $parents ) ) {
+				$path = $parents . $path;
+			}
+		}
+
+		$path = preg_quote( $path, '#' );
+		$rules[ "{$lang_regex}/({$path})/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$" ] = 'index.php?lang=$matches[1]&category_name=$matches[2]&feed=$matches[3]';
+		$rules[ "{$lang_regex}/({$path})/{$wp_rewrite->pagination_base}/?([0-9]{1,})/?$" ] = 'index.php?lang=$matches[1]&category_name=$matches[2]&paged=$matches[3]';
+		$rules[ "{$lang_regex}/({$path})/?$" ] = 'index.php?lang=$matches[1]&category_name=$matches[2]';
 	}
 
 	return $rules;
