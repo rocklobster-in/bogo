@@ -766,6 +766,9 @@ function bogo_http_accept_languages() {
 		}
 	}
 
+	// A quality value of zero means "not acceptable" (RFC 9110, 12.4.2).
+	$languages = array_filter( $languages );
+
 	natsort( $languages );
 
 	return array_reverse( array_keys( $languages ) );
